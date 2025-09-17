@@ -1,0 +1,155 @@
+{
+  "name": "electron-desktop-app-template",
+  "version": "1.0.0",
+  "description": "A comprehensive Electron desktop application template with auto-updater, native OS integration, and modern features",
+  "main": "src/main/main.js",
+  "homepage": "./",
+  "scripts": {
+    "start": "electron .",
+    "dev": "concurrently \"npm run start-renderer\" \"wait-on http://localhost:3000 && electron .\"",
+    "start-renderer": "react-scripts start",
+    "build-renderer": "react-scripts build",
+    "test": "react-scripts test",
+    "test-main": "jest src/main",
+    "lint": "eslint src/",
+    "pack": "electron-builder --dir",
+    "dist": "npm run build-renderer && electron-builder",
+    "dist-all": "npm run build-renderer && electron-builder -mwl",
+    "dist-mac": "npm run build-renderer && electron-builder --mac",
+    "dist-win": "npm run build-renderer && electron-builder --win",
+    "dist-linux": "npm run build-renderer && electron-builder --linux",
+    "publish": "npm run build-renderer && electron-builder --publish=always",
+    "postinstall": "electron-builder install-app-deps",
+    "clean": "rimraf dist build node_modules/.cache",
+    "rebuild": "electron-rebuild"
+  },
+  "dependencies": {
+    "electron-updater": "^6.1.1",
+    "electron-store": "^8.1.0",
+    "electron-window-state": "^5.0.3",
+    "electron-context-menu": "^3.6.1",
+    "electron-debug": "^3.2.0",
+    "electron-log": "^4.4.8",
+    "electron-util": "^0.17.2",
+    "node-notifier": "^10.0.1",
+    "auto-launch": "^5.0.5",
+    "system-preferences": "^0.1.0"
+  },
+  "devDependencies": {
+    "electron": "^25.3.1",
+    "electron-builder": "^24.6.3",
+    "electron-rebuild": "^3.2.9",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "^5.0.1",
+    "concurrently": "^8.2.0",
+    "wait-on": "^7.0.1",
+    "cross-env": "^7.0.3",
+    "rimraf": "^5.0.1",
+    "jest": "^29.6.1",
+    "eslint": "^8.45.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/user-event": "^14.4.3"
+  },
+  "build": {
+    "appId": "com.yourcompany.yourapp",
+    "productName": "Your Desktop App",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build-resources"
+    },
+    "files": [
+      "build/**/*",
+      "src/main/**/*",
+      "assets/**/*",
+      "node_modules/**/*",
+      "!node_modules/.cache/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "assets/",
+        "to": "assets/",
+        "filter": ["**/*"]
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build-resources/entitlements.mac.plist",
+      "entitlementsInherit": "build-resources/entitlements.mac.plist",
+      "notarize": {
+        "teamId": "YOUR_TEAM_ID"
+      },
+      "icon": "build-resources/icon.icns",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64", "arm64"]
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64", "ia32"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64", "ia32"]
+        }
+      ],
+      "icon": "build-resources/icon.ico",
+      "publisherName": "Your Company Name"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        },
+        {
+          "target": "deb",
+          "arch": ["x64"]
+        },
+        {
+          "target": "rpm",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "build-resources/icon.png",
+      "category": "Utility"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "installerIcon": "build-resources/installer-icon.ico",
+      "uninstallerIcon": "build-resources/uninstaller-icon.ico"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "yourusername",
+      "repo": "your-app-repo"
+    }
+  },
+  "author": {
+    "name": "Your Name",
+    "email": "your.email@example.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "electron",
+    "desktop",
+    "cross-platform",
+    "auto-updater",
+    "react"
+  ]
+}

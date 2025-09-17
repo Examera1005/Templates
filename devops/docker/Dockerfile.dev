@@ -1,0 +1,36 @@
+# Dockerfile for Development Environment
+# Hot reload and debugging support
+
+FROM node:18-alpine
+
+# Install development tools
+RUN apk add --no-cache \
+    git \
+    python3 \
+    make \
+    g++ \
+    bash \
+    && rm -rf /var/cache/apk/*
+
+# Create app directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+COPY yarn.lock* ./
+
+# Install all dependencies (including dev)
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Expose ports
+EXPOSE 3000 9229
+
+# Set development environment
+ENV NODE_ENV=development
+ENV DEBUG=*
+
+# Start with nodemon for hot reload
+CMD ["npm", "run", "dev"]

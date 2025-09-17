@@ -1,0 +1,172 @@
+{
+  "appId": "com.company.desktopapp",
+  "productName": "Desktop App",
+  "directories": {
+    "output": "dist"
+  },
+  "files": [
+    "src/main/**/*",
+    "src/preload/**/*",
+    "src/renderer/**/*",
+    "package.json",
+    "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+    "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+    "!**/node_modules/*.d.ts",
+    "!**/node_modules/.bin",
+    "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
+    "!.editorconfig",
+    "!**/._*",
+    "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
+    "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
+    "!**/{appveyor.yml,.travis.yml,circle.yml}",
+    "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
+  ],
+  "extraResources": [
+    {
+      "from": "build/resources",
+      "to": "resources"
+    }
+  ],
+  "publish": [
+    {
+      "provider": "github",
+      "owner": "your-github-username",
+      "repo": "desktop-app"
+    }
+  ],
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": ["x64", "ia32"]
+      },
+      {
+        "target": "portable",
+        "arch": ["x64"]
+      },
+      {
+        "target": "zip",
+        "arch": ["x64", "ia32"]
+      }
+    ],
+    "icon": "build/icons/icon.ico",
+    "publisherName": "Your Company Name",
+    "verifyUpdateCodeSignature": false,
+    "requestedExecutionLevel": "asInvoker"
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true,
+    "installerIcon": "build/icons/icon.ico",
+    "uninstallerIcon": "build/icons/icon.ico",
+    "installerHeaderIcon": "build/icons/icon.ico",
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "Desktop App",
+    "include": "build/installer.nsh"
+  },
+  "portable": {
+    "artifactName": "${productName}-${version}-portable.${ext}"
+  },
+  "mac": {
+    "target": [
+      {
+        "target": "dmg",
+        "arch": ["x64", "arm64"]
+      },
+      {
+        "target": "zip",
+        "arch": ["x64", "arm64"]
+      }
+    ],
+    "icon": "build/icons/icon.icns",
+    "category": "public.app-category.productivity",
+    "darkModeSupport": true,
+    "hardenedRuntime": true,
+    "gatekeeperAssess": false,
+    "entitlements": "build/entitlements.mac.plist",
+    "entitlementsInherit": "build/entitlements.mac.plist"
+  },
+  "dmg": {
+    "contents": [
+      {
+        "x": 410,
+        "y": 150,
+        "type": "link",
+        "path": "/Applications"
+      },
+      {
+        "x": 130,
+        "y": 150,
+        "type": "file"
+      }
+    ],
+    "artifactName": "${productName}-${version}.${ext}"
+  },
+  "linux": {
+    "target": [
+      {
+        "target": "AppImage",
+        "arch": ["x64"]
+      },
+      {
+        "target": "deb",
+        "arch": ["x64"]
+      },
+      {
+        "target": "rpm",
+        "arch": ["x64"]
+      },
+      {
+        "target": "tar.gz",
+        "arch": ["x64"]
+      }
+    ],
+    "icon": "build/icons",
+    "category": "Office",
+    "synopsis": "A modern desktop application",
+    "description": "Desktop App - A modern desktop application built with Electron and React"
+  },
+  "appImage": {
+    "artifactName": "${productName}-${version}.${ext}"
+  },
+  "deb": {
+    "depends": ["libgtk-3-0", "libnotify4", "libnss3", "libxss1", "libxtst6", "xdg-utils", "libatspi2.0-0", "libdrm2", "libxcomposite1", "libxdamage1", "libxrandr2", "libgbm1", "libxkbcommon0", "libasound2"],
+    "priority": "optional",
+    "artifactName": "${productName}-${version}.${ext}"
+  },
+  "rpm": {
+    "depends": ["gtk3", "libnotify", "nss", "libXScrnSaver", "libXtst", "xdg-utils", "at-spi2-atk", "libdrm", "libXcomposite", "libXdamage", "libXrandr", "mesa-libgbm", "libxkbcommon", "alsa-lib"],
+    "artifactName": "${productName}-${version}.${ext}"
+  },
+  "snap": {
+    "summary": "Desktop App - A modern desktop application",
+    "description": "A modern desktop application built with Electron and React",
+    "grade": "stable",
+    "confinement": "strict",
+    "plugs": [
+      "desktop",
+      "desktop-legacy",
+      "home",
+      "x11",
+      "unity7",
+      "browser-support",
+      "network",
+      "gsettings",
+      "audio-playback",
+      "pulseaudio",
+      "opengl"
+    ],
+    "stagePackages": [
+      "default"
+    ]
+  },
+  "compression": "maximum",
+  "removePackageScripts": true,
+  "nodeGypRebuild": false,
+  "buildDependenciesFromSource": false,
+  "electronLanguages": ["en", "es", "fr", "de", "it", "pt", "ja", "ko", "zh-CN"],
+  "afterSign": "build/notarize.js",
+  "afterPack": "build/afterPack.js",
+  "beforeBuild": "build/beforeBuild.js"
+}

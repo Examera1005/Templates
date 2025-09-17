@@ -1,0 +1,521 @@
+# Kubernetes Network Policy Templates
+# Comprehensive network security policies for microservices
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: default
+  labels:
+    app.kubernetes.io/name: default-deny-all
+    app.kubernetes.io/component: security-policy
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+
+---
+# Allow DNS resolution for all pods
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns
+  namespace: default
+  labels:
+    app.kubernetes.io/name: allow-dns
+    app.kubernetes.io/component: security-policy
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  egress:
+  - to: []
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+
+---
+# Web application network policy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: web-app-policy
+  namespace: default
+  labels:
+    app.kubernetes.io/name: web-app-policy
+    app.kubernetes.io/component: security-policy
+spec:
+  podSelector:
+    matchLabels:
+      tier: web
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow traffic from load balancer
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 80
+    - protocol: TCP
+      port: 443
+  # Allow traffic from other web pods
+  - from:
+    - podSelector:
+        matchLabels:
+          tier: web
+    ports:
+    - protocol: TCP
+      port: 8080
+  egress:
+  # Allow traffic to API services
+  - to:
+    - podSelector:
+        matchLabels:
+          tier: api
+    ports:
+    - protocol: TCP
+      port: 8080
+  # Allow traffic to database
+  - to:
+    - podSelector:
+        matchLabels:
+          tier: database
+    ports:
+    - protocol: TCP
+      port: 5432
+    - protocol: TCP
+      port: 3306
+  # Allow external API calls
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 80
+
+---
+# API service network policy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: api-service-policy
+  namespace: default
+  labels:
+    app.kubernetes.io/name: api-service-policy
+    app.kubernetes.io/component: security-policy
+spec:
+  podSelector:
+    matchLabels:
+      tier: api
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow traffic from web tier
+  - from:
+    - podSelector:
+        matchLabels:
+          tier: web
+    ports:
+    - protocol: TCP
+      port: 8080
+  # Allow traffic from other API services
+  - from:
+    - podSelector:
+        matchLabels:
+          tier: api
+    ports:
+    - protocol: TCP
+      port: 8080
+  # Allow traffic from monitoring
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: monitoring
+    ports:
+    - protocol: TCP
+      port: 8080
+    - protocol: TCP
+      port: 9090
+  egress:
+  # Allow traffic to database
+  - to:
+    - podSelector:
+        matchLabels:
+          tier: database
+    ports:
+    - protocol: TCP
+      port: 5432
+    - protocol: TCP
+      port: 3306
+  # Allow traffic to cache
+  - to:
+    - podSelector:
+        matchLabels:
+          tier: cache
+    ports:
+    - protocol: TCP
+      port: 6379
+  # Allow external API calls
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 80
+
+---
+# Database network policy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: database-policy
+  namespace: default
+  labels:
+    app.kubernetes.io/name: database-policy
+    app.kubernetes.io/component: security-policy
+spec:
+  podSelector:
+    matchLabels:
+      tier: database
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow traffic from API services
+  - from:
+    - podSelector:
+        matchLabels:
+          tier: api
+    ports:
+    - protocol: TCP
+      port: 5432
+    - protocol: TCP
+      port: 3306
+  # Allow traffic from backup jobs
+  - from:
+    - podSelector:
+        matchLabels:
+          job: backup
+    ports:
+    - protocol: TCP
+      port: 5432
+    - protocol: TCP
+      port: 3306
+  # Allow traffic from monitoring
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: monitoring
+    ports:
+    - protocol: TCP
+      port: 9187  # PostgreSQL exporter
+    - protocol: TCP
+      port: 9104  # MySQL exporter
+  egress:
+  # Minimal egress for database (only necessary connections)
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 443  # For managed database connections
+
+---
+# Cache service network policy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: cache-policy
+  namespace: default
+  labels:
+    app.kubernetes.io/name: cache-policy
+    app.kubernetes.io/component: security-policy
+spec:
+  podSelector:
+    matchLabels:
+      tier: cache
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow traffic from API services
+  - from:
+    - podSelector:
+        matchLabels:
+          tier: api
+    ports:
+    - protocol: TCP
+      port: 6379
+  # Allow traffic from web services
+  - from:
+    - podSelector:
+        matchLabels:
+          tier: web
+    ports:
+    - protocol: TCP
+      port: 6379
+  # Allow traffic from monitoring
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: monitoring
+    ports:
+    - protocol: TCP
+      port: 9121  # Redis exporter
+  egress:
+  # Minimal egress for cache
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 443
+
+---
+# Monitoring namespace policy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: monitoring-policy
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: monitoring-policy
+    app.kubernetes.io/component: security-policy
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow access to monitoring dashboards
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 3000  # Grafana
+    - protocol: TCP
+      port: 9090  # Prometheus
+  # Allow inter-monitoring communication
+  - from:
+    - podSelector: {}
+    ports:
+    - protocol: TCP
+      port: 3000
+    - protocol: TCP
+      port: 9090
+    - protocol: TCP
+      port: 9093  # Alertmanager
+  egress:
+  # Allow monitoring to scrape all services
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - protocol: TCP
+      port: 8080
+    - protocol: TCP
+      port: 9090
+    - protocol: TCP
+      port: 9187
+    - protocol: TCP
+      port: 9104
+    - protocol: TCP
+      port: 9121
+  # Allow external webhook notifications
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 80
+
+---
+# Ingress controller policy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ingress-controller-policy
+  namespace: ingress-nginx
+  labels:
+    app.kubernetes.io/name: ingress-controller-policy
+    app.kubernetes.io/component: security-policy
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/component: controller
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow all external traffic to ingress controller
+  - {}
+  egress:
+  # Allow traffic to all backend services
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - protocol: TCP
+      port: 80
+    - protocol: TCP
+      port: 8080
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 3000
+    - protocol: TCP
+      port: 9090
+
+---
+# Development environment - more permissive
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: development-policy
+  namespace: development
+  labels:
+    app.kubernetes.io/name: development-policy
+    app.kubernetes.io/component: security-policy
+    environment: development
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow all internal traffic in development
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: development
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+  egress:
+  # Allow all egress in development
+  - {}
+
+---
+# Production environment - restrictive
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: production-baseline-policy
+  namespace: production
+  labels:
+    app.kubernetes.io/name: production-baseline-policy
+    app.kubernetes.io/component: security-policy
+    environment: production
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  # Default deny all - specific policies must be applied per service
+
+---
+# Cross-namespace communication policy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: cross-namespace-policy
+  namespace: default
+  labels:
+    app.kubernetes.io/name: cross-namespace-policy
+    app.kubernetes.io/component: security-policy
+spec:
+  podSelector:
+    matchLabels:
+      allow-cross-namespace: "true"
+  policyTypes:
+  - Ingress
+  ingress:
+  # Allow traffic from specific namespaces
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: monitoring
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: logging
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+
+---
+# Job and CronJob policy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: job-policy
+  namespace: default
+  labels:
+    app.kubernetes.io/name: job-policy
+    app.kubernetes.io/component: security-policy
+spec:
+  podSelector:
+    matchLabels:
+      type: job
+  policyTypes:
+  - Egress
+  egress:
+  # Allow jobs to access databases for backup/migration
+  - to:
+    - podSelector:
+        matchLabels:
+          tier: database
+    ports:
+    - protocol: TCP
+      port: 5432
+    - protocol: TCP
+      port: 3306
+  # Allow external storage access for backups
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 443
+
+---
+# Emergency access policy (break-glass)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: emergency-access-policy
+  namespace: default
+  labels:
+    app.kubernetes.io/name: emergency-access-policy
+    app.kubernetes.io/component: security-policy
+    emergency: "true"
+spec:
+  podSelector:
+    matchLabels:
+      emergency-access: "true"
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow emergency access pods to receive traffic
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+  egress:
+  # Allow emergency access to all services
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - protocol: TCP
+      port: 22
+    - protocol: TCP
+      port: 80
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 8080

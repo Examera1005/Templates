@@ -1,0 +1,535 @@
+# Pod Security Standards and Policies
+# Comprehensive security policies using Pod Security Standards
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: secure-baseline
+  labels:
+    pod-security.kubernetes.io/enforce: baseline
+    pod-security.kubernetes.io/audit: baseline
+    pod-security.kubernetes.io/warn: baseline
+    app.kubernetes.io/name: secure-baseline
+    security.policy/level: baseline
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: secure-restricted
+  labels:
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/warn: restricted
+    app.kubernetes.io/name: secure-restricted
+    security.policy/level: restricted
+
+---
+# Security Context Constraints Template
+apiVersion: v1
+kind: SecurityContextConstraints
+metadata:
+  name: restricted-scc
+  labels:
+    app.kubernetes.io/name: restricted-scc
+    app.kubernetes.io/component: security-policy
+allowHostDirVolumePlugin: false
+allowHostIPC: false
+allowHostNetwork: false
+allowHostPID: false
+allowHostPorts: false
+allowPrivilegedContainer: false
+allowedCapabilities: []
+defaultAddCapabilities: []
+requiredDropCapabilities:
+- ALL
+allowedFlexVolumes: []
+allowedUnsafeSysctls: []
+forbiddenSysctls:
+- "*"
+fsGroup:
+  type: MustRunAs
+  ranges:
+  - min: 1
+    max: 65535
+readOnlyRootFilesystem: true
+runAsUser:
+  type: MustRunAsNonRoot
+seLinuxContext:
+  type: MustRunAs
+  seLinuxOptions:
+    level: "s0:c123,c456"
+supplementalGroups:
+  type: MustRunAs
+  ranges:
+  - min: 1
+    max: 65535
+volumes:
+- configMap
+- downwardAPI
+- emptyDir
+- persistentVolumeClaim
+- projected
+- secret
+
+---
+# Pod Security Policy (deprecated but still used in some clusters)
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: restricted-psp
+  labels:
+    app.kubernetes.io/name: restricted-psp
+    app.kubernetes.io/component: security-policy
+spec:
+  privileged: false
+  allowPrivilegeEscalation: false
+  requiredDropCapabilities:
+    - ALL
+  volumes:
+    - 'configMap'
+    - 'emptyDir'
+    - 'projected'
+    - 'secret'
+    - 'downwardAPI'
+    - 'persistentVolumeClaim'
+  hostNetwork: false
+  hostIPC: false
+  hostPID: false
+  runAsUser:
+    rule: 'MustRunAsNonRoot'
+  supplementalGroups:
+    rule: 'MustRunAs'
+    ranges:
+      - min: 1
+        max: 65535
+  fsGroup:
+    rule: 'MustRunAs'
+    ranges:
+      - min: 1
+        max: 65535
+  readOnlyRootFilesystem: true
+  seLinux:
+    rule: 'RunAsAny'
+
+---
+# ClusterRole for restricted PSP
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: restricted-psp-user
+  labels:
+    app.kubernetes.io/name: restricted-psp-user
+    app.kubernetes.io/component: security-policy
+rules:
+- apiGroups: ['policy']
+  resources: ['podsecuritypolicies']
+  verbs: ['use']
+  resourceNames:
+  - restricted-psp
+
+---
+# ClusterRoleBinding for restricted PSP
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: restricted-psp-all-users
+  labels:
+    app.kubernetes.io/name: restricted-psp-all-users
+    app.kubernetes.io/component: security-policy
+roleRef:
+  kind: ClusterRole
+  name: restricted-psp-user
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: Group
+  name: system:authenticated
+  apiGroup: rbac.authorization.k8s.io
+
+---
+# OPA Gatekeeper Constraint Template for Security Context
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8srequiredsecuritycontext
+  labels:
+    app.kubernetes.io/name: k8srequiredsecuritycontext
+    app.kubernetes.io/component: security-policy
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sRequiredSecurityContext
+      validation:
+        openAPIV3Schema:
+          type: object
+          properties:
+            runAsNonRoot:
+              type: boolean
+            runAsUser:
+              type: object
+              properties:
+                min:
+                  type: integer
+                max:
+                  type: integer
+            fsGroup:
+              type: object
+              properties:
+                min:
+                  type: integer
+                max:
+                  type: integer
+            readOnlyRootFilesystem:
+              type: boolean
+            allowedCapabilities:
+              type: array
+              items:
+                type: string
+            requiredDropCapabilities:
+              type: array
+              items:
+                type: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8srequiredsecuritycontext
+
+        violation[{"msg": msg}] {
+          container := input.review.object.spec.containers[_]
+          not container.securityContext.runAsNonRoot
+          msg := "Container must set runAsNonRoot to true"
+        }
+
+        violation[{"msg": msg}] {
+          container := input.review.object.spec.containers[_]
+          container.securityContext.runAsUser < input.parameters.runAsUser.min
+          msg := sprintf("Container runAsUser must be >= %v", [input.parameters.runAsUser.min])
+        }
+
+        violation[{"msg": msg}] {
+          container := input.review.object.spec.containers[_]
+          not container.securityContext.readOnlyRootFilesystem
+          input.parameters.readOnlyRootFilesystem
+          msg := "Container must set readOnlyRootFilesystem to true"
+        }
+
+        violation[{"msg": msg}] {
+          container := input.review.object.spec.containers[_]
+          has_disallowed_capabilities(container)
+          msg := sprintf("Container has disallowed capabilities: %v", [container.securityContext.capabilities.add])
+        }
+
+        has_disallowed_capabilities(container) {
+          container.securityContext.capabilities.add[_]
+          not container.securityContext.capabilities.add[_] in input.parameters.allowedCapabilities
+        }
+
+        violation[{"msg": msg}] {
+          container := input.review.object.spec.containers[_]
+          missing_drop_capabilities(container)
+          msg := sprintf("Container must drop capabilities: %v", [input.parameters.requiredDropCapabilities])
+        }
+
+        missing_drop_capabilities(container) {
+          required := input.parameters.requiredDropCapabilities[_]
+          not required in container.securityContext.capabilities.drop
+        }
+
+---
+# Gatekeeper Constraint for Required Security Context
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sRequiredSecurityContext
+metadata:
+  name: must-have-security-context
+  labels:
+    app.kubernetes.io/name: must-have-security-context
+    app.kubernetes.io/component: security-policy
+spec:
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+    excludedNamespaces:
+      - kube-system
+      - kube-public
+      - gatekeeper-system
+  parameters:
+    runAsNonRoot: true
+    runAsUser:
+      min: 1000
+      max: 65535
+    fsGroup:
+      min: 1000
+      max: 65535
+    readOnlyRootFilesystem: true
+    allowedCapabilities: []
+    requiredDropCapabilities:
+      - "ALL"
+
+---
+# Service Account with minimal permissions
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: secure-app-sa
+  namespace: default
+  labels:
+    app.kubernetes.io/name: secure-app-sa
+    app.kubernetes.io/component: security-policy
+automountServiceAccountToken: false
+
+---
+# Role with minimal permissions
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: secure-app-role
+  namespace: default
+  labels:
+    app.kubernetes.io/name: secure-app-role
+    app.kubernetes.io/component: security-policy
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get", "list"]
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get", "list"]
+  resourceNames: ["app-secrets"]
+
+---
+# RoleBinding for secure app
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: secure-app-rolebinding
+  namespace: default
+  labels:
+    app.kubernetes.io/name: secure-app-rolebinding
+    app.kubernetes.io/component: security-policy
+subjects:
+- kind: ServiceAccount
+  name: secure-app-sa
+  namespace: default
+roleRef:
+  kind: Role
+  name: secure-app-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+# Example secure deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: secure-app
+  namespace: default
+  labels:
+    app.kubernetes.io/name: secure-app
+    app.kubernetes.io/component: application
+    security.policy/level: restricted
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: secure-app
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: secure-app
+        app.kubernetes.io/component: application
+        security.policy/level: restricted
+    spec:
+      serviceAccountName: secure-app-sa
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        supplementalGroups: [1000]
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: app
+        image: nginx:1.24-alpine
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+          seccompProfile:
+            type: RuntimeDefault
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        - name: cache
+          mountPath: /var/cache/nginx
+        - name: run
+          mountPath: /var/run
+        env:
+        - name: PORT
+          value: "8080"
+      volumes:
+      - name: tmp
+        emptyDir: {}
+      - name: cache
+        emptyDir: {}
+      - name: run
+        emptyDir: {}
+      nodeSelector:
+        kubernetes.io/os: linux
+      tolerations:
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 300
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 300
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - secure-app
+              topologyKey: kubernetes.io/hostname
+
+---
+# Network Policy for secure app
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: secure-app-netpol
+  namespace: default
+  labels:
+    app.kubernetes.io/name: secure-app-netpol
+    app.kubernetes.io/component: security-policy
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: secure-app
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 8080
+  egress:
+  - to: []
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+  - to:
+    - podSelector:
+        matchLabels:
+          tier: database
+    ports:
+    - protocol: TCP
+      port: 5432
+
+---
+# Pod Disruption Budget for high availability
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: secure-app-pdb
+  namespace: default
+  labels:
+    app.kubernetes.io/name: secure-app-pdb
+    app.kubernetes.io/component: security-policy
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: secure-app
+
+---
+# Resource Quota for namespace
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: compute-quota
+  namespace: default
+  labels:
+    app.kubernetes.io/name: compute-quota
+    app.kubernetes.io/component: security-policy
+spec:
+  hard:
+    requests.cpu: "10"
+    requests.memory: 20Gi
+    limits.cpu: "20"
+    limits.memory: 40Gi
+    persistentvolumeclaims: "10"
+    pods: "20"
+    secrets: "10"
+    configmaps: "10"
+    services: "5"
+    services.loadbalancers: "2"
+
+---
+# Limit Range for default resource limits
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: resource-limits
+  namespace: default
+  labels:
+    app.kubernetes.io/name: resource-limits
+    app.kubernetes.io/component: security-policy
+spec:
+  limits:
+  - default:
+      cpu: "500m"
+      memory: "512Mi"
+    defaultRequest:
+      cpu: "100m"
+      memory: "128Mi"
+    type: Container
+  - max:
+      cpu: "2"
+      memory: "4Gi"
+    min:
+      cpu: "50m"
+      memory: "64Mi"
+    type: Container
