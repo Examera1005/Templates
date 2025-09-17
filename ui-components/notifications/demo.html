@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification System Demo</title>
+    <link rel="stylesheet" href="notifications.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            background: #f8fafc;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .demo-section {
+            margin-bottom: 60px;
+        }
+
+        .demo-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 16px;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 8px;
+        }
+
+        .demo-subtitle {
+            font-size: 18px;
+            font-weight: 600;
+            color: #374151;
+            margin: 32px 0 16px 0;
+        }
+
+        .demo-description {
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .demo-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .control-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .control-label {
+            font-weight: 500;
+            color: #374151;
+            min-width: 120px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            background: #3b82f6;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            background: #2563eb;
+        }
+
+        .btn.success {
+            background: #10b981;
+        }
+
+        .btn.success:hover {
+            background: #059669;
+        }
+
+        .btn.error {
+            background: #ef4444;
+        }
+
+        .btn.error:hover {
+            background: #dc2626;
+        }
+
+        .btn.warning {
+            background: #f59e0b;
+        }
+
+        .btn.warning:hover {
+            background: #d97706;
+        }
+
+        .btn.secondary {
+            background: #6b7280;
+        }
+
+        .btn.secondary:hover {
+            background: #4b5563;
+        }
+
+        .btn.small {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        select {
+            padding: 6px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            background: white;
+            font-family: inherit;
+        }
+
+        .code-preview {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+
+        #event-log {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 16px;
+            height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+            margin-top: 16px;
+        }
+
+        .log-entry {
+            margin-bottom: 4px;
+            padding: 2px 0;
+        }
+
+        .log-entry.info { color: #3b82f6; }
+        .log-entry.success { color: #10b981; }
+        .log-entry.warning { color: #f59e0b; }
+        .log-entry.error { color: #ef4444; }
+
+        .position-demo {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .position-btn {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .position-btn:hover {
+            background: #f3f4f6;
+            border-color: #9ca3af;
+        }
+
+        .position-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .demo-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .setting-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .setting-label {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+        }
+
+        input[type="number"] {
+            width: 80px;
+            padding: 4px 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 12px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            min-width: 80px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .demo-notification {
+            margin-bottom: 12px;
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1 class="demo-title">Notification System Demo</h1>
+        <p class="demo-description">
+            A comprehensive notification system with toasts, alerts, banners, and snackbars.
+            Features auto-dismiss, actions, animations, positioning, and accessibility support.
+        </p>
+
+        <!-- Basic Notifications -->
+        <div class="demo-section">
+            <h2 class="demo-title">Basic Notifications</h2>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <span class="control-label">Basic Types:</span>
+                    <button class="btn success" onclick="showSuccess()">Success</button>
+                    <button class="btn error" onclick="showError()">Error</button>
+                    <button class="btn warning" onclick="showWarning()">Warning</button>
+                    <button class="btn" onclick="showInfo()">Info</button>
+                </div>
+                <div class="control-group">
+                    <span class="control-label">With Actions:</span>
+                    <button class="btn" onclick="showWithActions()">With Actions</button>
+                    <button class="btn secondary" onclick="showWithMultipleActions()">Multiple Actions</button>
+                </div>
+                <div class="control-group">
+                    <span class="control-label">Special:</span>
+                    <button class="btn secondary" onclick="showLoading()">Loading</button>
+                    <button class="btn secondary" onclick="showPersistent()">Persistent</button>
+                    <button class="btn small" onclick="clearAllNotifications()">Clear All</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification Variants -->
+        <div class="demo-section">
+            <h2 class="demo-title">Notification Variants</h2>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <span class="control-label">Filled Variants:</span>
+                    <button class="btn success" onclick="showFilled('success')">Success Filled</button>
+                    <button class="btn error" onclick="showFilled('error')">Error Filled</button>
+                    <button class="btn warning" onclick="showFilled('warning')">Warning Filled</button>
+                    <button class="btn" onclick="showFilled('info')">Info Filled</button>
+                </div>
+                <div class="control-group">
+                    <span class="control-label">Minimal Variants:</span>
+                    <button class="btn success" onclick="showMinimal('success')">Success Minimal</button>
+                    <button class="btn error" onclick="showMinimal('error')">Error Minimal</button>
+                    <button class="btn warning" onclick="showMinimal('warning')">Warning Minimal</button>
+                    <button class="btn" onclick="showMinimal('info')">Info Minimal</button>
+                </div>
+                <div class="control-group">
+                    <span class="control-label">Sizes:</span>
+                    <button class="btn secondary" onclick="showSize('compact')">Compact</button>
+                    <button class="btn secondary" onclick="showSize('default')">Default</button>
+                    <button class="btn secondary" onclick="showSize('large')">Large</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Position and Settings -->
+        <div class="demo-section">
+            <h2 class="demo-title">Position and Settings</h2>
+            
+            <div class="settings-grid">
+                <div class="demo-card">
+                    <h3 class="demo-subtitle">Position</h3>
+                    <div class="position-demo">
+                        <div class="position-btn" data-position="top-left">Top Left</div>
+                        <div class="position-btn" data-position="top-center">Top Center</div>
+                        <div class="position-btn active" data-position="top-right">Top Right</div>
+                        <div class="position-btn" data-position="bottom-left">Bottom Left</div>
+                        <div class="position-btn" data-position="bottom-center">Bottom Center</div>
+                        <div class="position-btn" data-position="bottom-right">Bottom Right</div>
+                    </div>
+                    <button class="btn" onclick="testPosition()">Test Position</button>
+                </div>
+                
+                <div class="demo-card">
+                    <h3 class="demo-subtitle">Settings</h3>
+                    <div class="setting-item">
+                        <span class="setting-label">Animations</span>
+                        <input type="checkbox" id="animations" checked>
+                    </div>
+                    <div class="setting-item">
+                        <span class="setting-label">Pause on Hover</span>
+                        <input type="checkbox" id="pauseOnHover" checked>
+                    </div>
+                    <div class="setting-item">
+                        <span class="setting-label">Max Notifications</span>
+                        <input type="number" id="maxNotifications" value="5" min="1" max="10">
+                    </div>
+                    <div class="setting-item">
+                        <span class="setting-label">Default Duration (ms)</span>
+                        <input type="number" id="defaultDuration" value="5000" min="1000" max="30000" step="1000">
+                    </div>
+                    <button class="btn small" onclick="applySettings()">Apply Settings</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert Banners -->
+        <div class="demo-section">
+            <h2 class="demo-title">Alert Banners</h2>
+            <p class="demo-description">Full-width banners that appear at the top of the page.</p>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <span class="control-label">Banner Types:</span>
+                    <button class="btn success" onclick="showBanner('success')">Success Banner</button>
+                    <button class="btn error" onclick="showBanner('error')">Error Banner</button>
+                    <button class="btn warning" onclick="showBanner('warning')">Warning Banner</button>
+                    <button class="btn" onclick="showBanner('info')">Info Banner</button>
+                </div>
+                <div class="control-group">
+                    <span class="control-label">Options:</span>
+                    <button class="btn secondary" onclick="showBannerPersistent()">Persistent Banner</button>
+                    <button class="btn secondary" onclick="showBannerAuto()">Auto-dismiss Banner</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Snackbars -->
+        <div class="demo-section">
+            <h2 class="demo-title">Snackbars</h2>
+            <p class="demo-description">Simple messages that appear at the bottom center of the screen.</p>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <span class="control-label">Snackbar Types:</span>
+                    <button class="btn" onclick="showSnackbar()">Simple Snackbar</button>
+                    <button class="btn secondary" onclick="showSnackbarAction()">With Action</button>
+                    <button class="btn secondary" onclick="showSnackbarPersistent()">Persistent</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Features -->
+        <div class="demo-section">
+            <h2 class="demo-title">Advanced Features</h2>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <span class="control-label">Custom Features:</span>
+                    <button class="btn" onclick="showCustomIcon()">Custom Icon</button>
+                    <button class="btn secondary" onclick="showNoIcon()">No Icon</button>
+                    <button class="btn secondary" onclick="showRichContent()">Rich Content</button>
+                </div>
+                <div class="control-group">
+                    <span class="control-label">Interactive:</span>
+                    <button class="btn" onclick="showUpdateable()">Updateable</button>
+                    <button class="btn secondary" onclick="showProgress()">Progress Bar</button>
+                    <button class="btn secondary" onclick="showClickToClose()">Click to Close</button>
+                </div>
+                <div class="control-group">
+                    <span class="control-label">Stress Test:</span>
+                    <button class="btn warning" onclick="spamNotifications()">Spam Notifications</button>
+                    <button class="btn error" onclick="showManyTypes()">Show All Types</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats and Event Log -->
+        <div class="demo-section">
+            <h2 class="demo-title">Statistics and Events</h2>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="total-shown">0</div>
+                    <div class="stat-label">Total Shown</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="currently-visible">0</div>
+                    <div class="stat-label">Currently Visible</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="actions-clicked">0</div>
+                    <div class="stat-label">Actions Clicked</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="manually-closed">0</div>
+                    <div class="stat-label">Manually Closed</div>
+                </div>
+            </div>
+
+            <div>
+                <h4>Event Log:</h4>
+                <div id="event-log"></div>
+            </div>
+        </div>
+
+        <!-- Code Examples -->
+        <div class="demo-section">
+            <h2 class="demo-title">Code Examples</h2>
+            <p class="demo-description">Examples of using the notification system programmatically.</p>
+            
+            <div class="code-preview">
+                <pre><code>// Initialize notifications (optional - auto-initializes on first use)
+notifications.init({
+  position: 'top-right',
+  defaultDuration: 5000,
+  maxNotifications: 5,
+  animations: true,
+  pauseOnHover: true
+});
+
+// Basic notifications
+notifications.success('Operation completed successfully!');
+notifications.error('Something went wrong!');
+notifications.warning('Please check your input');
+notifications.info('New update available');
+
+// Advanced notifications
+notifications.show({
+  type: 'success',
+  title: 'Upload Complete',
+  message: 'Your file has been uploaded successfully.',
+  actions: [
+    { text: 'View File', variant: 'primary', action: 'view' },
+    { text: 'Share', variant: 'secondary', action: 'share' }
+  ],
+  duration: 10000,
+  data: { fileId: 123 }
+});
+
+// Loading notification
+const loading = notifications.loading('Processing your request...');
+// Later: notifications.update(loading.id, { 
+//   type: 'success', 
+//   message: 'Request completed!' 
+// });
+
+// Alert banner
+notifications.banner('Scheduled maintenance tonight from 2-4 AM', 'warning', {
+  duration: 10000
+});
+
+// Snackbar
+notifications.snackbar('Changes saved', {
+  action: { 
+    text: 'Undo', 
+    callback: () => console.log('Undo clicked') 
+  }
+});
+
+// Event handling
+const manager = notifications.init();
+manager.on('action', (data) => {
+  console.log('Action clicked:', data.action);
+});
+
+manager.on('remove', (data) => {
+  console.log('Notification removed:', data.notification.id);
+});</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script src="notifications.js"></script>
+    <script>
+        // Initialize notification system
+        let notificationManager = notifications.init({
+            position: 'top-right',
+            defaultDuration: 5000,
+            maxNotifications: 5,
+            animations: true,
+            pauseOnHover: true
+        });
+
+        // Statistics tracking
+        let stats = {
+            totalShown: 0,
+            currentlyVisible: 0,
+            actionsClicked: 0,
+            manuallyClosed: 0
+        };
+
+        let eventCount = 0;
+        const eventLog = document.getElementById('event-log');
+
+        function logEvent(message, type = 'info') {
+            eventCount++;
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = `[${eventCount}] ${new Date().toLocaleTimeString()}: ${message}`;
+            eventLog.appendChild(entry);
+            eventLog.scrollTop = eventLog.scrollHeight;
+        }
+
+        function updateStats() {
+            document.getElementById('total-shown').textContent = stats.totalShown;
+            document.getElementById('currently-visible').textContent = stats.currentlyVisible;
+            document.getElementById('actions-clicked').textContent = stats.actionsClicked;
+            document.getElementById('manually-closed').textContent = stats.manuallyClosed;
+        }
+
+        // Event listeners
+        notificationManager.on('action', (data) => {
+            stats.actionsClicked++;
+            updateStats();
+            logEvent(`Action clicked: ${data.action}`, 'success');
+            
+            // Handle specific actions
+            if (data.action === 'undo') {
+                logEvent('Undo action triggered', 'info');
+            } else if (data.action === 'retry') {
+                logEvent('Retry action triggered', 'info');
+            } else if (data.action === 'view') {
+                logEvent('View action triggered', 'info');
+            }
+        });
+
+        notificationManager.on('remove', (data) => {
+            stats.currentlyVisible--;
+            if (data.manualClose) {
+                stats.manuallyClosed++;
+            }
+            updateStats();
+            logEvent(`Notification removed: ${data.notification.id}`, 'info');
+        });
+
+        // Notification functions
+        function showSuccess() {
+            stats.totalShown++;
+            stats.currentlyVisible++;
+            updateStats();
+            
+            notifications.success('Operation completed successfully!', {
+                title: 'Success!'
+            });
+            logEvent('Success notification shown', 'success');
+        }
+
+        function showError() {
+            stats.totalShown++;
+            stats.currentlyVisible++;
+            updateStats();
+            
+            notifications.error('Something went wrong. Please try again.', {
+                title: 'Error!',
+                actions: [
+                    { text: 'Retry', variant: 'primary', action: 'retry' },
+                    { text: 'Cancel', variant: 'secondary', action: 'cancel' }
+                ]
+            });
+            logEvent('Error notification shown', 'error');
+        }
+
+        function showWarning() {
+            stats.totalShown++;
+            stats.currentlyVisible++;
+            updateStats();
+            
+            notifications.warning('Please check your input before continuing.', {
+                title: 'Warning!'
+            });
+            logEvent('Warning notification shown', 'warning');
+        }
+
+        function showInfo() {
+            stats.totalShown++;
+            stats.currentlyVisible++;
+            updateStats();
+            
+            notifications.info('A new update is available for download.', {
+                title: 'Info',
+                actions: [
+                    { text: 'Download', variant: 'primary', action: 'download' },
+                    { text: 'Later', variant: 'secondary', action: 'later' }
+                ]
+            });
+            logEvent('Info notification shown', 'info');
+        }
+
+        function showWithActions() {
+            stats.totalShown++;
+            stats.currentlyVisible++;
+            updateStats();
+            
+            notifications.show({
+                type: 'success',
+                title: 'File Uploaded',
+                message: 'Your document has been uploaded successfully.',
+                actions: [
+                    { text: 'View File', variant: 'primary', action: 'view' },
+                    { text: 'Share', variant: 'secondary', action: 'share' }
+                ],
+                duration: 8000
+            });
+            logEvent('Notification with actions shown', 'info');
+        }
+
+        function showWithMultipleActions() {
+            stats.totalShown++;
+            stats.currentlyVisible++;
+            updateStats();
+            
+            notifications.show({
+                type: 'info',
+                title: 'Multiple Options Available',
+                message: 'Choose from the actions below to proceed.',
+                actions: [
+                    { text: 'Save', variant: 'primary', action: 'save' },
+                    { text: 'Save & Send', variant: 'primary', action: 'save-send' },
+                    { text: 'Draft', variant: 'secondary', action: 'draft' },
+                    { text: 'Cancel', variant: 'secondary', action: 'cancel' }
+                ],
+                duration: 10000
+            });
+            logEvent('Notification with multiple actions shown', 'info');
+        }
+
+        function showLoading() {
+            stats.totalShown++;
+            stats.currentlyVisible++;
+            updateStats();
+            
+            const loading = notifications.loading('Processing your request...');
+            logEvent('Loading notification shown', 'info');
+            
+            // Simulate completion after 3 seconds
+            setTimeout(() => {
+                notifications.update(loading.id, {
+                    type: 'success',
+                    loading: false,
+                    title: 'Complete!',
+                    message: 'Your request has been processed successfully.',
+                    duration: 3000,
+                    closable: true
+                });
+                logEvent('Loading notification updated to success', 'success');
+            }, 3000);
+        }
+
+        function showPersistent() {
+            stats.totalShown++;
+            stats.currentlyVisible++;
+            updateStats();
+            
+            notifications.show({
+                type: 'warning',
+                title: 'Important Notice',
+                message: 'This notification will not auto-dismiss. Click the X to close.',
+                duration: 0, // Persistent
+                progress: false
+            });
+            logEvent('Persistent notification shown', 'warning');
+        }
+
+        function showFilled(type) {
+            stats.totalShown++;
+            stats.currentlyVisible++;
+            updateStats();
+            
+            const messages = {
+                success: 'Action completed successfully!',
+                error: 'An error occurred during processing.',
+                warning: 'Please review your settings.',
+                info: 'New features are now available.'
+            };
+            
+            notifications.show({
+                type: type,
+                variant: 'filled',
+                title: type.charAt(0).toUpperCase() + type.slice(1),
+                message: messages[type],
+                duration: 4000
+            });
+            logEvent(`Filled ${type} notification shown`, type);
+        }
+
+        function showMinimal(type) {
+            stats.totalShown++;
+            stats.currentlyVisible++;
+            updateStats();
+            
+            const messages = {
+                success: 'Changes saved',
+                error: 'Connection failed',
+                warning: 'Low storage space',
+                info: 'Update available'
+            };
+            
+            notifications.show({
+                type: type,
+                variant: 'minimal',
+                message: messages[type],
+                duration: 3000
+            });
+            logEvent(`Minimal ${type} notification shown`, type);
+        }
+
+        function showSize(size) {
+            stats.totalShown++;
+            stats.currentlyVisible++;
+            updateStats();
+            
+            const content = {
+                compact: { title: 'Compact', message: 'Small notification' },
+                default: { title: 'Default Size', message: 'Standard notification size' },
+                large: { title: 'Large Notification', message: 'This is a larger notification with more space for content and actions.' }
+            };
+            
+            notifications.show({
+                type: 'info',
+                size: size === 'default' ? undefined : size,
+                ...content[size],
+                duration: 4000
+            });
+            logEvent(`${size} size notification shown`, 'info');
+        }
+
+        function clearAllNotifications() {
+            notifications.clearAll();
+            stats.currentlyVisible = 0;
+            updateStats();
+            logEvent('All notifications cleared', 'info');
+        }
+
+        // Position handling
+        document.querySelectorAll('.position-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.position-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const position = this.dataset.position;
+                notificationManager.setPosition(position);
+                logEvent(`Position changed to: ${position}`, 'info');
+            });
+        });
+
+        function testPosition() {
+            stats.totalShown++;
+            stats.currentlyVisible++;
+            updateStats();
+            
+            const position = document.querySelector('.position-btn.active').dataset.position;
+            notifications.info(`Test notification at ${position} position!`, {
+                duration: 3000
+            });
+            logEvent(`Test notification shown at ${position}`, 'info');
+        }
+
+        function applySettings() {
+            const animations = document.getElementById('animations').checked;
+            const pauseOnHover = document.getElementById('pauseOnHover').checked;
+            const maxNotifications = parseInt(document.getElementById('maxNotifications').value);
+            const defaultDuration = parseInt(document.getElementById('defaultDuration').value);
+            
+            // Reinitialize with new settings
+            notificationManager.destroy();
+            notificationManager = notifications.init({
+                position: document.querySelector('.position-btn.active').dataset.position,
+                defaultDuration,
+                maxNotifications,
+                animations,
+                pauseOnHover
+            });
+            
+            // Re-bind events
+            notificationManager.on('action', (data) => {
+                stats.actionsClicked++;
+                updateStats();
+                logEvent(`Action clicked: ${data.action}`, 'success');
+            });
+
+            notificationManager.on('remove', (data) => {
+                stats.currentlyVisible--;
+                if (data.manualClose) {
+                    stats.manuallyClosed++;
+                }
+                updateStats();
+                logEvent(`Notification removed: ${data.notification.id}`, 'info');
+            });
+            
+            logEvent('Settings applied and manager reinitialized', 'success');
+        }
+
+        // Banner functions
+        function showBanner(type) {
+            const messages = {
+                success: 'System update completed successfully!',
+                error: 'Service temporarily unavailable. Please try again later.',
+                warning: 'Scheduled maintenance will begin in 30 minutes.',
+                info: 'New features are now available. Check out what\'s new!'
+            };
+            
+            notifications.banner(messages[type], type, {
+                closable: true,
+                duration: 8000
+            });
+            logEvent(`${type} banner shown`, type);
+        }
+
+        function showBannerPersistent() {
+            notifications.banner('This is a persistent banner that must be manually closed.', 'warning', {
+                closable: true,
+                duration: 0
+            });
+            logEvent('Persistent banner shown', 'warning');
+        }
+
+        function showBannerAuto() {
+            notifications.banner('This banner will auto-dismiss in 3 seconds.', 'info', {
+                closable: false,
+                duration: 3000
+            });
+            logEvent('Auto-dismiss banner shown', 'info');
+        }
+
+        // Snackbar functions
+        function showSnackbar() {
+            notifications.snackbar('Changes have been saved');
+            logEvent('Simple snackbar shown', 'info');
+        }
+
+        function showSnackbarAction() {
+            notifications.snackbar('Item deleted', {
+                action: {
+                    text: 'Undo',
+                    callback: () => {
+                        logEvent('Snackbar undo action clicked', 'success');
+                        notifications.snackbar('Item restored');
+                    }
+                }
+            });
+            logEvent('Snackbar with action shown', 'info');
+        }
+
+        function showSnackbarPersistent() {
+            notifications.snackbar('Connection lost. Attempting to reconnect...', {
+                duration: 0,
+                action: {
+                    text: 'Retry',
+                    callback: () => {
+                        logEvent('Snackbar retry action clicked', 'success');
+                    }
+                }
+            });
+            logEvent('Persistent snackbar shown', 'warning');
+        }
+
+        // Advanced features
+        function showCustomIcon() {
+            stats.totalShown++;
+            stats.currentlyVisible++;
+            updateStats();
+            
+            notifications.show({
+                type: 'success',
+                icon: '🚀',
+                title: 'Launch Successful',
+                message: 'Your project has been deployed!',
+                duration: 5000
+            });
+            logEvent('Custom icon notification shown', 'success');
+        }
+
+        function showNoIcon() {
+            stats.totalShown++;
+            stats.currentlyVisible++;
+            updateStats();
+            
+            notifications.show({
+                type: 'info',
+                icon: '',
+                title: 'Clean Design',
+                message: 'This notification has no icon for a minimal look.',
+                duration: 4000
+            });
+            logEvent('No icon notification shown', 'info');
+        }
+
+        function showRichContent() {
+            stats.totalShown++;
+            stats.currentlyVisible++;
+            updateStats();
+            
+            notifications.show({
+                type: 'info',
+                title: 'New Message from John Doe',
+                message: 'Hey there! I wanted to discuss the project proposal with you. When would be a good time to chat?',
+                actions: [
+                    { text: 'Reply', variant: 'primary', action: 'reply' },
+                    { text: 'Mark as Read', variant: 'secondary', action: 'mark-read' }
+                ],
+                duration: 10000,
+                data: { messageId: 123, sender: 'John Doe' }
+            });
+            logEvent('Rich content notification shown', 'info');
+        }
+
+        let updateableNotification = null;
+
+        function showUpdateable() {
+            stats.totalShown++;
+            stats.currentlyVisible++;
+            updateStats();
+            
+            updateableNotification = notifications.show({
+                type: 'info',
+                title: 'Updating...',
+                message: 'Step 1 of 3: Downloading files...',
+                duration: 0,
+                closable: false,
+                progress: false
+            });
+            
+            logEvent('Updateable notification shown', 'info');
+            
+            // Simulate progress updates
+            setTimeout(() => {
+                notifications.update(updateableNotification.id, {
+                    message: 'Step 2 of 3: Installing updates...'
+                });
+                logEvent('Notification updated: Step 2', 'info');
+            }, 2000);
+            
+            setTimeout(() => {
+                notifications.update(updateableNotification.id, {
+                    message: 'Step 3 of 3: Finalizing installation...'
+                });
+                logEvent('Notification updated: Step 3', 'info');
+            }, 4000);
+            
+            setTimeout(() => {
+                notifications.update(updateableNotification.id, {
+                    type: 'success',
+                    title: 'Update Complete!',
+                    message: 'All updates have been installed successfully.',
+                    duration: 3000,
+                    closable: true
+                });
+                logEvent('Notification updated: Complete', 'success');
+            }, 6000);
+        }
+
+        function showProgress() {
+            stats.totalShown++;
+            stats.currentlyVisible++;
+            updateStats();
+            
+            notifications.show({
+                type: 'info',
+                title: 'File Upload',
+                message: 'Uploading document.pdf...',
+                duration: 8000,
+                progress: true
+            });
+            logEvent('Progress notification shown', 'info');
+        }
+
+        function showClickToClose() {
+            stats.totalShown++;
+            stats.currentlyVisible++;
+            updateStats();
+            
+            notifications.show({
+                type: 'info',
+                title: 'Click Anywhere to Close',
+                message: 'This notification can be closed by clicking anywhere on it.',
+                duration: 0,
+                clickToClose: true,
+                progress: false
+            });
+            logEvent('Click-to-close notification shown', 'info');
+        }
+
+        function spamNotifications() {
+            for (let i = 1; i <= 10; i++) {
+                setTimeout(() => {
+                    stats.totalShown++;
+                    stats.currentlyVisible++;
+                    updateStats();
+                    
+                    notifications.info(`Spam notification #${i}`, {
+                        title: `Message ${i}`,
+                        duration: 3000
+                    });
+                }, i * 100);
+            }
+            logEvent('Spam notifications triggered', 'warning');
+        }
+
+        function showManyTypes() {
+            const types = ['success', 'error', 'warning', 'info'];
+            const variants = ['default', 'filled', 'minimal'];
+            
+            types.forEach((type, i) => {
+                variants.forEach((variant, j) => {
+                    setTimeout(() => {
+                        stats.totalShown++;
+                        stats.currentlyVisible++;
+                        updateStats();
+                        
+                        notifications.show({
+                            type: type,
+                            variant: variant === 'default' ? undefined : variant,
+                            title: `${type.charAt(0).toUpperCase() + type.slice(1)} ${variant}`,
+                            message: `This is a ${variant} ${type} notification`,
+                            duration: 4000
+                        });
+                    }, (i * variants.length + j) * 200);
+                });
+            });
+            logEvent('All notification types shown', 'info');
+        }
+
+        // Initialize
+        updateStats();
+        logEvent('Notification demo initialized', 'success');
+    </script>
+</body>
+</html>

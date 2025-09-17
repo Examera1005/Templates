@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Component Demo</title>
+    <link rel="stylesheet" href="buttons.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            background: #f8fafc;
+            line-height: 1.6;
+        }
+
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .demo-section {
+            margin-bottom: 60px;
+        }
+
+        .demo-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 16px;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 8px;
+        }
+
+        .demo-subtitle {
+            font-size: 18px;
+            font-weight: 600;
+            color: #374151;
+            margin: 32px 0 16px 0;
+        }
+
+        .demo-description {
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+
+        .demo-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 32px;
+            align-items: center;
+        }
+
+        .demo-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .control-group {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .control-label {
+            font-weight: 500;
+            color: #374151;
+            min-width: 120px;
+        }
+
+        .code-preview {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+
+        #event-log {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 16px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+            margin-top: 16px;
+        }
+
+        .log-entry {
+            margin-bottom: 4px;
+            padding: 2px 0;
+        }
+
+        .log-entry.info { color: #3b82f6; }
+        .log-entry.success { color: #10b981; }
+        .log-entry.warning { color: #f59e0b; }
+        .log-entry.error { color: #ef4444; }
+
+        .variant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .variant-group {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .variant-title {
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #374151;
+        }
+
+        .size-demo {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .group-demo {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+
+        .fab-demo {
+            position: relative;
+            height: 300px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+        }
+
+        .icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+        }
+
+        .loading-demo {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1 class="demo-title">Button Component System Demo</h1>
+        <p class="demo-description">
+            A comprehensive button system with multiple variants, sizes, states, and interactive features.
+            All components are built with pure CSS and JavaScript for maximum compatibility.
+        </p>
+
+        <!-- Button Variants -->
+        <div class="demo-section">
+            <h2 class="demo-title">Button Variants</h2>
+            
+            <div class="variant-grid">
+                <div class="variant-group">
+                    <div class="variant-title">Solid Buttons</div>
+                    <div class="demo-row">
+                        <button class="btn primary">Primary</button>
+                        <button class="btn secondary">Secondary</button>
+                        <button class="btn success">Success</button>
+                    </div>
+                    <div class="demo-row">
+                        <button class="btn warning">Warning</button>
+                        <button class="btn danger">Danger</button>
+                        <button class="btn info">Info</button>
+                    </div>
+                </div>
+
+                <div class="variant-group">
+                    <div class="variant-title">Outline Buttons</div>
+                    <div class="demo-row">
+                        <button class="btn outline primary">Primary</button>
+                        <button class="btn outline secondary">Secondary</button>
+                        <button class="btn outline success">Success</button>
+                    </div>
+                    <div class="demo-row">
+                        <button class="btn outline warning">Warning</button>
+                        <button class="btn outline danger">Danger</button>
+                        <button class="btn outline info">Info</button>
+                    </div>
+                </div>
+
+                <div class="variant-group">
+                    <div class="variant-title">Ghost Buttons</div>
+                    <div class="demo-row">
+                        <button class="btn ghost primary">Primary</button>
+                        <button class="btn ghost secondary">Secondary</button>
+                        <button class="btn ghost success">Success</button>
+                    </div>
+                    <div class="demo-row">
+                        <button class="btn ghost warning">Warning</button>
+                        <button class="btn ghost danger">Danger</button>
+                        <button class="btn ghost info">Info</button>
+                    </div>
+                </div>
+
+                <div class="variant-group">
+                    <div class="variant-title">Gradient Buttons</div>
+                    <div class="demo-row">
+                        <button class="btn gradient">Default</button>
+                        <button class="btn gradient success">Success</button>
+                    </div>
+                    <div class="demo-row">
+                        <button class="btn gradient warning">Warning</button>
+                        <button class="btn gradient danger">Danger</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Button Sizes -->
+        <div class="demo-section">
+            <h2 class="demo-title">Button Sizes</h2>
+            
+            <div class="size-demo">
+                <button class="btn primary xs">Extra Small</button>
+                <button class="btn primary sm">Small</button>
+                <button class="btn primary">Medium (Default)</button>
+                <button class="btn primary lg">Large</button>
+                <button class="btn primary xl">Extra Large</button>
+            </div>
+        </div>
+
+        <!-- Button Shapes -->
+        <div class="demo-section">
+            <h2 class="demo-title">Button Shapes</h2>
+            
+            <div class="demo-row">
+                <button class="btn primary">Default</button>
+                <button class="btn primary rounded">Rounded</button>
+                <button class="btn primary square">Square</button>
+                <button class="btn primary sharp">Sharp</button>
+            </div>
+        </div>
+
+        <!-- Icon Buttons -->
+        <div class="demo-section">
+            <h2 class="demo-title">Icon Buttons</h2>
+            
+            <h3 class="demo-subtitle">Buttons with Icons</h3>
+            <div class="demo-row">
+                <button class="btn primary">
+                    <span class="btn-icon">👍</span>
+                    <span class="btn-text">Like</span>
+                </button>
+                <button class="btn secondary">
+                    <span class="btn-text">Download</span>
+                    <span class="btn-icon">⬇️</span>
+                </button>
+                <button class="btn success">
+                    <span class="btn-icon">✓</span>
+                    <span class="btn-text">Approve</span>
+                </button>
+            </div>
+
+            <h3 class="demo-subtitle">Icon Only Buttons</h3>
+            <div class="demo-row">
+                <button class="btn primary icon-only">❤️</button>
+                <button class="btn secondary icon-only">⚙️</button>
+                <button class="btn success icon-only">✓</button>
+                <button class="btn warning icon-only">⚠️</button>
+                <button class="btn danger icon-only">🗑️</button>
+            </div>
+
+            <h3 class="demo-subtitle">Circle Icon Buttons</h3>
+            <div class="demo-row">
+                <button class="btn primary circle icon-only">+</button>
+                <button class="btn secondary circle icon-only">✏️</button>
+                <button class="btn success circle icon-only">✓</button>
+                <button class="btn danger circle icon-only">✕</button>
+            </div>
+        </div>
+
+        <!-- Button States -->
+        <div class="demo-section">
+            <h2 class="demo-title">Button States</h2>
+            
+            <h3 class="demo-subtitle">Normal vs Disabled</h3>
+            <div class="demo-row">
+                <button class="btn primary">Normal</button>
+                <button class="btn primary" disabled>Disabled</button>
+                <button class="btn secondary">Normal</button>
+                <button class="btn secondary" disabled>Disabled</button>
+            </div>
+
+            <h3 class="demo-subtitle">Loading States</h3>
+            <div class="loading-demo">
+                <button class="btn primary loading">
+                    <span class="btn-text">Loading...</span>
+                </button>
+                <button class="btn secondary loading">
+                    <span class="btn-text">Processing</span>
+                </button>
+                <button class="btn success loading">
+                    <span class="btn-text">Saving</span>
+                </button>
+            </div>
+
+            <h3 class="demo-subtitle">Toggle Buttons</h3>
+            <div class="demo-row">
+                <button class="btn toggle outline primary">Toggle Me</button>
+                <button class="btn toggle ghost secondary">Another Toggle</button>
+                <button class="btn toggle primary active">Active Toggle</button>
+            </div>
+        </div>
+
+        <!-- Button Groups -->
+        <div class="demo-section">
+            <h2 class="demo-title">Button Groups</h2>
+            
+            <h3 class="demo-subtitle">Horizontal Groups</h3>
+            <div class="group-demo">
+                <div class="btn-group">
+                    <button class="btn primary">Left</button>
+                    <button class="btn primary">Center</button>
+                    <button class="btn primary">Right</button>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn outline secondary">Option 1</button>
+                    <button class="btn outline secondary">Option 2</button>
+                    <button class="btn outline secondary">Option 3</button>
+                    <button class="btn outline secondary">Option 4</button>
+                </div>
+            </div>
+
+            <h3 class="demo-subtitle">Vertical Groups</h3>
+            <div class="group-demo">
+                <div class="btn-group vertical">
+                    <button class="btn primary">Top</button>
+                    <button class="btn primary">Middle</button>
+                    <button class="btn primary">Bottom</button>
+                </div>
+
+                <div class="btn-group vertical">
+                    <button class="btn outline secondary">First</button>
+                    <button class="btn outline secondary">Second</button>
+                    <button class="btn outline secondary">Third</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Special Buttons -->
+        <div class="demo-section">
+            <h2 class="demo-title">Special Button Types</h2>
+            
+            <h3 class="demo-subtitle">Block Button</h3>
+            <button class="btn primary block">Full Width Block Button</button>
+            
+            <h3 class="demo-subtitle">Dropdown Button</h3>
+            <div class="demo-row">
+                <button class="btn primary dropdown">Dropdown Button</button>
+                <button class="btn secondary dropdown">Options</button>
+            </div>
+
+            <h3 class="demo-subtitle">Floating Action Button (FAB)</h3>
+            <div class="fab-demo">
+                <button class="btn primary fab">+</button>
+                <button class="btn secondary fab mini" style="bottom: 100px;">✏️</button>
+                <p style="padding: 20px; color: #6b7280;">
+                    Floating Action Buttons are positioned fixed at the bottom-right corner of the viewport.
+                    They're commonly used for primary actions in mobile apps.
+                </p>
+            </div>
+        </div>
+
+        <!-- Interactive Demo -->
+        <div class="demo-section">
+            <h2 class="demo-title">Interactive Demo</h2>
+            <p class="demo-description">Test the interactive features of the button component system.</p>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <span class="control-label">Animation Tests:</span>
+                    <button onclick="testPulse()">Pulse Animation</button>
+                    <button onclick="testShake()">Shake Animation</button>
+                    <button onclick="testBounce()">Bounce Animation</button>
+                </div>
+                <div class="control-group">
+                    <span class="control-label">State Tests:</span>
+                    <button onclick="testLoading()">Toggle Loading</button>
+                    <button onclick="testDisable()">Toggle Disabled</button>
+                    <button onclick="testVariant()">Change Variant</button>
+                </div>
+                <div class="control-group">
+                    <span class="control-label">Builder Demo:</span>
+                    <button onclick="createDynamicButton()">Create Random Button</button>
+                    <button onclick="clearDynamicButtons()">Clear Buttons</button>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h4>Interactive Test Button:</h4>
+                <button id="test-button" class="btn primary">Click me for interactions!</button>
+            </div>
+
+            <div class="demo-section">
+                <h4>Button Group Toggle Demo:</h4>
+                <div id="toggle-group" class="btn-group">
+                    <button class="btn outline secondary">Option A</button>
+                    <button class="btn outline secondary">Option B</button>
+                    <button class="btn outline secondary">Option C</button>
+                </div>
+            </div>
+
+            <div id="dynamic-buttons" style="margin-top: 20px;">
+                <h4>Dynamic Buttons:</h4>
+                <div id="dynamic-container" class="demo-row"></div>
+            </div>
+
+            <div>
+                <h4>Event Log:</h4>
+                <div id="event-log"></div>
+            </div>
+        </div>
+
+        <!-- Builder Examples -->
+        <div class="demo-section">
+            <h2 class="demo-title">Programmatic Button Creation</h2>
+            <p class="demo-description">Examples of creating buttons programmatically using the ButtonBuilder.</p>
+            
+            <div class="code-preview">
+                <pre><code>// Create buttons with the builder
+const primaryBtn = ButtonBuilder.create()
+  .variant('primary')
+  .size('lg')
+  .text('Click Me')
+  .icon('👍', 'left')
+  .onClick(() => console.log('Button clicked!'))
+  .build();
+
+// Convenience methods
+const successBtn = ButtonBuilder.success('Save', () => {
+  console.log('Saving...');
+});
+
+const dangerBtn = ButtonBuilder.danger('Delete', () => {
+  if (confirm('Are you sure?')) {
+    console.log('Deleting...');
+  }
+});
+
+// Button groups with toggle functionality
+const group = new ButtonGroup('#my-group', {
+  toggle: 'single' // or 'multiple' or 'none'
+});
+
+group.on('toggle', (data) => {
+  console.log('Active buttons:', data.activeButtons);
+});</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script src="buttons.js"></script>
+    <script>
+        // Initialize interactive components
+        const testButton = new Button('#test-button', {
+            animations: true
+        });
+
+        const toggleGroup = new ButtonGroup('#toggle-group', {
+            toggle: 'single'
+        });
+
+        let eventCount = 0;
+        const eventLog = document.getElementById('event-log');
+
+        function logEvent(message, type = 'info') {
+            eventCount++;
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = `[${eventCount}] ${new Date().toLocaleTimeString()}: ${message}`;
+            eventLog.appendChild(entry);
+            eventLog.scrollTop = eventLog.scrollHeight;
+        }
+
+        // Event listeners
+        testButton.on('click', (data) => {
+            logEvent('Test button clicked!', 'info');
+        });
+
+        testButton.on('loadingStart', () => {
+            logEvent('Loading started', 'info');
+        });
+
+        testButton.on('loadingEnd', () => {
+            logEvent('Loading ended', 'success');
+        });
+
+        toggleGroup.on('toggle', (data) => {
+            const activeCount = data.activeButtons.length;
+            const buttonText = data.button.element.textContent;
+            logEvent(`Toggle group: "${buttonText}" selected (${activeCount} active)`, 'success');
+        });
+
+        // Demo functions
+        function testPulse() {
+            testButton.pulse();
+            logEvent('Pulse animation triggered', 'info');
+        }
+
+        function testShake() {
+            testButton.shake();
+            logEvent('Shake animation triggered', 'info');
+        }
+
+        function testBounce() {
+            testButton.bounce();
+            logEvent('Bounce animation triggered', 'info');
+        }
+
+        function testLoading() {
+            if (testButton.isLoading) {
+                testButton.hideLoading();
+                logEvent('Loading state disabled', 'success');
+            } else {
+                testButton.showLoading();
+                logEvent('Loading state enabled', 'info');
+                
+                // Auto-hide after 3 seconds
+                setTimeout(() => {
+                    if (testButton.isLoading) {
+                        testButton.hideLoading();
+                        logEvent('Loading auto-disabled', 'success');
+                    }
+                }, 3000);
+            }
+        }
+
+        function testDisable() {
+            if (testButton.element.disabled) {
+                testButton.enable();
+                logEvent('Button enabled', 'success');
+            } else {
+                testButton.disable();
+                logEvent('Button disabled', 'warning');
+            }
+        }
+
+        const variants = ['primary', 'secondary', 'success', 'warning', 'danger', 'info'];
+        let currentVariantIndex = 0;
+
+        function testVariant() {
+            currentVariantIndex = (currentVariantIndex + 1) % variants.length;
+            const newVariant = variants[currentVariantIndex];
+            testButton.setVariant(newVariant);
+            logEvent(`Variant changed to: ${newVariant}`, 'info');
+        }
+
+        // Dynamic button creation
+        let buttonCount = 0;
+        const dynamicContainer = document.getElementById('dynamic-container');
+
+        function createDynamicButton() {
+            buttonCount++;
+            const variants = ['primary', 'secondary', 'success', 'warning', 'danger', 'info'];
+            const sizes = ['xs', 'sm', 'md', 'lg'];
+            const styles = ['solid', 'outline', 'ghost'];
+            
+            const randomVariant = variants[Math.floor(Math.random() * variants.length)];
+            const randomSize = sizes[Math.floor(Math.random() * sizes.length)];
+            const randomStyle = styles[Math.floor(Math.random() * styles.length)];
+            
+            let builder = ButtonBuilder.create()
+                .text(`Button ${buttonCount}`)
+                .size(randomSize);
+            
+            if (randomStyle === 'outline') {
+                builder = builder.variant(`outline`).className(randomVariant);
+            } else if (randomStyle === 'ghost') {
+                builder = builder.variant(`ghost`).className(randomVariant);
+            } else {
+                builder = builder.variant(randomVariant);
+            }
+            
+            // Add random features
+            if (Math.random() > 0.7) {
+                builder = builder.icon(['👍', '⭐', '🚀', '💡', '🎯'][Math.floor(Math.random() * 5)]);
+            }
+            
+            if (Math.random() > 0.8) {
+                builder = builder.rounded();
+            }
+            
+            const buttonElement = builder
+                .onClick(() => {
+                    logEvent(`Dynamic button ${buttonCount} clicked!`, 'success');
+                })
+                .build();
+            
+            dynamicContainer.appendChild(buttonElement);
+            
+            // Create Button instance for enhanced functionality
+            const button = new Button(buttonElement, { animations: true });
+            button.on('click', () => {
+                button.pulse();
+            });
+            
+            logEvent(`Created ${randomStyle} ${randomVariant} button (${randomSize})`, 'success');
+        }
+
+        function clearDynamicButtons() {
+            dynamicContainer.innerHTML = '';
+            buttonCount = 0;
+            logEvent('All dynamic buttons cleared', 'info');
+        }
+
+        // Initialize toggle buttons
+        document.querySelectorAll('.btn.toggle').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.toggle('active');
+                logEvent(`Toggle button: ${this.classList.contains('active') ? 'activated' : 'deactivated'}`, 'info');
+            });
+        });
+
+        // Initialize dropdown buttons
+        document.querySelectorAll('.btn.dropdown').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.toggle('open');
+                logEvent(`Dropdown button: ${this.classList.contains('open') ? 'opened' : 'closed'}`, 'info');
+            });
+        });
+
+        // Initialize log
+        logEvent('Button demo initialized', 'success');
+    </script>
+</body>
+</html>
