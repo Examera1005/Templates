@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Insights - Blog</title>
+    <meta name="description" content="Latest insights on technology, development, and innovation from industry experts.">
+    <link rel="stylesheet" href="blog.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <a href="#" class="brand-logo">
+                        <i class="fas fa-blog"></i>
+                        <span>Tech Insights</span>
+                    </a>
+                </div>
+
+                <div class="nav-menu" id="nav-menu">
+                    <a href="#" class="nav-link active">Home</a>
+                    <a href="#" class="nav-link">Technology</a>
+                    <a href="#" class="nav-link">Development</a>
+                    <a href="#" class="nav-link">Design</a>
+                    <a href="#" class="nav-link">Business</a>
+                    <a href="#" class="nav-link">About</a>
+                </div>
+
+                <div class="nav-actions">
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Search articles...">
+                        <button class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <button class="theme-toggle" id="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <a href="#" class="btn btn-primary">Subscribe</a>
+                </div>
+
+                <div class="nav-toggle" id="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Insights That Shape Tomorrow</h1>
+                    <p>Discover the latest trends, tutorials, and expert opinions in technology, development, and innovation.</p>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number">500+</span>
+                            <span class="stat-label">Articles</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">50K+</span>
+                            <span class="stat-label">Readers</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">100+</span>
+                            <span class="stat-label">Authors</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://picsum.photos/600/400?random=1" alt="Tech Innovation">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="content-layout">
+                <!-- Articles Section -->
+                <section class="articles-section">
+                    <!-- Featured Article -->
+                    <article class="featured-article">
+                        <div class="article-image">
+                            <img src="https://picsum.photos/800/400?random=2" alt="Featured Article">
+                            <div class="article-category">Featured</div>
+                        </div>
+                        <div class="article-content">
+                            <div class="article-meta">
+                                <div class="author-info">
+                                    <img src="https://picsum.photos/40/40?random=10" alt="Sarah Johnson" class="author-avatar">
+                                    <span class="author-name">Sarah Johnson</span>
+                                </div>
+                                <time class="article-date">March 15, 2024</time>
+                                <span class="read-time">8 min read</span>
+                            </div>
+                            <h2 class="article-title">
+                                <a href="#">The Future of AI: Transforming Industries in 2024</a>
+                            </h2>
+                            <p class="article-excerpt">
+                                Explore how artificial intelligence is reshaping various industries and what it means for businesses and developers in the coming year.
+                            </p>
+                            <div class="article-tags">
+                                <span class="tag">AI</span>
+                                <span class="tag">Technology</span>
+                                <span class="tag">Future</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Articles Grid -->
+                    <div class="articles-header">
+                        <h2>Latest Articles</h2>
+                        <div class="filter-tabs">
+                            <button class="filter-tab active" data-filter="all">All</button>
+                            <button class="filter-tab" data-filter="technology">Technology</button>
+                            <button class="filter-tab" data-filter="development">Development</button>
+                            <button class="filter-tab" data-filter="design">Design</button>
+                            <button class="filter-tab" data-filter="business">Business</button>
+                        </div>
+                    </div>
+
+                    <div class="articles-grid" id="articles-grid">
+                        <article class="article-card" data-category="technology">
+                            <div class="article-image">
+                                <img src="https://picsum.photos/400/250?random=3" alt="Article">
+                                <div class="article-category">Technology</div>
+                            </div>
+                            <div class="article-content">
+                                <div class="article-meta">
+                                    <div class="author-info">
+                                        <img src="https://picsum.photos/32/32?random=11" alt="Mike Chen" class="author-avatar">
+                                        <span class="author-name">Mike Chen</span>
+                                    </div>
+                                    <time class="article-date">March 12, 2024</time>
+                                </div>
+                                <h3 class="article-title">
+                                    <a href="#">Quantum Computing: Breaking the Boundaries</a>
+                                </h3>
+                                <p class="article-excerpt">
+                                    Understanding the potential and current limitations of quantum computing technology.
+                                </p>
+                                <div class="article-footer">
+                                    <div class="article-tags">
+                                        <span class="tag">Quantum</span>
+                                        <span class="tag">Computing</span>
+                                    </div>
+                                    <span class="read-time">5 min read</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="article-card" data-category="development">
+                            <div class="article-image">
+                                <img src="https://picsum.photos/400/250?random=4" alt="Article">
+                                <div class="article-category">Development</div>
+                            </div>
+                            <div class="article-content">
+                                <div class="article-meta">
+                                    <div class="author-info">
+                                        <img src="https://picsum.photos/32/32?random=12" alt="Emily Rodriguez" class="author-avatar">
+                                        <span class="author-name">Emily Rodriguez</span>
+                                    </div>
+                                    <time class="article-date">March 10, 2024</time>
+                                </div>
+                                <h3 class="article-title">
+                                    <a href="#">Modern JavaScript Frameworks Comparison</a>
+                                </h3>
+                                <p class="article-excerpt">
+                                    A comprehensive guide to choosing the right JavaScript framework for your next project.
+                                </p>
+                                <div class="article-footer">
+                                    <div class="article-tags">
+                                        <span class="tag">JavaScript</span>
+                                        <span class="tag">Frameworks</span>
+                                    </div>
+                                    <span class="read-time">12 min read</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="article-card" data-category="design">
+                            <div class="article-image">
+                                <img src="https://picsum.photos/400/250?random=5" alt="Article">
+                                <div class="article-category">Design</div>
+                            </div>
+                            <div class="article-content">
+                                <div class="article-meta">
+                                    <div class="author-info">
+                                        <img src="https://picsum.photos/32/32?random=13" alt="David Kim" class="author-avatar">
+                                        <span class="author-name">David Kim</span>
+                                    </div>
+                                    <time class="article-date">March 8, 2024</time>
+                                </div>
+                                <h3 class="article-title">
+                                    <a href="#">UI/UX Trends That Will Dominate 2024</a>
+                                </h3>
+                                <p class="article-excerpt">
+                                    Discover the design trends that are shaping user experiences this year.
+                                </p>
+                                <div class="article-footer">
+                                    <div class="article-tags">
+                                        <span class="tag">UI/UX</span>
+                                        <span class="tag">Trends</span>
+                                    </div>
+                                    <span class="read-time">7 min read</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="article-card" data-category="business">
+                            <div class="article-image">
+                                <img src="https://picsum.photos/400/250?random=6" alt="Article">
+                                <div class="article-category">Business</div>
+                            </div>
+                            <div class="article-content">
+                                <div class="article-meta">
+                                    <div class="author-info">
+                                        <img src="https://picsum.photos/32/32?random=14" alt="Lisa Wang" class="author-avatar">
+                                        <span class="author-name">Lisa Wang</span>
+                                    </div>
+                                    <time class="article-date">March 5, 2024</time>
+                                </div>
+                                <h3 class="article-title">
+                                    <a href="#">Building Scalable SaaS Products</a>
+                                </h3>
+                                <p class="article-excerpt">
+                                    Key strategies for creating software products that can grow with your business.
+                                </p>
+                                <div class="article-footer">
+                                    <div class="article-tags">
+                                        <span class="tag">SaaS</span>
+                                        <span class="tag">Scaling</span>
+                                    </div>
+                                    <span class="read-time">10 min read</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="article-card" data-category="technology">
+                            <div class="article-image">
+                                <img src="https://picsum.photos/400/250?random=7" alt="Article">
+                                <div class="article-category">Technology</div>
+                            </div>
+                            <div class="article-content">
+                                <div class="article-meta">
+                                    <div class="author-info">
+                                        <img src="https://picsum.photos/32/32?random=15" alt="John Smith" class="author-avatar">
+                                        <span class="author-name">John Smith</span>
+                                    </div>
+                                    <time class="article-date">March 3, 2024</time>
+                                </div>
+                                <h3 class="article-title">
+                                    <a href="#">Cybersecurity in the Age of Remote Work</a>
+                                </h3>
+                                <p class="article-excerpt">
+                                    Essential security practices for teams working in distributed environments.
+                                </p>
+                                <div class="article-footer">
+                                    <div class="article-tags">
+                                        <span class="tag">Security</span>
+                                        <span class="tag">Remote Work</span>
+                                    </div>
+                                    <span class="read-time">6 min read</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="article-card" data-category="development">
+                            <div class="article-image">
+                                <img src="https://picsum.photos/400/250?random=8" alt="Article">
+                                <div class="article-category">Development</div>
+                            </div>
+                            <div class="article-content">
+                                <div class="article-meta">
+                                    <div class="author-info">
+                                        <img src="https://picsum.photos/32/32?random=16" alt="Anna Taylor" class="author-avatar">
+                                        <span class="author-name">Anna Taylor</span>
+                                    </div>
+                                    <time class="article-date">March 1, 2024</time>
+                                </div>
+                                <h3 class="article-title">
+                                    <a href="#">Microservices Architecture Best Practices</a>
+                                </h3>
+                                <p class="article-excerpt">
+                                    Learn how to design and implement robust microservices architectures.
+                                </p>
+                                <div class="article-footer">
+                                    <div class="article-tags">
+                                        <span class="tag">Microservices</span>
+                                        <span class="tag">Architecture</span>
+                                    </div>
+                                    <span class="read-time">15 min read</span>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Load More Button -->
+                    <div class="load-more-container">
+                        <button class="btn btn-outline load-more-btn" id="load-more">
+                            <i class="fas fa-plus"></i>
+                            Load More Articles
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <!-- Newsletter Signup -->
+                    <div class="widget newsletter-widget">
+                        <h3 class="widget-title">Stay Updated</h3>
+                        <p>Get the latest articles delivered to your inbox.</p>
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="Enter your email" required>
+                            <button type="submit" class="btn btn-primary">Subscribe</button>
+                        </form>
+                    </div>
+
+                    <!-- Popular Articles -->
+                    <div class="widget popular-widget">
+                        <h3 class="widget-title">Popular This Week</h3>
+                        <div class="popular-articles">
+                            <article class="popular-article">
+                                <div class="popular-image">
+                                    <img src="https://picsum.photos/80/60?random=20" alt="Popular Article">
+                                </div>
+                                <div class="popular-content">
+                                    <h4><a href="#">10 VS Code Extensions Every Developer Needs</a></h4>
+                                    <div class="popular-meta">
+                                        <span class="read-count">2.5K reads</span>
+                                        <span class="popular-date">2 days ago</span>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="popular-article">
+                                <div class="popular-image">
+                                    <img src="https://picsum.photos/80/60?random=21" alt="Popular Article">
+                                </div>
+                                <div class="popular-content">
+                                    <h4><a href="#">The Complete Guide to CSS Grid</a></h4>
+                                    <div class="popular-meta">
+                                        <span class="read-count">1.8K reads</span>
+                                        <span class="popular-date">4 days ago</span>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="popular-article">
+                                <div class="popular-image">
+                                    <img src="https://picsum.photos/80/60?random=22" alt="Popular Article">
+                                </div>
+                                <div class="popular-content">
+                                    <h4><a href="#">React Hooks Deep Dive</a></h4>
+                                    <div class="popular-meta">
+                                        <span class="read-count">1.2K reads</span>
+                                        <span class="popular-date">1 week ago</span>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="popular-article">
+                                <div class="popular-image">
+                                    <img src="https://picsum.photos/80/60?random=23" alt="Popular Article">
+                                </div>
+                                <div class="popular-content">
+                                    <h4><a href="#">Docker for Beginners</a></h4>
+                                    <div class="popular-meta">
+                                        <span class="read-count">950 reads</span>
+                                        <span class="popular-date">1 week ago</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+
+                    <!-- Tags Cloud -->
+                    <div class="widget tags-widget">
+                        <h3 class="widget-title">Popular Tags</h3>
+                        <div class="tags-cloud">
+                            <a href="#" class="tag-cloud">JavaScript</a>
+                            <a href="#" class="tag-cloud">React</a>
+                            <a href="#" class="tag-cloud">Node.js</a>
+                            <a href="#" class="tag-cloud">CSS</a>
+                            <a href="#" class="tag-cloud">Python</a>
+                            <a href="#" class="tag-cloud">AI</a>
+                            <a href="#" class="tag-cloud">Machine Learning</a>
+                            <a href="#" class="tag-cloud">DevOps</a>
+                            <a href="#" class="tag-cloud">Cloud</a>
+                            <a href="#" class="tag-cloud">Security</a>
+                            <a href="#" class="tag-cloud">Mobile</a>
+                            <a href="#" class="tag-cloud">Web Design</a>
+                        </div>
+                    </div>
+
+                    <!-- Archives -->
+                    <div class="widget archives-widget">
+                        <h3 class="widget-title">Archives</h3>
+                        <ul class="archives-list">
+                            <li><a href="#">March 2024 <span>(12)</span></a></li>
+                            <li><a href="#">February 2024 <span>(18)</span></a></li>
+                            <li><a href="#">January 2024 <span>(15)</span></a></li>
+                            <li><a href="#">December 2023 <span>(22)</span></a></li>
+                            <li><a href="#">November 2023 <span>(19)</span></a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div class="widget social-widget">
+                        <h3 class="widget-title">Follow Us</h3>
+                        <div class="social-links">
+                            <a href="#" class="social-link twitter">
+                                <i class="fab fa-twitter"></i>
+                                <span>Twitter</span>
+                            </a>
+                            <a href="#" class="social-link linkedin">
+                                <i class="fab fa-linkedin"></i>
+                                <span>LinkedIn</span>
+                            </a>
+                            <a href="#" class="social-link github">
+                                <i class="fab fa-github"></i>
+                                <span>GitHub</span>
+                            </a>
+                            <a href="#" class="social-link youtube">
+                                <i class="fab fa-youtube"></i>
+                                <span>YouTube</span>
+                            </a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="brand-logo">
+                        <i class="fas fa-blog"></i>
+                        <span>Tech Insights</span>
+                    </div>
+                    <p>Sharing knowledge and insights to help developers and tech enthusiasts stay ahead of the curve.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="#">Technology</a></li>
+                        <li><a href="#">Development</a></li>
+                        <li><a href="#">Design</a></li>
+                        <li><a href="#">Business</a></li>
+                        <li><a href="#">Career</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Write for Us</a></li>
+                        <li><a href="#">Newsletter</a></li>
+                        <li><a href="#">RSS Feed</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">Sitemap</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Tech Insights. All rights reserved.</p>
+                <p>Made with <i class="fas fa-heart"></i> by developers, for developers.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="blog.js"></script>
+</body>
+</html>
