@@ -472,7 +472,7 @@
         
         <!-- Loading Elements Section -->
         <section class="section scroll-reveal">
-            <h2 class="section-title">Loading Elements</h2>
+            <h2 class="section-title">⏳ Loading Elements</h2>
             <div class="grid grid-3">
                 <div class="demo-item">
                     <div class="loading-dots">
@@ -494,6 +494,42 @@
                     <div class="animate-shimmer" style="width: 100px; height: 20px; border-radius: 10px;"></div>
                     <h4>Shimmer Loading</h4>
                     <div class="code-snippet">animate-shimmer</div>
+                </div>
+                
+                <div class="demo-item">
+                    <!-- Worm Animation -->
+                    <div class="pl_worm" style="--hue: 220;">
+                        <svg viewBox="0 0 128 128" width="128" height="128">
+                            <circle class="pl_ring" cx="64" cy="64" r="60"></circle>
+                            <circle class="pl__worm" cx="64" cy="64" r="60"></circle>
+                        </svg>
+                    </div>
+                    <h4>Worm Loader</h4>
+                    <div class="code-snippet">pl_worm</div>
+                </div>
+                
+                <div class="demo-item">
+                    <!-- Pink Worm with Glow -->
+                    <div class="pl_worm pl_worm--fast" style="--hue: 320;">
+                        <svg viewBox="0 0 128 128" width="128" height="128">
+                            <circle class="pl_ring" cx="64" cy="64" r="60"></circle>
+                            <circle class="pl__worm pl__worm--pink pl__worm--glow" cx="64" cy="64" r="60"></circle>
+                        </svg>
+                    </div>
+                    <h4>Fast Pink Worm</h4>
+                    <div class="code-snippet">pl_worm--fast pl__worm--pink</div>
+                </div>
+                
+                <div class="demo-item">
+                    <!-- Green Worm -->
+                    <div class="pl_worm pl_worm--slow" style="--hue: 120;">
+                        <svg viewBox="0 0 128 128" width="128" height="128">
+                            <circle class="pl_ring" cx="64" cy="64" r="60"></circle>
+                            <circle class="pl__worm pl__worm--green" cx="64" cy="64" r="60"></circle>
+                        </svg>
+                    </div>
+                    <h4>Slow Green Worm</h4>
+                    <div class="code-snippet">pl_worm--slow pl__worm--green</div>
                 </div>
             </div>
         </section>

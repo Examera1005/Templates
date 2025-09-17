@@ -297,6 +297,46 @@
   75% { transform: rotate(-20deg); }
 }
 
+/* Worm Animation - SVG Loading Spinner */
+@keyframes worm {
+  from { 
+    stroke-dashoffset: 10; 
+    transform: rotate(0deg); 
+  } 
+  25% { 
+    stroke-dashoffset: 295; 
+    transform: rotate(90deg); 
+  } 
+  50% {
+    stroke-dashoffset: 590;
+    transform: rotate(180deg);
+  }
+  75% {
+    stroke-dashoffset: 885;
+    transform: rotate(270deg);
+  }
+  to { 
+    stroke-dashoffset: 1165; 
+    transform: rotate(360deg);
+  }
+}
+
+/* Bump Animation - For container movement */
+@keyframes bump {
+  0%, 100% { 
+    transform: scale(1) translateY(0px); 
+  }
+  25% { 
+    transform: scale(1.05) translateY(-2px); 
+  }
+  50% { 
+    transform: scale(1.1) translateY(-4px); 
+  }
+  75% { 
+    transform: scale(1.05) translateY(-2px); 
+  }
+}
+
 /* Gradient Animation */
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
@@ -785,11 +825,100 @@
 }
 
 /* ==========================================================================
-   LOADING ANIMATIONS
+   WORM LOADING ANIMATION - SVG BASED
    ========================================================================== */
 
-.loading-dots {
+/* Main worm loader container */
+.pl_worm {
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-name: bump;
+  animation-timing-function: linear;
+  width: 8em;
+  height: 8em;
+  position: relative;
   display: inline-block;
+}
+
+/* Ring background for the worm */
+.pl_ring {
+  stroke: hsla(var(--hue, 220), 10%, 10%, 0.1);
+  stroke-width: 8;
+  fill: none;
+  transition: stroke 0.3s ease;
+}
+
+/* Dark theme ring */
+[data-theme="dark"] .pl_ring,
+.dark-theme .pl_ring {
+  stroke: hsla(var(--hue, 220), 20%, 80%, 0.1);
+}
+
+/* The animated worm path */
+.pl__worm {
+  animation-name: worm;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.42, 0.17, 0.75, 0.83);
+  stroke: var(--neon-blue);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 10 300;
+  stroke-dashoffset: 10;
+  fill: none;
+  filter: drop-shadow(0 0 10px currentColor);
+}
+
+/* Worm color variants */
+.pl__worm--pink {
+  stroke: var(--neon-pink);
+}
+
+.pl__worm--green {
+  stroke: var(--neon-green);
+}
+
+.pl__worm--purple {
+  stroke: var(--neon-purple);
+}
+
+.pl__worm--orange {
+  stroke: var(--neon-orange);
+}
+
+/* Enhanced worm with glow effect */
+.pl__worm--glow {
+  filter: drop-shadow(0 0 15px currentColor) drop-shadow(0 0 30px currentColor);
+}
+
+/* Faster worm animation */
+.pl_worm--fast {
+  animation-duration: 1.5s;
+}
+
+.pl_worm--fast .pl__worm {
+  animation-duration: 1.5s;
+}
+
+/* Slower worm animation */
+.pl_worm--slow {
+  animation-duration: 5s;
+}
+
+.pl_worm--slow .pl__worm {
+  animation-duration: 5s;
+}
+
+/* Large worm */
+.pl_worm--large {
+  width: 12em;
+  height: 12em;
+}
+
+/* Small worm */
+.pl_worm--small {
+  width: 4em;
+  height: 4em;
 }
 
 .loading-dots span {
@@ -1317,17 +1446,34 @@
   <span class="text-gradient">Gradient Text</span>
   <span class="text-neon-blue">Neon Blue Text</span>
   
-  🎯 ANIMATIONS:
-  .animate-float        - Gentle floating motion
-  .animate-pulse-custom - Rhythmic scaling
-  .animate-glow         - Glowing effect
-  .animate-shimmer      - Loading shimmer
-  .animate-bounce-in    - Bounce entrance
-  .animate-fade-in-up   - Fade in from bottom
-  .animate-slide-in-left/right - Slide entrances
-  .animate-rotate       - Continuous rotation
-  .animate-shake        - Shake effect
-  .animate-wave         - Wave motion
+  ⏳ LOADING ANIMATIONS:
+  .loading-dots         - Three bouncing dots
+  .loading-spinner      - Rotating CSS spinner
+  .animate-shimmer      - Shimmer loading effect
+  .pl_worm              - SVG worm loader (requires SVG structure)
+  .pl_worm--fast        - Faster worm animation (1.5s)
+  .pl_worm--slow        - Slower worm animation (5s)
+  .pl_worm--large       - Large worm (12em)
+  .pl_worm--small       - Small worm (4em)
+  .pl__worm--pink       - Pink colored worm
+  .pl__worm--green      - Green colored worm
+  .pl__worm--purple     - Purple colored worm
+  .pl__worm--glow       - Enhanced glow effect
+  
+  🐛 WORM LOADER HTML STRUCTURE:
+  <div class="pl_worm" style="--hue: 220;">
+    <svg viewBox="0 0 128 128" width="128" height="128">
+      <circle class="pl_ring" cx="64" cy="64" r="60"></circle>
+      <circle class="pl__worm pl__worm--pink" cx="64" cy="64" r="60"></circle>
+    </svg>
+  </div>
+  
+  🎨 WORM CUSTOMIZATION:
+  Change --hue CSS variable (0-360) to adjust ring background color:
+  --hue: 0    (red background)
+  --hue: 120  (green background) 
+  --hue: 240  (blue background)
+  --hue: 300  (purple background)
   
   🎮 HOVER EFFECTS:
   .hover-lift          - Lift on hover
