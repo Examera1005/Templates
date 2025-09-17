@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Component Demo</title>
+    <link rel="stylesheet" href="cards.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            background: #f8fafc;
+            line-height: 1.6;
+        }
+
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .demo-section {
+            margin-bottom: 60px;
+        }
+
+        .demo-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 16px;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 8px;
+        }
+
+        .demo-subtitle {
+            font-size: 18px;
+            font-weight: 600;
+            color: #374151;
+            margin: 32px 0 16px 0;
+        }
+
+        .demo-description {
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .demo-grid.single {
+            grid-template-columns: 1fr;
+            max-width: 400px;
+        }
+
+        .demo-grid.two {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .demo-grid.three {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .control-group {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .control-label {
+            font-weight: 500;
+            color: #374151;
+            min-width: 120px;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            background: #3b82f6;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #2563eb;
+        }
+
+        button.secondary {
+            background: #6b7280;
+        }
+
+        button.secondary:hover {
+            background: #4b5563;
+        }
+
+        select {
+            padding: 6px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            background: white;
+        }
+
+        .code-preview {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+
+        .stats-demo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .testimonial-demo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        #event-log {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 16px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+            margin-top: 16px;
+        }
+
+        .log-entry {
+            margin-bottom: 4px;
+            padding: 2px 0;
+        }
+
+        .log-entry.info { color: #3b82f6; }
+        .log-entry.success { color: #10b981; }
+        .log-entry.warning { color: #f59e0b; }
+        .log-entry.error { color: #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1 class="demo-title">Card Component System Demo</h1>
+        <p class="demo-description">
+            A comprehensive card system with multiple types, layouts, and interactive features.
+            All components are built with pure CSS and JavaScript for maximum compatibility.
+        </p>
+
+        <!-- Basic Cards -->
+        <div class="demo-section">
+            <h2 class="demo-title">Basic Cards</h2>
+            
+            <h3 class="demo-subtitle">Card Variants</h3>
+            <div class="demo-grid">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Default Card</h3>
+                        <p class="card-text">This is a basic card with default styling and hover effects.</p>
+                    </div>
+                </div>
+
+                <div class="card flat">
+                    <div class="card-body">
+                        <h3 class="card-title">Flat Card</h3>
+                        <p class="card-text">A flat card without shadow, using border instead.</p>
+                    </div>
+                </div>
+
+                <div class="card elevated">
+                    <div class="card-body">
+                        <h3 class="card-title">Elevated Card</h3>
+                        <p class="card-text">An elevated card with enhanced shadow and hover effects.</p>
+                    </div>
+                </div>
+
+                <div class="card bordered">
+                    <div class="card-body">
+                        <h3 class="card-title">Bordered Card</h3>
+                        <p class="card-text">A card with a prominent border styling.</p>
+                    </div>
+                </div>
+
+                <div class="card gradient">
+                    <div class="card-body">
+                        <h3 class="card-title">Gradient Card</h3>
+                        <p class="card-text">A card with gradient background and white text.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="demo-subtitle">Card Sizes</h3>
+            <div class="demo-grid">
+                <div class="card sm">
+                    <div class="card-body compact">
+                        <h3 class="card-title sm">Small Card</h3>
+                        <p class="card-text">Compact size for tight layouts.</p>
+                    </div>
+                </div>
+
+                <div class="card md">
+                    <div class="card-body">
+                        <h3 class="card-title">Medium Card</h3>
+                        <p class="card-text">Default medium size for general use.</p>
+                    </div>
+                </div>
+
+                <div class="card lg">
+                    <div class="card-body">
+                        <h3 class="card-title lg">Large Card</h3>
+                        <p class="card-text">Larger size for featured content or detailed information display.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cards with Images -->
+        <div class="demo-section">
+            <h2 class="demo-title">Cards with Images</h2>
+            
+            <div class="demo-grid">
+                <div class="card">
+                    <img src="https://picsum.photos/400/200?random=1" alt="Random image" class="card-image">
+                    <div class="card-body">
+                        <h3 class="card-title">Image Card</h3>
+                        <p class="card-text">A card with a beautiful header image and content below.</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="card-btn primary">Learn More</button>
+                        <button class="card-btn secondary">Share</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image-container">
+                        <img src="https://picsum.photos/400/200?random=2" alt="Random image" class="card-image">
+                        <div class="card-image-overlay">
+                            <div>
+                                <h3 class="card-title">Overlay Card</h3>
+                                <p class="card-text">Text overlay on image with gradient background.</p>
+                            </div>
+                        </div>
+                        <div class="card-badge success">Featured</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <img src="https://picsum.photos/48/48?random=3" alt="Avatar" class="card-avatar">
+                        <div class="card-meta">
+                            <h3 class="card-title">Profile Card</h3>
+                            <p class="card-subtitle">Software Developer</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="card-btn ghost sm">Follow</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Passionate about creating beautiful and functional user interfaces.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Cards -->
+        <div class="demo-section">
+            <h2 class="demo-title">Profile Cards</h2>
+            
+            <div class="demo-grid">
+                <div class="card card-profile">
+                    <div class="card-body">
+                        <img src="https://picsum.photos/80/80?random=4" alt="Profile" class="card-avatar">
+                        <h3 class="card-title">Sarah Johnson</h3>
+                        <p class="card-subtitle">UX Designer</p>
+                        <p class="card-text">Creative designer with 5+ years of experience in user-centered design.</p>
+                        <div class="card-stats">
+                            <div class="card-stat">
+                                <div class="card-stat-value">156</div>
+                                <div class="card-stat-label">Projects</div>
+                            </div>
+                            <div class="card-stat">
+                                <div class="card-stat-value">2.4k</div>
+                                <div class="card-stat-label">Followers</div>
+                            </div>
+                            <div class="card-stat">
+                                <div class="card-stat-value">94%</div>
+                                <div class="card-stat-label">Success Rate</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="card-btn primary">Follow</button>
+                        <button class="card-btn outline">Message</button>
+                    </div>
+                </div>
+
+                <div class="card card-profile">
+                    <div class="card-body">
+                        <img src="https://picsum.photos/80/80?random=5" alt="Profile" class="card-avatar">
+                        <h3 class="card-title">Michael Chen</h3>
+                        <p class="card-subtitle">Full Stack Developer</p>
+                        <p class="card-text">Building scalable web applications with modern technologies.</p>
+                        <div class="card-stats">
+                            <div class="card-stat">
+                                <div class="card-stat-value">89</div>
+                                <div class="card-stat-label">Repositories</div>
+                            </div>
+                            <div class="card-stat">
+                                <div class="card-stat-value">1.2k</div>
+                                <div class="card-stat-label">Stars</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="card-btn primary">Connect</button>
+                        <button class="card-btn outline">Portfolio</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pricing Cards -->
+        <div class="demo-section">
+            <h2 class="demo-title">Pricing Cards</h2>
+            
+            <div class="demo-grid three">
+                <div class="card card-pricing">
+                    <div class="card-body">
+                        <h3 class="card-title">Starter</h3>
+                        <div class="card-pricing-price">
+                            $9
+                            <span class="card-pricing-period">/month</span>
+                        </div>
+                        <p class="card-text">Perfect for individuals and small projects.</p>
+                        <ul class="card-list">
+                            <li class="card-list-item">
+                                <span class="card-list-item-icon">✓</span>
+                                <div class="card-list-item-content">
+                                    <div class="card-list-item-title">5 Projects</div>
+                                </div>
+                            </li>
+                            <li class="card-list-item">
+                                <span class="card-list-item-icon">✓</span>
+                                <div class="card-list-item-content">
+                                    <div class="card-list-item-title">10GB Storage</div>
+                                </div>
+                            </li>
+                            <li class="card-list-item">
+                                <span class="card-list-item-icon">✓</span>
+                                <div class="card-list-item-content">
+                                    <div class="card-list-item-title">Email Support</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <button class="card-btn outline">Choose Plan</button>
+                    </div>
+                </div>
+
+                <div class="card card-pricing featured">
+                    <div class="card-pricing-badge">Most Popular</div>
+                    <div class="card-body">
+                        <h3 class="card-title">Professional</h3>
+                        <div class="card-pricing-price">
+                            $29
+                            <span class="card-pricing-period">/month</span>
+                        </div>
+                        <p class="card-text">Ideal for growing teams and businesses.</p>
+                        <ul class="card-list">
+                            <li class="card-list-item">
+                                <span class="card-list-item-icon">✓</span>
+                                <div class="card-list-item-content">
+                                    <div class="card-list-item-title">Unlimited Projects</div>
+                                </div>
+                            </li>
+                            <li class="card-list-item">
+                                <span class="card-list-item-icon">✓</span>
+                                <div class="card-list-item-content">
+                                    <div class="card-list-item-title">100GB Storage</div>
+                                </div>
+                            </li>
+                            <li class="card-list-item">
+                                <span class="card-list-item-icon">✓</span>
+                                <div class="card-list-item-content">
+                                    <div class="card-list-item-title">Priority Support</div>
+                                </div>
+                            </li>
+                            <li class="card-list-item">
+                                <span class="card-list-item-icon">✓</span>
+                                <div class="card-list-item-content">
+                                    <div class="card-list-item-title">Advanced Analytics</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <button class="card-btn primary">Choose Plan</button>
+                    </div>
+                </div>
+
+                <div class="card card-pricing">
+                    <div class="card-body">
+                        <h3 class="card-title">Enterprise</h3>
+                        <div class="card-pricing-price">
+                            $99
+                            <span class="card-pricing-period">/month</span>
+                        </div>
+                        <p class="card-text">For large organizations with custom needs.</p>
+                        <ul class="card-list">
+                            <li class="card-list-item">
+                                <span class="card-list-item-icon">✓</span>
+                                <div class="card-list-item-content">
+                                    <div class="card-list-item-title">Everything in Pro</div>
+                                </div>
+                            </li>
+                            <li class="card-list-item">
+                                <span class="card-list-item-icon">✓</span>
+                                <div class="card-list-item-content">
+                                    <div class="card-list-item-title">1TB Storage</div>
+                                </div>
+                            </li>
+                            <li class="card-list-item">
+                                <span class="card-list-item-icon">✓</span>
+                                <div class="card-list-item-content">
+                                    <div class="card-list-item-title">24/7 Phone Support</div>
+                                </div>
+                            </li>
+                            <li class="card-list-item">
+                                <span class="card-list-item-icon">✓</span>
+                                <div class="card-list-item-content">
+                                    <div class="card-list-item-title">Custom Integrations</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <button class="card-btn outline">Contact Sales</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonial Cards -->
+        <div class="demo-section">
+            <h2 class="demo-title">Testimonial Cards</h2>
+            
+            <div class="testimonial-demo">
+                <div class="card card-testimonial">
+                    <div class="card-body">
+                        <p class="card-text">This product has completely transformed our workflow. The team's productivity has increased by 40% since implementation.</p>
+                    </div>
+                    <div class="card-footer">
+                        <img src="https://picsum.photos/32/32?random=6" alt="Testimonial" class="card-avatar sm">
+                        <div>
+                            <div class="card-title sm">Emily Rodriguez</div>
+                            <div class="card-subtitle">Project Manager at TechCorp</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-testimonial">
+                    <div class="card-body">
+                        <p class="card-text">Exceptional customer service and a product that delivers on its promises. Highly recommended for any growing business.</p>
+                    </div>
+                    <div class="card-footer">
+                        <img src="https://picsum.photos/32/32?random=7" alt="Testimonial" class="card-avatar sm">
+                        <div>
+                            <div class="card-title sm">David Kim</div>
+                            <div class="card-subtitle">CEO at StartupXYZ</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="demo-section">
+            <h2 class="demo-title">Stats Cards</h2>
+            
+            <div class="stats-demo">
+                <div class="card">
+                    <div class="card-stats">
+                        <div class="card-stat">
+                            <div class="card-stat-value">$24,500</div>
+                            <div class="card-stat-label">Revenue</div>
+                            <div class="card-stat-change positive">+12.5%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-stats">
+                        <div class="card-stat">
+                            <div class="card-stat-value">1,234</div>
+                            <div class="card-stat-label">Users</div>
+                            <div class="card-stat-change positive">+8.2%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-stats">
+                        <div class="card-stat">
+                            <div class="card-stat-value">98.5%</div>
+                            <div class="card-stat-label">Uptime</div>
+                            <div class="card-stat-change negative">-0.1%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-stats">
+                        <div class="card-stat">
+                            <div class="card-stat-value">456</div>
+                            <div class="card-stat-label">Orders</div>
+                            <div class="card-stat-change positive">+15.3%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Demo -->
+        <div class="demo-section">
+            <h2 class="demo-title">Interactive Demo</h2>
+            <p class="demo-description">Test the interactive features of the card component system.</p>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <span class="control-label">Actions:</span>
+                    <button onclick="testLoadingState()">Show Loading</button>
+                    <button onclick="testSkeletonState()">Show Skeleton</button>
+                    <button onclick="testAnimations()">Test Animations</button>
+                    <button onclick="clearStates()">Reset</button>
+                </div>
+                <div class="control-group">
+                    <span class="control-label">Builder Demo:</span>
+                    <button onclick="createDynamicCard()">Create Random Card</button>
+                    <button onclick="clearDynamicCards()">Clear Cards</button>
+                </div>
+            </div>
+
+            <div class="demo-grid" id="interactive-demo">
+                <div class="card clickable" id="demo-card-1">
+                    <div class="card-header">
+                        <img src="https://picsum.photos/48/48?random=8" alt="Demo" class="card-avatar">
+                        <div class="card-meta">
+                            <h3 class="card-title">Interactive Card</h3>
+                            <p class="card-subtitle">Click me or use buttons above</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">This card demonstrates interactive features like loading states, animations, and event handling.</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="card-btn primary" data-action="like">Like</button>
+                        <button class="card-btn secondary" data-action="share">Share</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dynamic-cards-container" class="demo-grid"></div>
+
+            <div>
+                <h4>Event Log:</h4>
+                <div id="event-log"></div>
+            </div>
+        </div>
+
+        <!-- Card Builder Example -->
+        <div class="demo-section">
+            <h2 class="demo-title">Programmatic Card Creation</h2>
+            <p class="demo-description">Example of creating cards programmatically using the CardBuilder.</p>
+            
+            <div class="code-preview">
+                <pre><code>// Create a profile card
+const profileCard = CardBuilder.create()
+  .type('profile')
+  .title('John Doe')
+  .subtitle('Software Engineer')
+  .text('Passionate about creating amazing user experiences')
+  .avatar('avatar.jpg', 'John Doe')
+  .stats([
+    { value: '50+', label: 'Projects' },
+    { value: '5', label: 'Years Exp' }
+  ])
+  .actions([
+    { text: 'Connect', variant: 'primary', action: 'connect' },
+    { text: 'Message', variant: 'outline', action: 'message' }
+  ])
+  .build();
+
+// Create a pricing card
+const pricingCard = CardBuilder.create()
+  .type('pricing')
+  .title('Pro Plan')
+  .price(29, 'month')
+  .featured('Popular')
+  .list(['Unlimited projects', '100GB storage', 'Priority support'])
+  .actions([{ text: 'Choose Plan', variant: 'primary' }])
+  .build();</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script src="cards.js"></script>
+    <script>
+        // Initialize interactive demo
+        const demoCard = new Card('#demo-card-1', {
+            clickable: true,
+            animations: true
+        });
+
+        let eventCount = 0;
+        const eventLog = document.getElementById('event-log');
+
+        function logEvent(message, type = 'info') {
+            eventCount++;
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = `[${eventCount}] ${new Date().toLocaleTimeString()}: ${message}`;
+            eventLog.appendChild(entry);
+            eventLog.scrollTop = eventLog.scrollHeight;
+        }
+
+        // Event listeners
+        demoCard.on('click', (data) => {
+            logEvent('Card clicked!', 'info');
+        });
+
+        demoCard.on('action', (data) => {
+            logEvent(`Action triggered: ${data.action}`, 'success');
+            
+            if (data.action === 'like') {
+                demoCard.pulse();
+            } else if (data.action === 'share') {
+                logEvent('Share functionality would be implemented here', 'info');
+            }
+        });
+
+        // Demo functions
+        function testLoadingState() {
+            demoCard.showLoading();
+            logEvent('Loading state activated', 'info');
+            
+            setTimeout(() => {
+                demoCard.hideLoading();
+                logEvent('Loading state cleared', 'success');
+            }, 3000);
+        }
+
+        function testSkeletonState() {
+            demoCard.showSkeleton();
+            logEvent('Skeleton state activated', 'info');
+            
+            setTimeout(() => {
+                demoCard.hideSkeleton();
+                logEvent('Skeleton state cleared', 'success');
+            }, 3000);
+        }
+
+        function testAnimations() {
+            demoCard.shake();
+            logEvent('Shake animation triggered', 'info');
+            
+            setTimeout(() => {
+                demoCard.pulse();
+                logEvent('Pulse animation triggered', 'info');
+            }, 600);
+        }
+
+        function clearStates() {
+            demoCard.hideLoading();
+            demoCard.hideSkeleton();
+            logEvent('All states cleared', 'success');
+        }
+
+        // Dynamic card creation
+        const dynamicContainer = document.getElementById('dynamic-cards-container');
+        let cardCount = 0;
+
+        function createDynamicCard() {
+            cardCount++;
+            const cardTypes = ['basic', 'profile', 'pricing', 'testimonial'];
+            const variants = ['default', 'flat', 'elevated', 'bordered'];
+            const sizes = ['sm', 'md', 'lg'];
+            
+            const randomType = cardTypes[Math.floor(Math.random() * cardTypes.length)];
+            const randomVariant = variants[Math.floor(Math.random() * variants.length)];
+            const randomSize = sizes[Math.floor(Math.random() * sizes.length)];
+            
+            let cardElement;
+            
+            switch (randomType) {
+                case 'profile':
+                    cardElement = CardBuilder.create()
+                        .type('profile')
+                        .variant(randomVariant)
+                        .size(randomSize)
+                        .title(`User ${cardCount}`)
+                        .subtitle('Random Role')
+                        .text('Dynamically generated profile card with random properties.')
+                        .avatar(`https://picsum.photos/80/80?random=${Date.now()}`)
+                        .stats([
+                            { value: Math.floor(Math.random() * 100), label: 'Score' },
+                            { value: Math.floor(Math.random() * 50), label: 'Items' }
+                        ])
+                        .actions([
+                            { text: 'Connect', variant: 'primary', action: 'connect' }
+                        ])
+                        .build();
+                    break;
+                    
+                case 'pricing':
+                    cardElement = CardBuilder.create()
+                        .type('pricing')
+                        .variant(randomVariant)
+                        .size(randomSize)
+                        .title(`Plan ${cardCount}`)
+                        .price(Math.floor(Math.random() * 100) + 9, 'month')
+                        .list(['Feature 1', 'Feature 2', 'Feature 3'])
+                        .actions([
+                            { text: 'Choose Plan', variant: 'primary' }
+                        ])
+                        .build();
+                    break;
+                    
+                case 'testimonial':
+                    cardElement = CardBuilder.create()
+                        .type('testimonial')
+                        .variant(randomVariant)
+                        .size(randomSize)
+                        .text('This is a randomly generated testimonial card to demonstrate the builder capabilities.')
+                        .title(`Reviewer ${cardCount}`)
+                        .subtitle('Happy Customer')
+                        .avatar(`https://picsum.photos/32/32?random=${Date.now()}`)
+                        .build();
+                    break;
+                    
+                default:
+                    cardElement = CardBuilder.create()
+                        .variant(randomVariant)
+                        .size(randomSize)
+                        .title(`Dynamic Card ${cardCount}`)
+                        .text('This card was created dynamically using the CardBuilder.')
+                        .image(`https://picsum.photos/400/200?random=${Date.now()}`)
+                        .actions([
+                            { text: 'Action', variant: 'primary', action: 'dynamic' }
+                        ])
+                        .build();
+            }
+            
+            dynamicContainer.appendChild(cardElement);
+            
+            // Make it interactive
+            const card = new Card(cardElement, { clickable: true });
+            card.on('action', (data) => {
+                logEvent(`Dynamic card action: ${data.action}`, 'success');
+            });
+            
+            logEvent(`Created ${randomType} card with ${randomVariant} variant and ${randomSize} size`, 'success');
+        }
+
+        function clearDynamicCards() {
+            dynamicContainer.innerHTML = '';
+            cardCount = 0;
+            logEvent('All dynamic cards cleared', 'info');
+        }
+
+        // Initialize log
+        logEvent('Card demo initialized', 'success');
+    </script>
+</body>
+</html>

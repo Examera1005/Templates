@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Components Demo</title>
+    <link rel="stylesheet" href="forms.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px;
+            background: #f8fafc;
+        }
+
+        .demo-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #1f2937;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+
+        .demo-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .demo-header {
+            background: #f8fafc;
+            padding: 24px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .demo-title {
+            margin: 0 0 8px 0;
+            color: #374151;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .demo-description {
+            margin: 0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .demo-content {
+            padding: 24px;
+        }
+
+        .success-message {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #15803d;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            display: none;
+        }
+
+        /* Custom validation example styles */
+        .password-strength {
+            margin-top: 8px;
+        }
+
+        .strength-bar {
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .strength-fill {
+            height: 100%;
+            transition: all 0.3s;
+            border-radius: 2px;
+        }
+
+        .strength-text {
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .strength-weak .strength-fill {
+            width: 25%;
+            background: #ef4444;
+        }
+
+        .strength-fair .strength-fill {
+            width: 50%;
+            background: #f59e0b;
+        }
+
+        .strength-good .strength-fill {
+            width: 75%;
+            background: #3b82f6;
+        }
+
+        .strength-strong .strength-fill {
+            width: 100%;
+            background: #10b981;
+        }
+
+        @media (max-width: 1200px) {
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 16px;
+            }
+            
+            .demo-content {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>Form Components</h1>
+        <p class="subtitle">Comprehensive form system with validation, multi-step support, and accessibility</p>
+
+        <div class="demo-grid">
+            <!-- Basic Form -->
+            <div class="demo-section">
+                <div class="demo-header">
+                    <h3 class="demo-title">Basic Form with Validation</h3>
+                    <p class="demo-description">Standard contact form with real-time validation</p>
+                </div>
+                <div class="demo-content">
+                    <form class="form" data-validate='{"validateOnBlur": true, "validateOnInput": true}'>
+                        <div class="form-header">
+                            <h3 class="form-title">Contact Us</h3>
+                            <p class="form-subtitle">We'd love to hear from you</p>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label required">First Name</label>
+                                <input type="text" name="firstName" class="form-input" placeholder="John" data-validate="required|minLength:2">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Last Name</label>
+                                <input type="text" name="lastName" class="form-input" placeholder="Doe" data-validate="required|minLength:2">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required">Email Address</label>
+                            <div class="form-input-group">
+                                <span class="form-input-icon left">📧</span>
+                                <input type="email" name="email" class="form-input" placeholder="john@example.com" data-validate="required|email">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" name="phone" class="form-input" placeholder="+1 (555) 123-4567" data-validate="pattern:^[\+]?[1-9][\d]{0,15}$">
+                            <div class="form-help">Optional - Include country code if international</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required">Message</label>
+                            <textarea name="message" class="form-textarea" placeholder="Tell us how we can help you..." data-validate="required|minLength:10|maxLength:500"></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="reset" class="form-btn outline">Clear</button>
+                            <button type="submit" class="form-btn primary">Send Message</button>
+                        </div>
+
+                        <div class="success-message" id="contact-success">
+                            Message sent successfully! We'll get back to you soon.
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Registration Form -->
+            <div class="demo-section">
+                <div class="demo-header">
+                    <h3 class="demo-title">User Registration</h3>
+                    <p class="demo-description">Advanced form with custom validation and password strength</p>
+                </div>
+                <div class="demo-content">
+                    <form class="form" data-validate='{"validateOnBlur": true}'>
+                        <div class="form-header">
+                            <h3 class="form-title">Create Account</h3>
+                            <p class="form-subtitle">Join our community today</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required">Username</label>
+                            <input type="text" name="username" class="form-input" placeholder="johndoe" data-validate="required|minLength:3|maxLength:20|pattern:^[a-zA-Z0-9_]+$">
+                            <div class="form-help">3-20 characters, letters, numbers, and underscores only</div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label required">Email</label>
+                                <input type="email" name="email" class="form-input" placeholder="john@example.com" data-validate="required|email">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Date of Birth</label>
+                                <input type="date" name="birthdate" class="form-input">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required">Password</label>
+                            <input type="password" name="password" class="form-input" placeholder="Enter a strong password" data-validate="required|minLength:8" id="password-input">
+                            <div class="password-strength" id="password-strength">
+                                <div class="strength-bar">
+                                    <div class="strength-fill"></div>
+                                </div>
+                                <div class="strength-text">Password strength: <span id="strength-level">Enter password</span></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required">Confirm Password</label>
+                            <input type="password" name="confirmPassword" class="form-input" placeholder="Confirm your password" data-validate="required|confirm:password" data-confirm="password">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Country</label>
+                            <select name="country" class="form-select">
+                                <option value="">Select your country</option>
+                                <option value="us">United States</option>
+                                <option value="ca">Canada</option>
+                                <option value="uk">United Kingdom</option>
+                                <option value="au">Australia</option>
+                                <option value="de">Germany</option>
+                                <option value="fr">France</option>
+                                <option value="jp">Japan</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-checkbox-group">
+                                <div class="form-checkbox">
+                                    <input type="checkbox" name="terms" id="terms" data-validate="required">
+                                    <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                                </div>
+                                <div class="form-checkbox">
+                                    <input type="checkbox" name="newsletter" id="newsletter">
+                                    <label for="newsletter">Subscribe to our newsletter for updates</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="form-btn primary">Create Account</button>
+                        </div>
+
+                        <div class="success-message" id="register-success">
+                            Account created successfully! Please check your email to verify your account.
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Multi-Step Form -->
+            <div class="demo-section">
+                <div class="demo-header">
+                    <h3 class="demo-title">Multi-Step Survey</h3>
+                    <p class="demo-description">Progressive form with navigation and progress tracking</p>
+                </div>
+                <div class="demo-content">
+                    <form class="form" data-multistep='{"showProgress": true, "validateOnNext": true}'>
+                        <div class="form-header">
+                            <h3 class="form-title">Customer Survey</h3>
+                            <p class="form-subtitle">Help us improve our services</p>
+                        </div>
+
+                        <div class="form-steps">
+                            <div class="form-step active" data-step="0">
+                                <div class="form-step-circle">1</div>
+                                <div class="form-step-label">Personal Info</div>
+                            </div>
+                            <div class="form-step" data-step="1">
+                                <div class="form-step-circle">2</div>
+                                <div class="form-step-label">Preferences</div>
+                            </div>
+                            <div class="form-step" data-step="2">
+                                <div class="form-step-circle">3</div>
+                                <div class="form-step-label">Feedback</div>
+                            </div>
+                        </div>
+
+                        <!-- Step 1: Personal Information -->
+                        <div class="form-step-content">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label required">First Name</label>
+                                    <input type="text" name="firstName" class="form-input" data-validate="required">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label required">Last Name</label>
+                                    <input type="text" name="lastName" class="form-input" data-validate="required">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label required">Email</label>
+                                <input type="email" name="email" class="form-input" data-validate="required|email">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Age Group</label>
+                                <div class="form-radio-group inline">
+                                    <div class="form-radio">
+                                        <input type="radio" name="ageGroup" value="18-25" id="age1">
+                                        <label for="age1">18-25</label>
+                                    </div>
+                                    <div class="form-radio">
+                                        <input type="radio" name="ageGroup" value="26-35" id="age2">
+                                        <label for="age2">26-35</label>
+                                    </div>
+                                    <div class="form-radio">
+                                        <input type="radio" name="ageGroup" value="36-50" id="age3">
+                                        <label for="age3">36-50</label>
+                                    </div>
+                                    <div class="form-radio">
+                                        <input type="radio" name="ageGroup" value="50+" id="age4">
+                                        <label for="age4">50+</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" class="form-btn primary form-next">Next Step</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Preferences -->
+                        <div class="form-step-content">
+                            <div class="form-group">
+                                <label class="form-label">How did you hear about us?</label>
+                                <select name="referral" class="form-select">
+                                    <option value="">Please select...</option>
+                                    <option value="search">Search Engine</option>
+                                    <option value="social">Social Media</option>
+                                    <option value="friend">Friend/Family</option>
+                                    <option value="ad">Advertisement</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Which services are you interested in?</label>
+                                <div class="form-checkbox-group">
+                                    <div class="form-checkbox">
+                                        <input type="checkbox" name="services" value="web-design" id="service1">
+                                        <label for="service1">Web Design</label>
+                                    </div>
+                                    <div class="form-checkbox">
+                                        <input type="checkbox" name="services" value="development" id="service2">
+                                        <label for="service2">Development</label>
+                                    </div>
+                                    <div class="form-checkbox">
+                                        <input type="checkbox" name="services" value="marketing" id="service3">
+                                        <label for="service3">Digital Marketing</label>
+                                    </div>
+                                    <div class="form-checkbox">
+                                        <input type="checkbox" name="services" value="consulting" id="service4">
+                                        <label for="service4">Consulting</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Preferred Contact Method</label>
+                                <div class="form-radio-group">
+                                    <div class="form-radio">
+                                        <input type="radio" name="contactMethod" value="email" id="contact1">
+                                        <label for="contact1">Email</label>
+                                    </div>
+                                    <div class="form-radio">
+                                        <input type="radio" name="contactMethod" value="phone" id="contact2">
+                                        <label for="contact2">Phone</label>
+                                    </div>
+                                    <div class="form-radio">
+                                        <input type="radio" name="contactMethod" value="text" id="contact3">
+                                        <label for="contact3">Text Message</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-actions between">
+                                <button type="button" class="form-btn outline form-prev">Previous</button>
+                                <button type="button" class="form-btn primary form-next">Next Step</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Feedback -->
+                        <div class="form-step-content">
+                            <div class="form-group">
+                                <label class="form-label">Overall experience rating</label>
+                                <div class="form-radio-group inline">
+                                    <div class="form-radio">
+                                        <input type="radio" name="rating" value="1" id="rating1">
+                                        <label for="rating1">⭐</label>
+                                    </div>
+                                    <div class="form-radio">
+                                        <input type="radio" name="rating" value="2" id="rating2">
+                                        <label for="rating2">⭐⭐</label>
+                                    </div>
+                                    <div class="form-radio">
+                                        <input type="radio" name="rating" value="3" id="rating3">
+                                        <label for="rating3">⭐⭐⭐</label>
+                                    </div>
+                                    <div class="form-radio">
+                                        <input type="radio" name="rating" value="4" id="rating4">
+                                        <label for="rating4">⭐⭐⭐⭐</label>
+                                    </div>
+                                    <div class="form-radio">
+                                        <input type="radio" name="rating" value="5" id="rating5">
+                                        <label for="rating5">⭐⭐⭐⭐⭐</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Additional Comments</label>
+                                <textarea name="comments" class="form-textarea" placeholder="Tell us what you think..." rows="4"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Upload a file (optional)</label>
+                                <div class="form-file">
+                                    <input type="file" name="attachment" accept=".pdf,.doc,.docx,.txt,.jpg,.png">
+                                    <div class="form-file-label">
+                                        <div class="form-file-icon">📎</div>
+                                        <div class="form-file-text">
+                                            <div class="form-file-main">Click to upload or drag and drop</div>
+                                            <div class="form-file-sub">PDF, DOC, TXT, or images up to 10MB</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-actions between">
+                                <button type="button" class="form-btn outline form-prev">Previous</button>
+                                <button type="submit" class="form-btn primary">Submit Survey</button>
+                            </div>
+                        </div>
+
+                        <div class="success-message" id="survey-success">
+                            Thank you for your feedback! Your responses have been recorded.
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Dynamic Form Builder -->
+            <div class="demo-section">
+                <div class="demo-header">
+                    <h3 class="demo-title">Dynamic Form Builder</h3>
+                    <p class="demo-description">Programmatically generated form with JavaScript</p>
+                </div>
+                <div class="demo-content">
+                    <div id="dynamic-form-container"></div>
+                    <button class="form-btn primary" onclick="buildDynamicForm()" style="margin-bottom: 20px;">Build Form</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="forms.js"></script>
+    <script>
+        // Password strength checker
+        function checkPasswordStrength(password) {
+            const strengthElement = document.getElementById('password-strength');
+            const levelElement = document.getElementById('strength-level');
+            
+            if (!password) {
+                strengthElement.className = 'password-strength';
+                levelElement.textContent = 'Enter password';
+                return;
+            }
+
+            let strength = 0;
+            const checks = [
+                password.length >= 8,
+                /[a-z]/.test(password),
+                /[A-Z]/.test(password),
+                /[0-9]/.test(password),
+                /[^A-Za-z0-9]/.test(password)
+            ];
+
+            strength = checks.filter(check => check).length;
+
+            const levels = ['', 'strength-weak', 'strength-fair', 'strength-good', 'strength-strong'];
+            const labels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+
+            strengthElement.className = `password-strength ${levels[Math.min(strength, 4)]}`;
+            levelElement.textContent = labels[Math.min(strength, 4)];
+        }
+
+        // Add password strength checking
+        document.getElementById('password-input').addEventListener('input', function() {
+            checkPasswordStrength(this.value);
+        });
+
+        // Handle form submissions
+        document.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const successMessage = form.parentNode.querySelector('.success-message');
+            
+            // Show loading state
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+            
+            // Simulate form submission
+            setTimeout(() => {
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+                
+                if (successMessage) {
+                    successMessage.style.display = 'block';
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                        form.reset();
+                    }, 3000);
+                }
+            }, 1500);
+        });
+
+        // Dynamic form builder example
+        function buildDynamicForm() {
+            const container = document.getElementById('dynamic-form-container');
+            container.innerHTML = '';
+
+            const builder = new FormBuilder(container, {
+                theme: 'default',
+                submitText: 'Save Settings',
+                showReset: true
+            });
+
+            builder
+                .addSection('Account Settings')
+                .addField({
+                    type: 'text',
+                    name: 'displayName',
+                    label: 'Display Name',
+                    placeholder: 'Enter your display name',
+                    required: true,
+                    validation: 'required|minLength:2'
+                })
+                .addField({
+                    type: 'email',
+                    name: 'email',
+                    label: 'Email Address',
+                    placeholder: 'your@email.com',
+                    required: true,
+                    validation: 'required|email'
+                })
+                .addField({
+                    type: 'select',
+                    name: 'theme',
+                    label: 'Preferred Theme',
+                    options: [
+                        { value: '', label: 'Select theme...' },
+                        { value: 'light', label: 'Light' },
+                        { value: 'dark', label: 'Dark' },
+                        { value: 'auto', label: 'Auto' }
+                    ]
+                })
+                .addSection('Notification Preferences')
+                .addField({
+                    type: 'checkbox',
+                    name: 'notifications',
+                    label: 'Email Notifications',
+                    options: [
+                        { value: 'newsletter', label: 'Newsletter' },
+                        { value: 'updates', label: 'Product Updates' },
+                        { value: 'marketing', label: 'Marketing' }
+                    ]
+                })
+                .addField({
+                    type: 'radio',
+                    name: 'frequency',
+                    label: 'Notification Frequency',
+                    options: [
+                        { value: 'daily', label: 'Daily' },
+                        { value: 'weekly', label: 'Weekly' },
+                        { value: 'monthly', label: 'Monthly' },
+                        { value: 'never', label: 'Never' }
+                    ]
+                })
+                .addField({
+                    type: 'textarea',
+                    name: 'bio',
+                    label: 'Bio',
+                    placeholder: 'Tell us about yourself...',
+                    rows: 4,
+                    help: 'This will be displayed on your public profile'
+                });
+
+            const form = builder.build();
+            
+            // Add validation to dynamically built form
+            new FormValidator(form, {
+                validateOnBlur: true,
+                validateOnInput: true
+            });
+        }
+
+        // Multi-step form events
+        document.addEventListener('stepChange', function(e) {
+            console.log(`Step changed to ${e.detail.currentStep + 1} of ${e.detail.totalSteps}`);
+        });
+
+        // File upload preview
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'file') {
+                const file = e.target.files[0];
+                const label = e.target.nextElementSibling;
+                
+                if (file) {
+                    label.querySelector('.form-file-main').textContent = file.name;
+                    label.querySelector('.form-file-sub').textContent = `${(file.size / 1024 / 1024).toFixed(2)} MB`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

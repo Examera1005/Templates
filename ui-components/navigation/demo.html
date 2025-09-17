@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Components Demo</title>
+    <link rel="stylesheet" href="navigation.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: #f8fafc;
+        }
+
+        .demo-content {
+            margin-left: 0;
+            padding: 24px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .demo-content.with-sidebar {
+            margin-left: 280px;
+        }
+
+        .demo-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 32px;
+            overflow: hidden;
+        }
+
+        .demo-header {
+            background: #f8fafc;
+            padding: 24px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .demo-title {
+            margin: 0 0 8px 0;
+            color: #374151;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .demo-description {
+            margin: 0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .demo-body {
+            padding: 24px;
+        }
+
+        .example-content {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 32px;
+            text-align: center;
+            color: #6b7280;
+            margin: 16px 0;
+        }
+
+        .toggle-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 8px;
+            transition: background 0.2s;
+        }
+
+        .toggle-btn:hover {
+            background: #2563eb;
+        }
+
+        .badge {
+            background: #ef4444;
+            color: white;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        /* Demo specific styles */
+        .content-area {
+            min-height: 400px;
+            padding: 40px;
+            background: white;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 2px dashed #e5e7eb;
+        }
+
+        @media (max-width: 768px) {
+            .demo-content.with-sidebar {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="navbar sticky">
+        <div class="navbar-container">
+            <a href="#" class="navbar-brand">
+                <span style="background: #3b82f6; color: white; padding: 6px 12px; border-radius: 6px; font-weight: bold; margin-right: 8px;">UI</span>
+                Navigation Demo
+            </a>
+
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="#navbar" class="nav-link active">🏠 Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#sidebar" class="nav-link">📊 Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tabs" class="nav-link dropdown-toggle">📁 Projects</a>
+                    <div class="nav-dropdown">
+                        <a href="#" class="dropdown-item">🚀 Active Projects</a>
+                        <a href="#" class="dropdown-item">📋 Templates</a>
+                        <a href="#" class="dropdown-item">🗂️ Archive</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">⚙️ Settings</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#pagination" class="nav-link">📖 Documentation</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link button">🔗 Contact</a>
+                </li>
+            </ul>
+
+            <button class="navbar-toggle" aria-label="Toggle navigation">☰</button>
+        </div>
+
+        <div class="navbar-mobile">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">🏠 Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">📊 Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">📁 Projects</a>
+                    <div class="nav-dropdown">
+                        <a href="#" class="dropdown-item">🚀 Active Projects</a>
+                        <a href="#" class="dropdown-item">📋 Templates</a>
+                        <a href="#" class="dropdown-item">🗂️ Archive</a>
+                        <a href="#" class="dropdown-item">⚙️ Settings</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">📖 Documentation</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">🔗 Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar static" id="demo-sidebar">
+        <div class="sidebar-header">
+            <h3 class="sidebar-title">Navigation Menu</h3>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Navigation</div>
+                <a href="#navbar" class="sidebar-item active">
+                    <span class="sidebar-icon">🧭</span>
+                    <span>Top Navigation</span>
+                </a>
+                <a href="#sidebar" class="sidebar-item">
+                    <span class="sidebar-icon">📱</span>
+                    <span>Sidebar</span>
+                </a>
+                <a href="#breadcrumb" class="sidebar-item">
+                    <span class="sidebar-icon">🍞</span>
+                    <span>Breadcrumbs</span>
+                </a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Components</div>
+                <a href="#tabs" class="sidebar-item">
+                    <span class="sidebar-icon">📑</span>
+                    <span>Tabs</span>
+                </a>
+                <a href="#pagination" class="sidebar-item">
+                    <span class="sidebar-icon">📄</span>
+                    <span>Pagination</span>
+                </a>
+                <a href="#steps" class="sidebar-item">
+                    <span class="sidebar-icon">👣</span>
+                    <span>Steps</span>
+                </a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Settings</div>
+                <a href="#" class="sidebar-item">
+                    <span class="sidebar-icon">⚙️</span>
+                    <span>Preferences</span>
+                </a>
+                <a href="#" class="sidebar-item">
+                    <span class="sidebar-icon">🔔</span>
+                    <span>Notifications</span>
+                    <span class="sidebar-badge">3</span>
+                </a>
+                <a href="#" class="sidebar-item">
+                    <span class="sidebar-icon">👤</span>
+                    <span>Profile</span>
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="demo-content with-sidebar">
+        <!-- Breadcrumb Example -->
+        <section id="breadcrumb" class="demo-section">
+            <div class="demo-header">
+                <h2 class="demo-title">Breadcrumb Navigation</h2>
+                <p class="demo-description">Show users their current location in the site hierarchy</p>
+            </div>
+            <div class="demo-body">
+                <nav aria-label="Breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#" class="breadcrumb-link">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#" class="breadcrumb-link">Components</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#" class="breadcrumb-link">Navigation</a>
+                        </li>
+                        <li class="breadcrumb-item active">Breadcrumbs</li>
+                    </ol>
+                </nav>
+
+                <div class="example-content">
+                    <p>Breadcrumbs help users understand their current location and navigate back to parent pages.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabs Example -->
+        <section id="tabs" class="demo-section">
+            <div class="demo-header">
+                <h2 class="demo-title">Tab Navigation</h2>
+                <p class="demo-description">Organize content into separate views accessible via tabs</p>
+            </div>
+            <div class="demo-body">
+                <div class="tabs">
+                    <ul class="tabs-nav">
+                        <li class="tab-item">
+                            <a href="#tab1" class="tab-link active">📊 Overview</a>
+                        </li>
+                        <li class="tab-item">
+                            <a href="#tab2" class="tab-link">📈 Analytics</a>
+                        </li>
+                        <li class="tab-item">
+                            <a href="#tab3" class="tab-link">⚙️ Settings</a>
+                        </li>
+                        <li class="tab-item">
+                            <a href="#tab4" class="tab-link">👥 Team</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="tab1" class="tab-pane active">
+                            <div class="example-content">
+                                <h3>📊 Overview</h3>
+                                <p>This is the overview tab content. Here you would typically display a dashboard or summary information.</p>
+                                <p>Tabs are perfect for organizing related content without cluttering the interface.</p>
+                            </div>
+                        </div>
+                        <div id="tab2" class="tab-pane">
+                            <div class="example-content">
+                                <h3>📈 Analytics</h3>
+                                <p>Analytics tab content goes here. This could include charts, graphs, and performance metrics.</p>
+                                <p>Switch between tabs using mouse clicks or keyboard navigation (arrow keys).</p>
+                            </div>
+                        </div>
+                        <div id="tab3" class="tab-pane">
+                            <div class="example-content">
+                                <h3>⚙️ Settings</h3>
+                                <p>Settings and configuration options would be displayed in this tab.</p>
+                                <p>Each tab maintains its own state and can contain forms, lists, or any other content.</p>
+                            </div>
+                        </div>
+                        <div id="tab4" class="tab-pane">
+                            <div class="example-content">
+                                <h3>👥 Team</h3>
+                                <p>Team management and collaboration features go here.</p>
+                                <p>Tabs automatically handle the active state and content visibility.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 24px;">
+                    <button class="toggle-btn" onclick="switchTab(0)">Go to Overview</button>
+                    <button class="toggle-btn" onclick="switchTab(1)">Go to Analytics</button>
+                    <button class="toggle-btn" onclick="switchTab(2)">Go to Settings</button>
+                    <button class="toggle-btn" onclick="switchTab(3)">Go to Team</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pagination Example -->
+        <section id="pagination" class="demo-section">
+            <div class="demo-header">
+                <h2 class="demo-title">Pagination</h2>
+                <p class="demo-description">Navigate through multiple pages of content</p>
+            </div>
+            <div class="demo-body">
+                <div id="pagination-demo" data-pagination='{"totalPages": 15, "currentPage": 7, "maxVisible": 7, "showInfo": true, "itemsPerPage": 10, "totalItems": 147}'></div>
+
+                <div class="example-content">
+                    <h3>Items 61-70 of 147</h3>
+                    <p>Sample content that would be paginated. Each page shows a subset of the total items.</p>
+                    <p>The pagination component handles navigation and updates the current page display.</p>
+                </div>
+
+                <div style="margin-top: 24px;">
+                    <button class="toggle-btn" onclick="goToPage(1)">First Page</button>
+                    <button class="toggle-btn" onclick="goToPage(5)">Page 5</button>
+                    <button class="toggle-btn" onclick="goToPage(10)">Page 10</button>
+                    <button class="toggle-btn" onclick="goToPage(15)">Last Page</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Steps Navigation -->
+        <section id="steps" class="demo-section">
+            <div class="demo-header">
+                <h2 class="demo-title">Steps Navigation</h2>
+                <p class="demo-description">Guide users through multi-step processes</p>
+            </div>
+            <div class="demo-body">
+                <div class="steps" id="demo-steps">
+                    <div class="step completed">
+                        <div class="step-circle">✓</div>
+                        <div class="step-label">Account Setup</div>
+                    </div>
+                    <div class="step completed">
+                        <div class="step-circle">✓</div>
+                        <div class="step-label">Profile Information</div>
+                    </div>
+                    <div class="step active">
+                        <div class="step-circle">3</div>
+                        <div class="step-label">Preferences</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-circle">4</div>
+                        <div class="step-label">Confirmation</div>
+                    </div>
+                </div>
+
+                <div class="example-content">
+                    <h3>Step 3: Preferences</h3>
+                    <p>Configure your account preferences and settings.</p>
+                    <p>The steps component visually indicates progress through a multi-step workflow.</p>
+                </div>
+
+                <div style="margin-top: 24px;">
+                    <button class="toggle-btn" onclick="setStep(0)">Step 1</button>
+                    <button class="toggle-btn" onclick="setStep(1)">Step 2</button>
+                    <button class="toggle-btn" onclick="setStep(2)">Step 3</button>
+                    <button class="toggle-btn" onclick="setStep(3)">Step 4</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Demo Controls -->
+        <section class="demo-section">
+            <div class="demo-header">
+                <h2 class="demo-title">Interactive Controls</h2>
+                <p class="demo-description">Test the navigation components with these controls</p>
+            </div>
+            <div class="demo-body">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
+                    <div>
+                        <h4>Sidebar Controls</h4>
+                        <button class="toggle-btn" data-sidebar-toggle>Toggle Sidebar</button>
+                        <button class="toggle-btn" onclick="toggleSidebarCollapse()">Collapse/Expand</button>
+                    </div>
+                    
+                    <div>
+                        <h4>Navigation Tests</h4>
+                        <button class="toggle-btn" onclick="testMobileMenu()">Test Mobile Menu</button>
+                        <button class="toggle-btn" onclick="testDropdown()">Test Dropdown</button>
+                    </div>
+                    
+                    <div>
+                        <h4>Theme Toggle</h4>
+                        <button class="toggle-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+                        <button class="toggle-btn" onclick="resetDemo()">Reset Demo</button>
+                    </div>
+                </div>
+
+                <div class="example-content" style="margin-top: 24px;">
+                    <p><strong>Features Demonstrated:</strong></p>
+                    <ul style="text-align: left; display: inline-block;">
+                        <li>Responsive navigation with mobile menu</li>
+                        <li>Dropdown menus with hover and click support</li>
+                        <li>Collapsible sidebar with overlay</li>
+                        <li>Tab navigation with keyboard support</li>
+                        <li>Pagination with customizable options</li>
+                        <li>Step indicators for multi-step processes</li>
+                        <li>Breadcrumb navigation</li>
+                        <li>Dark mode support</li>
+                        <li>Touch/swipe gestures on mobile</li>
+                        <li>Accessibility features and ARIA labels</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="navigation.js"></script>
+    <script>
+        // Demo variables
+        let tabsInstance;
+        let paginationInstance;
+        let sidebarInstance;
+
+        // Initialize demos
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get component instances
+            const tabsElement = document.querySelector('.tabs');
+            if (tabsElement) {
+                tabsInstance = new Tabs(tabsElement);
+            }
+
+            const paginationElement = document.getElementById('pagination-demo');
+            if (paginationElement) {
+                paginationInstance = new Pagination(paginationElement, {
+                    totalPages: 15,
+                    currentPage: 7,
+                    maxVisible: 7,
+                    showInfo: true,
+                    itemsPerPage: 10,
+                    totalItems: 147
+                });
+            }
+
+            const sidebarElement = document.getElementById('demo-sidebar');
+            if (sidebarElement) {
+                sidebarInstance = new Sidebar(sidebarElement, {
+                    collapsible: true,
+                    overlay: false
+                });
+            }
+        });
+
+        // Tab controls
+        function switchTab(index) {
+            if (tabsInstance) {
+                tabsInstance.showTab(index);
+            }
+        }
+
+        // Pagination controls
+        function goToPage(page) {
+            if (paginationInstance) {
+                paginationInstance.goToPage(page);
+            }
+        }
+
+        // Steps controls
+        function setStep(stepIndex) {
+            const steps = document.querySelectorAll('#demo-steps .step');
+            
+            steps.forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                
+                if (index < stepIndex) {
+                    step.classList.add('completed');
+                    step.querySelector('.step-circle').textContent = '✓';
+                } else if (index === stepIndex) {
+                    step.classList.add('active');
+                    step.querySelector('.step-circle').textContent = index + 1;
+                } else {
+                    step.querySelector('.step-circle').textContent = index + 1;
+                }
+            });
+        }
+
+        // Interactive controls
+        function toggleSidebarCollapse() {
+            if (sidebarInstance) {
+                sidebarInstance.toggleCollapse();
+            }
+        }
+
+        function testMobileMenu() {
+            const navbar = document.querySelector('.navbar');
+            const toggle = navbar.querySelector('.navbar-toggle');
+            if (toggle) {
+                toggle.click();
+            }
+        }
+
+        function testDropdown() {
+            const dropdownItem = document.querySelector('.nav-item');
+            if (dropdownItem) {
+                dropdownItem.classList.toggle('open');
+            }
+        }
+
+        function toggleDarkMode() {
+            document.body.style.filter = document.body.style.filter ? '' : 'invert(1) hue-rotate(180deg)';
+        }
+
+        function resetDemo() {
+            // Reset all components to initial state
+            location.reload();
+        }
+
+        // Event listeners for component events
+        document.addEventListener('tabs:change', function(e) {
+            console.log('Tab changed:', e.detail);
+        });
+
+        document.addEventListener('pagination:change', function(e) {
+            console.log('Page changed:', e.detail);
+            
+            // Update example content
+            const start = (e.detail.page - 1) * 10 + 1;
+            const end = Math.min(e.detail.page * 10, 147);
+            
+            const exampleContent = document.querySelector('#pagination ~ .demo-body .example-content h3');
+            if (exampleContent) {
+                exampleContent.textContent = `Items ${start}-${end} of 147`;
+            }
+        });
+
+        document.addEventListener('sidebar:collapse', function(e) {
+            console.log('Sidebar collapsed');
+            const content = document.querySelector('.demo-content');
+            content.style.marginLeft = '72px';
+        });
+
+        document.addEventListener('sidebar:expand', function(e) {
+            console.log('Sidebar expanded');
+            const content = document.querySelector('.demo-content');
+            content.style.marginLeft = '280px';
+        });
+
+        // Smooth scrolling for navigation links
+        document.addEventListener('click', function(e) {
+            const link = e.target.closest('a[href^="#"]');
+            if (link && link.getAttribute('href') !== '#') {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    
+                    // Update active navigation
+                    document.querySelectorAll('.nav-link, .sidebar-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    link.classList.add('active');
+                }
+            }
+        });
+
+        // Update active navigation based on scroll position
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section[id]');
+            const scrollPos = window.scrollY + 100;
+
+            sections.forEach(section => {
+                const top = section.offsetTop;
+                const bottom = top + section.offsetHeight;
+                const id = section.getAttribute('id');
+
+                if (scrollPos >= top && scrollPos < bottom) {
+                    document.querySelectorAll('.nav-link, .sidebar-item').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    
+                    const activeLinks = document.querySelectorAll(`a[href="#${id}"]`);
+                    activeLinks.forEach(link => link.classList.add('active'));
+                }
+            });
+        });
+    </script>
+</body>
+</html>

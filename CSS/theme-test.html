@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Test</title>
+    <link rel="stylesheet" href="animations.css">
+    <style>
+        body {
+            padding: 20px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-family: Arial, sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .theme-toggle-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: var(--bg-card);
+            border: 2px solid var(--border-medium);
+            border-radius: 25px;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-weight: bold;
+            z-index: 1000;
+        }
+        
+        .demo-section {
+            margin: 30px 0;
+            padding: 30px;
+            background: var(--bg-card);
+            border-radius: 15px;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .color-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .color-box {
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid var(--border-light);
+        }
+        
+        .bg-test { background: var(--bg-primary); color: var(--text-primary); }
+        .bg-secondary-test { background: var(--bg-secondary); color: var(--text-primary); }
+        .bg-card-test { background: var(--bg-card); color: var(--text-primary); }
+        .neon-blue-test { color: var(--neon-blue); font-weight: bold; }
+        .neon-pink-test { color: var(--neon-pink); font-weight: bold; }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn">
+        Switch to Dark Theme
+    </button>
+    
+    <!-- Emergency Reset Buttons -->
+    <div style="position: fixed; top: 80px; left: 20px; z-index: 1001;">
+        <button onclick="forceLight()" style="background: white; color: black; border: 2px solid #333; padding: 8px 15px; border-radius: 5px; margin: 2px; cursor: pointer; font-weight: bold; display: block;">🌞 FORCE LIGHT</button>
+        <button onclick="forceDark()" style="background: #333; color: white; border: 2px solid white; padding: 8px 15px; border-radius: 5px; margin: 2px; cursor: pointer; font-weight: bold; display: block;">🌙 FORCE DARK</button>
+    </div>
+    
+    <div class="test-container">
+        <h1>🎨 Theme Switching Test</h1>
+        <p>Current theme: <span id="currentTheme" style="font-weight: bold;">Light</span></p>
+        
+        <div class="demo-section">
+            <h2>Background Colors Test</h2>
+            <div class="color-display">
+                <div class="color-box bg-test">
+                    <strong>Primary Background</strong><br>
+                    var(--bg-primary)
+                </div>
+                <div class="color-box bg-secondary-test">
+                    <strong>Secondary Background</strong><br>
+                    var(--bg-secondary)
+                </div>
+                <div class="color-box bg-card-test">
+                    <strong>Card Background</strong><br>
+                    var(--bg-card)
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>Text Colors Test</h2>
+            <p class="text-primary">Primary text color</p>
+            <p class="text-secondary">Secondary text color</p>
+            <p class="text-muted">Muted text color</p>
+            <p class="neon-blue-test">Neon blue text</p>
+            <p class="neon-pink-test">Neon pink text</p>
+        </div>
+        
+        <div class="demo-section">
+            <h2>Button Tests</h2>
+            <button class="btn-animated btn-gradient">Gradient Button</button>
+            <button class="btn-animated btn-neon">Neon Button</button>
+            <button class="btn-animated btn-glass">Glass Button</button>
+        </div>
+        
+        <div class="demo-section">
+            <h2>Card Tests</h2>
+            <div class="card-animated" style="margin: 20px 0;">
+                <h3>Animated Card</h3>
+                <p>This card should change colors when switching themes.</p>
+            </div>
+            <div class="card-glass" style="margin: 20px 0;">
+                <h3>Glass Card</h3>
+                <p>Glass morphism effect that adapts to theme.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const btn = document.getElementById('themeBtn');
+            const themeSpan = document.getElementById('currentTheme');
+            const currentTheme = html.getAttribute('data-theme');
+            
+            // Force remove any existing theme first
+            html.removeAttribute('data-theme');
+            
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            console.log('Switching from', currentTheme, 'to', newTheme);
+            
+            // Small delay to ensure CSS updates
+            setTimeout(() => {
+                html.setAttribute('data-theme', newTheme);
+            }, 10);
+            
+            btn.textContent = newTheme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme';
+            themeSpan.textContent = newTheme === 'dark' ? 'Dark' : 'Light';
+            
+            // Visual feedback
+            document.body.style.transition = 'all 0.5s ease';
+            setTimeout(() => {
+                document.body.style.transition = '';
+            }, 500);
+        }
+        
+        // Emergency reset functions
+        function forceLight() {
+            const html = document.documentElement;
+            const btn = document.getElementById('themeBtn');
+            const themeSpan = document.getElementById('currentTheme');
+            
+            html.removeAttribute('data-theme');
+            setTimeout(() => {
+                html.setAttribute('data-theme', 'light');
+                btn.textContent = 'Switch to Dark Theme';
+                themeSpan.textContent = 'Light';
+            }, 10);
+        }
+        
+        function forceDark() {
+            const html = document.documentElement;
+            const btn = document.getElementById('themeBtn');
+            const themeSpan = document.getElementById('currentTheme');
+            
+            html.removeAttribute('data-theme');
+            setTimeout(() => {
+                html.setAttribute('data-theme', 'dark');
+                btn.textContent = 'Switch to Light Theme';
+                themeSpan.textContent = 'Dark';
+            }, 10);
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const theme = document.documentElement.getAttribute('data-theme');
+            document.getElementById('currentTheme').textContent = theme === 'dark' ? 'Dark' : 'Light';
+            document.getElementById('themeBtn').textContent = theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme';
+        });
+    </script>
+</body>
+</html>

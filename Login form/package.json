@@ -1,0 +1,50 @@
+{
+  "name": "convex-auth-template",
+  "version": "1.0.0",
+  "description": "A comprehensive authentication template for React applications using Convex Auth",
+  "keywords": [
+    "convex",
+    "auth",
+    "authentication",
+    "react",
+    "typescript",
+    "template",
+    "oauth",
+    "login",
+    "signup"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "main": "src/components/index.ts",
+  "types": "src/components/index.ts",
+  "files": [
+    "src/",
+    "convex/",
+    "README.md"
+  ],
+  "dependencies": {
+    "@convex-dev/auth": "^0.0.60",
+    "convex": "^1.14.0",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src/ --ext .ts,.tsx",
+    "format": "prettier --write src/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/convex-auth-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/convex-auth-template/issues"
+  },
+  "homepage": "https://github.com/your-username/convex-auth-template#readme"
+}

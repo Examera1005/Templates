@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Components Demo</title>
+    <link rel="stylesheet" href="modal.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px;
+            background: #f8fafc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 40px;
+        }
+
+        .demo-section {
+            background: white;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 32px;
+        }
+
+        .demo-section h2 {
+            margin-top: 0;
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 12px;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .demo-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #3b82f6;
+            color: white;
+        }
+
+        .demo-btn:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .demo-btn.secondary {
+            background: #6b7280;
+        }
+
+        .demo-btn.secondary:hover {
+            background: #4b5563;
+        }
+
+        .demo-btn.success {
+            background: #10b981;
+        }
+
+        .demo-btn.success:hover {
+            background: #059669;
+        }
+
+        .demo-btn.warning {
+            background: #f59e0b;
+        }
+
+        .demo-btn.warning:hover {
+            background: #d97706;
+        }
+
+        .demo-btn.danger {
+            background: #ef4444;
+        }
+
+        .demo-btn.danger:hover {
+            background: #dc2626;
+        }
+
+        .code-example {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+
+        /* Hidden modal content templates */
+        .modal-content-template {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Modal Components</h1>
+        <p class="subtitle">Comprehensive modal system with multiple types and configurations</p>
+
+        <!-- Basic Modals -->
+        <div class="demo-section">
+            <h2>Basic Modals</h2>
+            <p>Simple modals with different sizes and configurations.</p>
+            
+            <div class="demo-grid">
+                <button class="demo-btn" onclick="showBasicModal('small')">Small Modal</button>
+                <button class="demo-btn" onclick="showBasicModal('medium')">Medium Modal</button>
+                <button class="demo-btn" onclick="showBasicModal('large')">Large Modal</button>
+                <button class="demo-btn" onclick="showBasicModal('fullscreen')">Fullscreen Modal</button>
+            </div>
+
+            <div class="code-example">
+const modal = new Modal({ size: 'medium', type: 'default' });
+modal.setContent(`
+    &lt;div class="modal-header"&gt;
+        &lt;h3 class="modal-title"&gt;Basic Modal&lt;/h3&gt;
+    &lt;/div&gt;
+    &lt;div class="modal-body"&gt;
+        &lt;p&gt;This is a basic modal example.&lt;/p&gt;
+    &lt;/div&gt;
+`);
+modal.open();
+            </div>
+        </div>
+
+        <!-- Alert Modals -->
+        <div class="demo-section">
+            <h2>Alert Modals</h2>
+            <p>Pre-built alert modals for different message types.</p>
+            
+            <div class="demo-grid">
+                <button class="demo-btn success" onclick="showAlert('success')">Success Alert</button>
+                <button class="demo-btn danger" onclick="showAlert('error')">Error Alert</button>
+                <button class="demo-btn warning" onclick="showAlert('warning')">Warning Alert</button>
+                <button class="demo-btn secondary" onclick="showAlert('info')">Info Alert</button>
+            </div>
+
+            <div class="code-example">
+Modal.alert('Operation completed successfully!', {
+    title: 'Success',
+    variant: 'success',
+    onOk: () => console.log('Alert closed')
+});
+            </div>
+        </div>
+
+        <!-- Confirmation Modals -->
+        <div class="demo-section">
+            <h2>Confirmation Modals</h2>
+            <p>Interactive confirmation dialogs with promise-based responses.</p>
+            
+            <div class="demo-grid">
+                <button class="demo-btn" onclick="showConfirm('basic')">Basic Confirm</button>
+                <button class="demo-btn danger" onclick="showConfirm('delete')">Delete Confirm</button>
+                <button class="demo-btn warning" onclick="showConfirm('custom')">Custom Confirm</button>
+            </div>
+
+            <div class="code-example">
+Modal.confirm('Are you sure you want to delete this item?', {
+    title: 'Delete Item',
+    danger: true,
+    confirmText: 'Delete',
+    cancelText: 'Cancel'
+}).then(confirmed => {
+    if (confirmed) {
+        console.log('Item deleted');
+    }
+});
+            </div>
+        </div>
+
+        <!-- Form Modals -->
+        <div class="demo-section">
+            <h2>Form Modals</h2>
+            <p>Dynamic form modals with validation and data collection.</p>
+            
+            <div class="demo-grid">
+                <button class="demo-btn" onclick="showFormModal('contact')">Contact Form</button>
+                <button class="demo-btn" onclick="showFormModal('user')">User Registration</button>
+                <button class="demo-btn" onclick="showFormModal('settings')">Settings Form</button>
+            </div>
+
+            <div class="code-example">
+Modal.form({
+    fields: [
+        { type: 'text', name: 'name', label: 'Name', required: true },
+        { type: 'email', name: 'email', label: 'Email', required: true },
+        { type: 'textarea', name: 'message', label: 'Message' }
+    ]
+}, {
+    title: 'Contact Us',
+    submitText: 'Send Message'
+}).then(data => {
+    console.log('Form data:', data);
+});
+            </div>
+        </div>
+
+        <!-- Custom Content Modals -->
+        <div class="demo-section">
+            <h2>Custom Content Modals</h2>
+            <p>Modals with custom HTML content and interactive elements.</p>
+            
+            <div class="demo-grid">
+                <button class="demo-btn" onclick="showCustomModal('gallery')">Image Gallery</button>
+                <button class="demo-btn" onclick="showCustomModal('video')">Video Player</button>
+                <button class="demo-btn" onclick="showCustomModal('chart')">Chart Display</button>
+                <button class="demo-btn" onclick="showCustomModal('calendar')">Calendar Widget</button>
+            </div>
+
+            <div class="code-example">
+const modal = new Modal({ size: 'large' });
+modal.setContent(document.getElementById('custom-content').innerHTML);
+modal.open();
+            </div>
+        </div>
+
+        <!-- Data Attribute Examples -->
+        <div class="demo-section">
+            <h2>Data Attribute Usage</h2>
+            <p>Trigger modals using data attributes without JavaScript.</p>
+            
+            <div class="demo-grid">
+                <button class="demo-btn" data-modal-trigger="open" data-modal-target="#template-modal" data-modal-size="medium">
+                    Data Attribute Modal
+                </button>
+            </div>
+
+            <div class="code-example">
+&lt;button data-modal-trigger="open" 
+        data-modal-target="#template-modal" 
+        data-modal-size="medium"&gt;
+    Open Modal
+&lt;/button&gt;
+
+&lt;div id="template-modal" class="modal-content-template"&gt;
+    &lt;div class="modal-header"&gt;
+        &lt;h3 class="modal-title"&gt;Template Modal&lt;/h3&gt;
+    &lt;/div&gt;
+    &lt;div class="modal-body"&gt;
+        &lt;p&gt;This modal was opened using data attributes!&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden content templates -->
+    <div id="template-modal" class="modal-content-template">
+        <div class="modal-header">
+            <h3 class="modal-title">Data Attribute Modal</h3>
+        </div>
+        <div class="modal-body">
+            <p>This modal was opened using data attributes! No JavaScript required.</p>
+            <p>The modal system automatically handles the opening and closing based on the data attributes.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="modal-btn primary" onclick="this.closest('.modal-overlay').style.display='none'">Close</button>
+        </div>
+    </div>
+
+    <script src="modal.js"></script>
+    <script>
+        // Demo functions
+        function showBasicModal(size) {
+            const modal = new Modal({ 
+                size: size,
+                type: 'default'
+            });
+
+            const content = `
+                <div class="modal-header">
+                    <h3 class="modal-title">${size.charAt(0).toUpperCase() + size.slice(1)} Modal</h3>
+                </div>
+                <div class="modal-body">
+                    <p>This is a ${size} sized modal demonstrating the basic modal functionality.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    ${size === 'large' || size === 'fullscreen' ? `
+                        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                    ` : ''}
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn outline" onclick="this.closest('.modal').parentNode.click()">Cancel</button>
+                    <button class="modal-btn primary" onclick="this.closest('.modal').parentNode.click()">OK</button>
+                </div>
+            `;
+
+            modal.setContent(content);
+            modal.open();
+        }
+
+        function showAlert(variant) {
+            const messages = {
+                success: 'Operation completed successfully!',
+                error: 'An error occurred while processing your request.',
+                warning: 'Please review your input before proceeding.',
+                info: 'Here is some important information for you.'
+            };
+
+            const titles = {
+                success: 'Success',
+                error: 'Error',
+                warning: 'Warning', 
+                info: 'Information'
+            };
+
+            Modal.alert(messages[variant], {
+                title: titles[variant],
+                variant: variant,
+                onOk: () => console.log(`${variant} alert closed`)
+            });
+        }
+
+        function showConfirm(type) {
+            let config = {};
+
+            switch(type) {
+                case 'basic':
+                    config = {
+                        title: 'Confirm Action',
+                        message: 'Are you sure you want to proceed?'
+                    };
+                    break;
+                case 'delete':
+                    config = {
+                        title: 'Delete Item',
+                        message: 'This action cannot be undone. Are you sure?',
+                        danger: true,
+                        confirmText: 'Delete',
+                        cancelText: 'Keep'
+                    };
+                    break;
+                case 'custom':
+                    config = {
+                        title: 'Custom Confirmation',
+                        message: 'Do you want to save your changes before leaving?',
+                        confirmText: 'Save & Exit',
+                        cancelText: 'Discard'
+                    };
+                    break;
+            }
+
+            Modal.confirm(config.message, config).then(confirmed => {
+                if (confirmed) {
+                    Modal.alert('Action confirmed!', { variant: 'success' });
+                } else {
+                    Modal.alert('Action cancelled.', { variant: 'info' });
+                }
+            });
+        }
+
+        function showFormModal(type) {
+            let formConfig = {};
+
+            switch(type) {
+                case 'contact':
+                    formConfig = {
+                        fields: [
+                            { type: 'text', name: 'name', label: 'Full Name', required: true },
+                            { type: 'email', name: 'email', label: 'Email Address', required: true },
+                            { type: 'text', name: 'subject', label: 'Subject', required: true },
+                            { type: 'textarea', name: 'message', label: 'Message', required: true }
+                        ]
+                    };
+                    break;
+                case 'user':
+                    formConfig = {
+                        fields: [
+                            { type: 'text', name: 'username', label: 'Username', required: true },
+                            { type: 'email', name: 'email', label: 'Email', required: true },
+                            { type: 'password', name: 'password', label: 'Password', required: true },
+                            { type: 'select', name: 'role', label: 'Role', required: true,
+                              options: [
+                                  { value: 'user', label: 'User' },
+                                  { value: 'admin', label: 'Admin' },
+                                  { value: 'moderator', label: 'Moderator' }
+                              ]
+                            }
+                        ]
+                    };
+                    break;
+                case 'settings':
+                    formConfig = {
+                        fields: [
+                            { type: 'text', name: 'company', label: 'Company Name' },
+                            { type: 'select', name: 'theme', label: 'Theme',
+                              options: [
+                                  { value: 'light', label: 'Light' },
+                                  { value: 'dark', label: 'Dark' },
+                                  { value: 'auto', label: 'Auto' }
+                              ]
+                            },
+                            { type: 'select', name: 'language', label: 'Language',
+                              options: [
+                                  { value: 'en', label: 'English' },
+                                  { value: 'es', label: 'Spanish' },
+                                  { value: 'fr', label: 'French' }
+                              ]
+                            }
+                        ]
+                    };
+                    break;
+            }
+
+            const titles = {
+                contact: 'Contact Us',
+                user: 'User Registration',
+                settings: 'Settings'
+            };
+
+            Modal.form(formConfig, {
+                title: titles[type],
+                submitText: type === 'user' ? 'Register' : 'Save',
+                size: 'medium'
+            }).then(data => {
+                console.log('Form submitted:', data);
+                Modal.alert('Form submitted successfully!', { variant: 'success' });
+            }).catch(error => {
+                console.log('Form cancelled:', error.message);
+            });
+        }
+
+        function showCustomModal(type) {
+            const modal = new Modal({ 
+                size: type === 'gallery' ? 'large' : 'medium',
+                type: 'default'
+            });
+
+            let content = '';
+
+            switch(type) {
+                case 'gallery':
+                    content = `
+                        <div class="modal-header">
+                            <h3 class="modal-title">Image Gallery</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                                <div style="background: linear-gradient(45deg, #ff6b6b, #feca57); height: 120px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">Image 1</div>
+                                <div style="background: linear-gradient(45deg, #48cae4, #023e8a); height: 120px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">Image 2</div>
+                                <div style="background: linear-gradient(45deg, #06ffa5, #06d6a0); height: 120px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">Image 3</div>
+                                <div style="background: linear-gradient(45deg, #ffd60a, #f77f00); height: 120px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">Image 4</div>
+                                <div style="background: linear-gradient(45deg, #a663cc, #4c956c); height: 120px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">Image 5</div>
+                                <div style="background: linear-gradient(45deg, #f72585, #b5179e); height: 120px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">Image 6</div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="modal-btn primary" onclick="this.closest('.modal').parentNode.click()">Close Gallery</button>
+                        </div>
+                    `;
+                    break;
+                case 'video':
+                    content = `
+                        <div class="modal-header">
+                            <h3 class="modal-title">Video Player</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div style="background: #000; height: 300px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                                ▶
+                            </div>
+                            <div style="margin-top: 16px;">
+                                <h4>Sample Video Title</h4>
+                                <p>This is a placeholder for a video player component. In a real implementation, you would embed your video player here.</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="modal-btn outline" onclick="alert('Sharing video...')">Share</button>
+                            <button class="modal-btn primary" onclick="this.closest('.modal').parentNode.click()">Close</button>
+                        </div>
+                    `;
+                    break;
+                case 'chart':
+                    content = `
+                        <div class="modal-header">
+                            <h3 class="modal-title">Analytics Chart</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div style="background: linear-gradient(to top, #3b82f6 0%, #3b82f6 60%, #e5e7eb 60%, #e5e7eb 100%); height: 200px; border-radius: 8px; display: flex; align-items: flex-end; justify-content: space-around; padding: 20px;">
+                                <div style="width: 40px; height: 80%; background: rgba(255,255,255,0.8); border-radius: 4px;"></div>
+                                <div style="width: 40px; height: 60%; background: rgba(255,255,255,0.8); border-radius: 4px;"></div>
+                                <div style="width: 40px; height: 90%; background: rgba(255,255,255,0.8); border-radius: 4px;"></div>
+                                <div style="width: 40px; height: 45%; background: rgba(255,255,255,0.8); border-radius: 4px;"></div>
+                                <div style="width: 40px; height: 70%; background: rgba(255,255,255,0.8); border-radius: 4px;"></div>
+                            </div>
+                            <div style="margin-top: 16px;">
+                                <p><strong>Revenue Growth:</strong> +24% this quarter</p>
+                                <p><strong>Total Sales:</strong> $127,450</p>
+                                <p><strong>Active Users:</strong> 1,247</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="modal-btn outline" onclick="alert('Exporting chart...')">Export</button>
+                            <button class="modal-btn primary" onclick="this.closest('.modal').parentNode.click()">Close</button>
+                        </div>
+                    `;
+                    break;
+                case 'calendar':
+                    content = `
+                        <div class="modal-header">
+                            <h3 class="modal-title">Calendar Widget</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px;">
+                                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 16px;">
+                                    <button style="background: none; border: none; font-size: 18px; cursor: pointer;">‹</button>
+                                    <h4 style="margin: 0;">December 2024</h4>
+                                    <button style="background: none; border: none; font-size: 18px; cursor: pointer;">›</button>
+                                </div>
+                                <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; text-align: center;">
+                                    <div style="font-weight: bold; color: #6b7280;">Sun</div>
+                                    <div style="font-weight: bold; color: #6b7280;">Mon</div>
+                                    <div style="font-weight: bold; color: #6b7280;">Tue</div>
+                                    <div style="font-weight: bold; color: #6b7280;">Wed</div>
+                                    <div style="font-weight: bold; color: #6b7280;">Thu</div>
+                                    <div style="font-weight: bold; color: #6b7280;">Fri</div>
+                                    <div style="font-weight: bold; color: #6b7280;">Sat</div>
+                                    <div style="padding: 8px; cursor: pointer;">1</div>
+                                    <div style="padding: 8px; cursor: pointer;">2</div>
+                                    <div style="padding: 8px; cursor: pointer;">3</div>
+                                    <div style="padding: 8px; cursor: pointer;">4</div>
+                                    <div style="padding: 8px; cursor: pointer;">5</div>
+                                    <div style="padding: 8px; cursor: pointer;">6</div>
+                                    <div style="padding: 8px; cursor: pointer;">7</div>
+                                    <div style="padding: 8px; cursor: pointer;">8</div>
+                                    <div style="padding: 8px; cursor: pointer;">9</div>
+                                    <div style="padding: 8px; cursor: pointer;">10</div>
+                                    <div style="padding: 8px; cursor: pointer;">11</div>
+                                    <div style="padding: 8px; cursor: pointer;">12</div>
+                                    <div style="padding: 8px; cursor: pointer;">13</div>
+                                    <div style="padding: 8px; cursor: pointer;">14</div>
+                                    <div style="padding: 8px; background: #3b82f6; color: white; border-radius: 4px; cursor: pointer;">15</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="modal-btn outline" onclick="alert('Today selected')">Today</button>
+                            <button class="modal-btn primary" onclick="this.closest('.modal').parentNode.click()">Select Date</button>
+                        </div>
+                    `;
+                    break;
+            }
+
+            modal.setContent(content);
+            modal.open();
+        }
+
+        // Log modal events
+        document.addEventListener('modal:open', (e) => {
+            console.log('Modal opened:', e.detail.modal);
+        });
+
+        document.addEventListener('modal:close', (e) => {
+            console.log('Modal closed:', e.detail.modal);
+        });
+    </script>
+</body>
+</html>

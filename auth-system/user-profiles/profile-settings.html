@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Settings</title>
+    <link rel="stylesheet" href="../auth-styles.css">
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .avatar-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .avatar-upload {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #007bff;
+            color: white;
+            border: 2px solid white;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .profile-sections {
+            display: grid;
+            gap: 30px;
+        }
+        
+        .profile-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 24px;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #6c757d;
+            color: #6c757d;
+        }
+        
+        .btn-outline:hover {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .security-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .security-item:last-child {
+            border-bottom: none;
+        }
+        
+        .security-info h4 {
+            margin: 0 0 4px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .security-info p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .session-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .session-info {
+            flex: 1;
+        }
+        
+        .session-info h4 {
+            margin: 0 0 4px 0;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .session-info p {
+            margin: 0;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .session-current {
+            background: #d4edda;
+            color: #155724;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-right: 12px;
+        }
+        
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-container {
+                margin: 20px;
+                padding: 16px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .session-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1>Profile Settings</h1>
+            <p>Manage your account settings and preferences</p>
+        </div>
+
+        <div id="alert-container"></div>
+
+        <div class="avatar-section">
+            <div class="avatar" id="userAvatar">
+                <span id="avatarInitials">JD</span>
+                <img id="avatarImage" style="display: none;" alt="Profile Picture">
+                <label for="avatarUpload" class="avatar-upload">📷</label>
+                <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+            </div>
+        </div>
+
+        <div class="profile-sections">
+            <!-- Personal Information -->
+            <div class="profile-section">
+                <h2 class="section-title">
+                    👤 Personal Information
+                </h2>
+                <form id="personalInfoForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" id="firstName" name="firstName" class="form-input" required>
+                            <div class="form-error" id="firstName-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" class="form-input" required>
+                            <div class="form-error" id="lastName-error"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" id="email" name="email" class="form-input" required>
+                            <div class="form-error" id="email-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" class="form-input">
+                            <div class="form-error" id="phone-error"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="birthdate" class="form-label">Birth Date</label>
+                            <input type="date" id="birthdate" name="birthdate" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="timezone" class="form-label">Timezone</label>
+                            <select id="timezone" name="timezone" class="form-input">
+                                <option value="">Select timezone...</option>
+                                <option value="America/New_York">Eastern Time</option>
+                                <option value="America/Chicago">Central Time</option>
+                                <option value="America/Denver">Mountain Time</option>
+                                <option value="America/Los_Angeles">Pacific Time</option>
+                                <option value="Europe/London">London</option>
+                                <option value="Europe/Paris">Paris</option>
+                                <option value="Asia/Tokyo">Tokyo</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bio" class="form-label">Bio</label>
+                        <textarea id="bio" name="bio" class="form-input" rows="3" placeholder="Tell us about yourself..."></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Security Settings -->
+            <div class="profile-section">
+                <h2 class="section-title">
+                    🔒 Security
+                </h2>
+                
+                <div class="security-item">
+                    <div class="security-info">
+                        <h4>Password</h4>
+                        <p>Last changed 30 days ago</p>
+                    </div>
+                    <button class="btn btn-outline btn-small" onclick="showChangePassword()">Change</button>
+                </div>
+                
+                <div class="security-item">
+                    <div class="security-info">
+                        <h4>Two-Factor Authentication</h4>
+                        <p>Add an extra layer of security to your account</p>
+                    </div>
+                    <button class="btn btn-primary btn-small" onclick="setup2FA()">Enable</button>
+                </div>
+                
+                <div class="security-item">
+                    <div class="security-info">
+                        <h4>Login Notifications</h4>
+                        <p>Get notified when someone logs into your account</p>
+                    </div>
+                    <label class="form-checkbox">
+                        <input type="checkbox" id="loginNotifications" checked>
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Privacy Settings -->
+            <div class="profile-section">
+                <h2 class="section-title">
+                    🔐 Privacy
+                </h2>
+                
+                <div class="security-item">
+                    <div class="security-info">
+                        <h4>Profile Visibility</h4>
+                        <p>Control who can see your profile information</p>
+                    </div>
+                    <select class="form-input" style="width: auto;" id="profileVisibility">
+                        <option value="public">Public</option>
+                        <option value="friends">Friends Only</option>
+                        <option value="private">Private</option>
+                    </select>
+                </div>
+                
+                <div class="security-item">
+                    <div class="security-info">
+                        <h4>Data Export</h4>
+                        <p>Download a copy of your data</p>
+                    </div>
+                    <button class="btn btn-outline btn-small" onclick="exportData()">Download</button>
+                </div>
+                
+                <div class="security-item">
+                    <div class="security-info">
+                        <h4>Delete Account</h4>
+                        <p>Permanently delete your account and all data</p>
+                    </div>
+                    <button class="btn btn-danger btn-small" onclick="deleteAccount()">Delete</button>
+                </div>
+            </div>
+
+            <!-- Active Sessions -->
+            <div class="profile-section">
+                <h2 class="section-title">
+                    💻 Active Sessions
+                </h2>
+                
+                <div id="sessionsList">
+                    <div class="session-item">
+                        <div class="session-info">
+                            <h4>🖥️ Windows PC - Chrome</h4>
+                            <p>Current session • Last active: Now • IP: 192.168.1.100</p>
+                        </div>
+                        <span class="session-current">Current</span>
+                    </div>
+                    
+                    <div class="session-item">
+                        <div class="session-info">
+                            <h4>📱 iPhone - Safari</h4>
+                            <p>Last active: 2 hours ago • IP: 192.168.1.105</p>
+                        </div>
+                        <button class="btn btn-outline btn-small">Revoke</button>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn btn-outline" onclick="revokeAllSessions()">Revoke All Other Sessions</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div id="changePasswordModal" class="modal-overlay" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Change Password</h3>
+                <button class="modal-close" onclick="closeModal('changePasswordModal')">&times;</button>
+            </div>
+            
+            <form id="changePasswordForm">
+                <div class="form-group">
+                    <label for="currentPassword" class="form-label">Current Password</label>
+                    <input type="password" id="currentPassword" name="currentPassword" class="form-input" required>
+                    <div class="form-error" id="currentPassword-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="newPassword" class="form-label">New Password</label>
+                    <input type="password" id="newPassword" name="newPassword" class="form-input" required>
+                    <div class="strength-meter">
+                        <div class="strength-bar" id="newPasswordStrength"></div>
+                    </div>
+                    <div class="form-error" id="newPassword-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmNewPassword" class="form-label">Confirm New Password</label>
+                    <input type="password" id="confirmNewPassword" name="confirmNewPassword" class="form-input" required>
+                    <div class="form-error" id="confirmNewPassword-error"></div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('changePasswordModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        class ProfileManager {
+            constructor() {
+                this.currentUser = null;
+                this.init();
+            }
+
+            init() {
+                this.loadUserData();
+                this.attachEventListeners();
+            }
+
+            attachEventListeners() {
+                // Personal info form
+                document.getElementById('personalInfoForm').addEventListener('submit', this.handlePersonalInfoSubmit.bind(this));
+                
+                // Avatar upload
+                document.getElementById('avatarUpload').addEventListener('change', this.handleAvatarUpload.bind(this));
+                
+                // Change password form
+                document.getElementById('changePasswordForm').addEventListener('submit', this.handlePasswordChange.bind(this));
+                
+                // Password strength meter
+                document.getElementById('newPassword').addEventListener('input', this.updatePasswordStrength.bind(this));
+            }
+
+            async loadUserData() {
+                try {
+                    // Replace with your API call
+                    const response = await fetch('/api/user/profile', {
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        this.currentUser = await response.json();
+                        this.populateForm();
+                    }
+                } catch (error) {
+                    console.error('Error loading user data:', error);
+                    // Use demo data for testing
+                    this.currentUser = {
+                        firstName: 'John',
+                        lastName: 'Doe',
+                        email: 'john.doe@example.com',
+                        phone: '+1234567890',
+                        bio: 'Software developer passionate about creating great user experiences.',
+                        timezone: 'America/New_York',
+                        birthdate: '1990-05-15'
+                    };
+                    this.populateForm();
+                }
+            }
+
+            populateForm() {
+                if (!this.currentUser) return;
+
+                // Populate personal info
+                Object.keys(this.currentUser).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element) {
+                        element.value = this.currentUser[key] || '';
+                    }
+                });
+
+                // Update avatar
+                this.updateAvatar();
+            }
+
+            updateAvatar() {
+                const initials = document.getElementById('avatarInitials');
+                const image = document.getElementById('avatarImage');
+                
+                if (this.currentUser.avatar) {
+                    image.src = this.currentUser.avatar;
+                    image.style.display = 'block';
+                    initials.style.display = 'none';
+                } else {
+                    const firstName = this.currentUser.firstName || 'U';
+                    const lastName = this.currentUser.lastName || '';
+                    initials.textContent = (firstName[0] + (lastName[0] || '')).toUpperCase();
+                    initials.style.display = 'block';
+                    image.style.display = 'none';
+                }
+            }
+
+            async handlePersonalInfoSubmit(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(e.target);
+                const userData = Object.fromEntries(formData.entries());
+                
+                try {
+                    const response = await fetch('/api/user/profile', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
+                        },
+                        body: JSON.stringify(userData)
+                    });
+                    
+                    if (response.ok) {
+                        this.showAlert('Profile updated successfully!', 'success');
+                        this.currentUser = { ...this.currentUser, ...userData };
+                        this.updateAvatar();
+                    } else {
+                        this.showAlert('Failed to update profile', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error updating profile:', error);
+                    this.showAlert('An error occurred while updating profile', 'error');
+                }
+            }
+
+            async handleAvatarUpload(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                // Validate file
+                if (!file.type.startsWith('image/')) {
+                    this.showAlert('Please select an image file', 'error');
+                    return;
+                }
+
+                if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                    this.showAlert('Image size should be less than 5MB', 'error');
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('avatar', file);
+
+                try {
+                    const response = await fetch('/api/user/avatar', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
+                        },
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        this.currentUser.avatar = result.avatarUrl;
+                        this.updateAvatar();
+                        this.showAlert('Avatar updated successfully!', 'success');
+                    } else {
+                        this.showAlert('Failed to upload avatar', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error uploading avatar:', error);
+                    this.showAlert('An error occurred while uploading avatar', 'error');
+                }
+            }
+
+            async handlePasswordChange(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(e.target);
+                const passwordData = {
+                    currentPassword: formData.get('currentPassword'),
+                    newPassword: formData.get('newPassword'),
+                    confirmNewPassword: formData.get('confirmNewPassword')
+                };
+
+                // Validate passwords match
+                if (passwordData.newPassword !== passwordData.confirmNewPassword) {
+                    this.showFieldError(document.getElementById('confirmNewPassword'), 
+                        document.getElementById('confirmNewPassword-error'), 
+                        'Passwords do not match');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/api/user/change-password', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
+                        },
+                        body: JSON.stringify(passwordData)
+                    });
+
+                    if (response.ok) {
+                        this.showAlert('Password changed successfully!', 'success');
+                        this.closeModal('changePasswordModal');
+                        document.getElementById('changePasswordForm').reset();
+                    } else {
+                        const error = await response.json();
+                        this.showAlert(error.message || 'Failed to change password', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error changing password:', error);
+                    this.showAlert('An error occurred while changing password', 'error');
+                }
+            }
+
+            updatePasswordStrength() {
+                const password = document.getElementById('newPassword').value;
+                const strengthBar = document.getElementById('newPasswordStrength');
+                
+                const strength = this.calculatePasswordStrength(password);
+                const classes = ['strength-weak', 'strength-fair', 'strength-good', 'strength-strong'];
+                
+                strengthBar.className = 'strength-bar';
+                if (strength > 0) {
+                    strengthBar.classList.add(classes[strength - 1]);
+                }
+            }
+
+            calculatePasswordStrength(password) {
+                let strength = 0;
+                if (password.length >= 8) strength++;
+                if (password.length >= 12) strength++;
+                if (/[a-z]/.test(password)) strength++;
+                if (/[A-Z]/.test(password)) strength++;
+                if (/[0-9]/.test(password)) strength++;
+                if (/[^A-Za-z0-9]/.test(password)) strength++;
+                return Math.min(strength, 4);
+            }
+
+            showFieldError(input, errorElement, message) {
+                input.classList.add('error');
+                errorElement.textContent = message;
+            }
+
+            showAlert(message, type = 'info') {
+                const alertContainer = document.getElementById('alert-container');
+                alertContainer.innerHTML = `
+                    <div class="alert ${type}">
+                        ${message}
+                    </div>
+                `;
+
+                setTimeout(() => {
+                    alertContainer.innerHTML = '';
+                }, 5000);
+            }
+
+            closeModal(modalId) {
+                document.getElementById(modalId).style.display = 'none';
+            }
+        }
+
+        // Global functions for buttons
+        window.showChangePassword = () => {
+            document.getElementById('changePasswordModal').style.display = 'flex';
+        };
+
+        window.closeModal = (modalId) => {
+            document.getElementById(modalId).style.display = 'none';
+        };
+
+        window.setup2FA = () => {
+            alert('2FA setup would be implemented here');
+        };
+
+        window.exportData = () => {
+            alert('Data export would be implemented here');
+        };
+
+        window.deleteAccount = () => {
+            if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                alert('Account deletion would be implemented here');
+            }
+        };
+
+        window.revokeAllSessions = () => {
+            if (confirm('This will log you out of all other devices. Continue?')) {
+                alert('Session revocation would be implemented here');
+            }
+        };
+
+        // Initialize profile manager
+        document.addEventListener('DOMContentLoaded', () => {
+            new ProfileManager();
+        });
+    </script>
+</body>
+</html>

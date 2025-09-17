@@ -1,0 +1,41 @@
+{
+  "name": "interactive-calendar",
+  "version": "1.0.0",
+  "description": "A flexible, plug-and-play calendar component that works with or without authentication",
+  "main": "index.js",
+  "type": "module",
+  "files": [
+    "index.js",
+    "calendar.js",
+    "calendar.css",
+    "calendar-config.js",
+    "calendar-data-manager.js",
+    "event-manager.js",
+    "auth.js",
+    "README.md"
+  ],
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "demo": "python -m http.server 8000"
+  },
+  "keywords": [
+    "calendar",
+    "events",
+    "javascript",
+    "authentication",
+    "responsive",
+    "component"
+  ],
+  "author": "Calendar Component",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

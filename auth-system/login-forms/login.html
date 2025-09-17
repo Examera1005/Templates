@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Your App</title>
+    <link rel="stylesheet" href="../auth-styles.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">A</div>
+                <h1 class="auth-title">Welcome back</h1>
+                <p class="auth-subtitle">Sign in to your account</p>
+            </div>
+
+            <div id="alert-container"></div>
+
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        class="form-input" 
+                        placeholder="Enter your email"
+                        required
+                        autocomplete="email"
+                    >
+                    <div class="form-error" id="email-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="password-wrapper">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            class="form-input" 
+                            placeholder="Enter your password"
+                            required
+                            autocomplete="current-password"
+                        >
+                        <button type="button" class="password-toggle" id="passwordToggle">
+                            👁️
+                        </button>
+                    </div>
+                    <div class="form-error" id="password-error"></div>
+                </div>
+
+                <div class="form-checkbox">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Remember me for 30 days</label>
+                </div>
+
+                <button type="submit" class="form-button" id="submitBtn">
+                    Sign In
+                </button>
+            </form>
+
+            <div class="auth-divider">Or continue with</div>
+
+            <div class="social-buttons">
+                <button class="social-button google" id="googleLogin">
+                    <span>🔍</span> Google
+                </button>
+                <button class="social-button github" id="githubLogin">
+                    <span>📱</span> GitHub
+                </button>
+            </div>
+
+            <div class="auth-links">
+                <a href="forgot-password.html">Forgot your password?</a><br><br>
+                Don't have an account? <a href="register.html">Sign up</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class LoginForm {
+            constructor() {
+                this.form = document.getElementById('loginForm');
+                this.submitBtn = document.getElementById('submitBtn');
+                this.passwordToggle = document.getElementById('passwordToggle');
+                this.alertContainer = document.getElementById('alert-container');
+                
+                this.initEventListeners();
+            }
+
+            initEventListeners() {
+                this.form.addEventListener('submit', this.handleSubmit.bind(this));
+                this.passwordToggle.addEventListener('click', this.togglePassword.bind(this));
+                
+                // Social logins
+                document.getElementById('googleLogin').addEventListener('click', () => {
+                    this.handleSocialLogin('google');
+                });
+                
+                document.getElementById('githubLogin').addEventListener('click', () => {
+                    this.handleSocialLogin('github');
+                });
+
+                // Real-time validation
+                document.getElementById('email').addEventListener('blur', this.validateEmail.bind(this));
+                document.getElementById('password').addEventListener('blur', this.validatePassword.bind(this));
+            }
+
+            async handleSubmit(e) {
+                e.preventDefault();
+                
+                if (!this.validateForm()) {
+                    return;
+                }
+
+                this.setLoading(true);
+                this.clearErrors();
+
+                try {
+                    const formData = new FormData(this.form);
+                    const credentials = {
+                        email: formData.get('email'),
+                        password: formData.get('password'),
+                        remember: formData.get('remember') === 'on'
+                    };
+
+                    const result = await this.login(credentials);
+                    
+                    if (result.success) {
+                        this.showAlert('Login successful! Redirecting...', 'success');
+                        
+                        // Store token if provided
+                        if (result.token) {
+                            localStorage.setItem('auth_token', result.token);
+                        }
+                        
+                        // Redirect after short delay
+                        setTimeout(() => {
+                            window.location.href = result.redirectUrl || '/dashboard';
+                        }, 1500);
+                    } else {
+                        this.showAlert(result.message || 'Login failed', 'error');
+                    }
+                } catch (error) {
+                    console.error('Login error:', error);
+                    this.showAlert('An error occurred. Please try again.', 'error');
+                } finally {
+                    this.setLoading(false);
+                }
+            }
+
+            async login(credentials) {
+                // Replace with your actual API endpoint
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(credentials)
+                });
+
+                return await response.json();
+            }
+
+            handleSocialLogin(provider) {
+                // Replace with your actual social login URLs
+                const urls = {
+                    google: '/auth/google',
+                    github: '/auth/github',
+                    facebook: '/auth/facebook'
+                };
+
+                if (urls[provider]) {
+                    window.location.href = urls[provider];
+                }
+            }
+
+            togglePassword() {
+                const passwordInput = document.getElementById('password');
+                const isPassword = passwordInput.type === 'password';
+                
+                passwordInput.type = isPassword ? 'text' : 'password';
+                this.passwordToggle.textContent = isPassword ? '🙈' : '👁️';
+            }
+
+            validateForm() {
+                const email = this.validateEmail();
+                const password = this.validatePassword();
+                return email && password;
+            }
+
+            validateEmail() {
+                const emailInput = document.getElementById('email');
+                const errorElement = document.getElementById('email-error');
+                const email = emailInput.value.trim();
+
+                if (!email) {
+                    this.showFieldError(emailInput, errorElement, 'Email is required');
+                    return false;
+                }
+
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    this.showFieldError(emailInput, errorElement, 'Please enter a valid email');
+                    return false;
+                }
+
+                this.clearFieldError(emailInput, errorElement);
+                return true;
+            }
+
+            validatePassword() {
+                const passwordInput = document.getElementById('password');
+                const errorElement = document.getElementById('password-error');
+                const password = passwordInput.value;
+
+                if (!password) {
+                    this.showFieldError(passwordInput, errorElement, 'Password is required');
+                    return false;
+                }
+
+                if (password.length < 6) {
+                    this.showFieldError(passwordInput, errorElement, 'Password must be at least 6 characters');
+                    return false;
+                }
+
+                this.clearFieldError(passwordInput, errorElement);
+                return true;
+            }
+
+            showFieldError(input, errorElement, message) {
+                input.classList.add('error');
+                input.classList.remove('success');
+                errorElement.textContent = message;
+            }
+
+            clearFieldError(input, errorElement) {
+                input.classList.remove('error');
+                input.classList.add('success');
+                errorElement.textContent = '';
+            }
+
+            clearErrors() {
+                document.querySelectorAll('.form-error').forEach(el => el.textContent = '');
+                document.querySelectorAll('.form-input').forEach(el => {
+                    el.classList.remove('error', 'success');
+                });
+            }
+
+            showAlert(message, type = 'info') {
+                this.alertContainer.innerHTML = `
+                    <div class="alert ${type}">
+                        ${message}
+                    </div>
+                `;
+
+                // Auto-hide success/info alerts
+                if (type === 'success' || type === 'info') {
+                    setTimeout(() => {
+                        this.alertContainer.innerHTML = '';
+                    }, 5000);
+                }
+            }
+
+            setLoading(loading) {
+                this.submitBtn.disabled = loading;
+                this.submitBtn.classList.toggle('loading', loading);
+                
+                if (loading) {
+                    this.submitBtn.textContent = '';
+                } else {
+                    this.submitBtn.textContent = 'Sign In';
+                }
+            }
+        }
+
+        // Initialize the login form
+        document.addEventListener('DOMContentLoaded', () => {
+            new LoginForm();
+        });
+
+        // Example usage for testing without backend
+        // Uncomment this to test the UI without a real API
+        /*
+        LoginForm.prototype.login = async function(credentials) {
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Simulate different responses
+            if (credentials.email === 'demo@example.com' && credentials.password === 'demo123') {
+                return {
+                    success: true,
+                    token: 'fake-jwt-token',
+                    user: { id: 1, email: credentials.email, name: 'Demo User' },
+                    redirectUrl: '/dashboard'
+                };
+            } else {
+                return {
+                    success: false,
+                    message: 'Invalid email or password'
+                };
+            }
+        };
+        */
+    </script>
+</body>
+</html>

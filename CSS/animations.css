@@ -1,0 +1,1373 @@
+/* ==========================================================================
+   BEAUTIFUL CSS ANIMATIONS LIBRARY - PLUG & PLAY
+   ========================================================================== */
+
+/* ==========================================================================
+   CSS VARIABLES FOR LIGHT & DARK THEME SUPPORT
+   ========================================================================== */
+
+/* Light Theme Variables (Default and Explicit) */
+:root {
+  /* Primary Gradients - Light Theme */
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  --accent-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  
+  /* Neon Colors - Light Theme */
+  --neon-blue: #00bfff;
+  --neon-pink: #ff1493;
+  --neon-green: #39ff14;
+  --neon-purple: #bf00ff;
+  --neon-orange: #ff6600;
+  --neon-cyan: #00ffff;
+  
+  /* Background Colors - Light Theme */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #e2e8f0;
+  --bg-card: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.1);
+  
+  /* Text Colors - Light Theme */
+  --text-primary: #1a202c;
+  --text-secondary: #4a5568;
+  --text-muted: #718096;
+  --text-inverse: #ffffff;
+  
+  /* Border Colors - Light Theme */
+  --border-light: rgba(0, 0, 0, 0.1);
+  --border-medium: rgba(0, 0, 0, 0.2);
+  --border-strong: rgba(0, 0, 0, 0.3);
+  
+  /* Shadows - Light Theme */
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.15);
+  --shadow-hard: 0 15px 35px rgba(0, 0, 0, 0.2);
+  --shadow-neon: 0 0 20px currentColor;
+  --shadow-colored: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+/* Explicit Light Theme Override */
+[data-theme="light"] {
+  /* Primary Gradients - Light Theme */
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+  --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+  --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%) !important;
+  --accent-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%) !important;
+  
+  /* Neon Colors - Light Theme */
+  --neon-blue: #00bfff !important;
+  --neon-pink: #ff1493 !important;
+  --neon-green: #39ff14 !important;
+  --neon-purple: #bf00ff !important;
+  --neon-orange: #ff6600 !important;
+  --neon-cyan: #00ffff !important;
+  
+  /* Background Colors - Light Theme */
+  --bg-primary: #ffffff !important;
+  --bg-secondary: #f8fafc !important;
+  --bg-tertiary: #e2e8f0 !important;
+  --bg-card: #ffffff !important;
+  --bg-glass: rgba(255, 255, 255, 0.1) !important;
+  
+  /* Text Colors - Light Theme */
+  --text-primary: #1a202c !important;
+  --text-secondary: #4a5568 !important;
+  --text-muted: #718096 !important;
+  --text-inverse: #ffffff !important;
+  
+  /* Border Colors - Light Theme */
+  --border-light: rgba(0, 0, 0, 0.1) !important;
+  --border-medium: rgba(0, 0, 0, 0.2) !important;
+  --border-strong: rgba(0, 0, 0, 0.3) !important;
+  
+  /* Shadows - Light Theme */
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+  --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+  --shadow-hard: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
+  --shadow-neon: 0 0 20px currentColor !important;
+  --shadow-colored: 0 10px 30px rgba(102, 126, 234, 0.3) !important;
+}
+
+/* Dark Theme Variables */
+[data-theme="dark"] {
+  /* Primary Gradients - Dark Theme (Enhanced and Vibrant) */
+  --primary-gradient: linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%);
+  --secondary-gradient: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+  --success-gradient: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+  --warning-gradient: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+  --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  
+  /* Enhanced Neon Colors - Dark Theme (Brighter for dark backgrounds) */
+  --neon-blue: #0ea5e9;
+  --neon-pink: #f472b6;
+  --neon-green: #22d3ee;
+  --neon-purple: #a855f7;
+  --neon-orange: #fb923c;
+  --neon-cyan: #67e8f9;
+  
+  /* Background Colors - Dark Theme */
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --bg-card: #1e293b;
+  --bg-glass: rgba(15, 23, 42, 0.8);
+  
+  /* Text Colors - Dark Theme */
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-inverse: #0f172a;
+  
+  /* Border Colors - Dark Theme */
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-medium: rgba(255, 255, 255, 0.2);
+  --border-strong: rgba(255, 255, 255, 0.3);
+  
+  /* Shadows - Dark Theme (Enhanced glow effects) */
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.5);
+  --shadow-hard: 0 15px 35px rgba(0, 0, 0, 0.6);
+  --shadow-neon: 0 0 30px currentColor;
+  --shadow-colored: 0 10px 30px rgba(124, 58, 237, 0.5);
+}
+
+.dark-theme {
+  /* Primary Gradients - Dark Theme (Enhanced and Vibrant) */
+  --primary-gradient: linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%);
+  --secondary-gradient: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+  --success-gradient: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+  --warning-gradient: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+  --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  
+  /* Enhanced Neon Colors - Dark Theme (Brighter for dark backgrounds) */
+  --neon-blue: #0ea5e9;
+  --neon-pink: #f472b6;
+  --neon-green: #22d3ee;
+  --neon-purple: #a855f7;
+  --neon-orange: #fb923c;
+  --neon-cyan: #67e8f9;
+  
+  /* Background Colors - Dark Theme */
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --bg-card: #1e293b;
+  --bg-glass: rgba(15, 23, 42, 0.8);
+  
+  /* Text Colors - Dark Theme */
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-inverse: #0f172a;
+  
+  /* Border Colors - Dark Theme */
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-medium: rgba(255, 255, 255, 0.2);
+  --border-strong: rgba(255, 255, 255, 0.3);
+  
+  /* Shadows - Dark Theme (Enhanced glow effects) */
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.5);
+  --shadow-hard: 0 15px 35px rgba(0, 0, 0, 0.6);
+  --shadow-neon: 0 0 30px currentColor;
+  --shadow-colored: 0 10px 30px rgba(124, 58, 237, 0.5);
+}
+
+/* Auto Dark Theme Support (System Preference) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Primary Gradients - Auto Dark Theme */
+    --primary-gradient: linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%);
+    --secondary-gradient: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+    --success-gradient: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+    --warning-gradient: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+    --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    
+    /* Enhanced Neon Colors - Auto Dark Theme */
+    --neon-blue: #0ea5e9;
+    --neon-pink: #f472b6;
+    --neon-green: #22d3ee;
+    --neon-purple: #a855f7;
+    --neon-orange: #fb923c;
+    --neon-cyan: #67e8f9;
+    
+    /* Background Colors - Auto Dark Theme */
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --bg-card: #1e293b;
+    --bg-glass: rgba(15, 23, 42, 0.8);
+    
+    /* Text Colors - Auto Dark Theme */
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-inverse: #0f172a;
+    
+    /* Border Colors - Auto Dark Theme */
+    --border-light: rgba(255, 255, 255, 0.1);
+    --border-medium: rgba(255, 255, 255, 0.2);
+    --border-strong: rgba(255, 255, 255, 0.3);
+    
+    /* Shadows - Auto Dark Theme */
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
+    --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.5);
+    --shadow-hard: 0 15px 35px rgba(0, 0, 0, 0.6);
+    --shadow-neon: 0 0 30px currentColor;
+    --shadow-colored: 0 10px 30px rgba(124, 58, 237, 0.5);
+  }
+}
+
+/* ==========================================================================
+   KEYFRAME ANIMATIONS
+   ========================================================================== */
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Glow Animation */
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 5px currentColor; }
+  50% { box-shadow: var(--shadow-neon); }
+}
+
+/* Shimmer Animation */
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+/* Bounce In */
+@keyframes bounceIn {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.05); }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Slide In From Left */
+@keyframes slideInLeft {
+  0% { transform: translateX(-100%); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+/* Slide In From Right */
+@keyframes slideInRight {
+  0% { transform: translateX(100%); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+/* Fade In Up */
+@keyframes fadeInUp {
+  0% { transform: translateY(30px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Rotate 360 */
+@keyframes rotate360 {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Shake Animation */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Wave Animation */
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(20deg); }
+  75% { transform: rotate(-20deg); }
+}
+
+/* Gradient Animation */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Loading Dots */
+@keyframes loadingDots {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* Typewriter */
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* Blink */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* ==========================================================================
+   UTILITY ANIMATION CLASSES
+   ========================================================================== */
+
+/* Float Effect */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Pulse Effect */
+.animate-pulse-custom {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Glow Effect */
+.animate-glow {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+/* Shimmer Effect */
+.animate-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Bounce In */
+.animate-bounce-in {
+  animation: bounceIn 0.8s ease-out;
+}
+
+/* Slide Animations */
+.animate-slide-in-left {
+  animation: slideInLeft 0.6s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.6s ease-out;
+}
+
+/* Fade In Up */
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Rotate */
+.animate-rotate {
+  animation: rotate360 2s linear infinite;
+}
+
+/* Shake */
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Wave */
+.animate-wave {
+  animation: wave 1s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   THEME-AWARE BUTTON STYLES WITH ADAPTIVE COLORS
+   ========================================================================== */
+
+/* Base Animated Button - Theme adaptive */
+.btn-animated {
+  position: relative;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  display: inline-block;
+  text-decoration: none;
+  color: var(--text-inverse);
+  background: var(--primary-gradient);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Gradient Button - Uses theme-aware gradients */
+.btn-gradient {
+  background: var(--primary-gradient);
+  color: var(--text-inverse);
+  box-shadow: var(--shadow-colored);
+}
+
+.btn-gradient:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hard);
+  filter: brightness(1.1);
+}
+
+/* Secondary Gradient Button */
+.btn-gradient-secondary {
+  background: var(--secondary-gradient);
+  color: var(--text-inverse);
+  box-shadow: var(--shadow-soft);
+}
+
+.btn-gradient-secondary:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-medium);
+  filter: brightness(1.1);
+}
+
+/* Success Gradient Button */
+.btn-gradient-success {
+  background: var(--success-gradient);
+  color: var(--text-inverse);
+  box-shadow: var(--shadow-soft);
+}
+
+.btn-gradient-success:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-medium);
+  filter: brightness(1.1);
+}
+
+/* Neon Button - Adaptive neon colors */
+.btn-neon {
+  background: transparent;
+  border: 2px solid var(--neon-blue);
+  color: var(--neon-blue);
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.btn-neon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.4), transparent);
+  transition: all 0.5s;
+}
+
+.btn-neon:hover::before {
+  left: 100%;
+}
+
+.btn-neon:hover {
+  color: var(--text-inverse);
+  background: var(--neon-blue);
+  box-shadow: var(--shadow-neon);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+/* Neon variants for different colors */
+.btn-neon-pink {
+  border-color: var(--neon-pink);
+  color: var(--neon-pink);
+}
+
+.btn-neon-pink:hover {
+  background: var(--neon-pink);
+  box-shadow: 0 0 30px var(--neon-pink);
+}
+
+.btn-neon-green {
+  border-color: var(--neon-green);
+  color: var(--neon-green);
+}
+
+.btn-neon-green:hover {
+  background: var(--neon-green);
+  box-shadow: 0 0 30px var(--neon-green);
+}
+
+/* Ripple Button - Theme adaptive */
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+  background: var(--secondary-gradient);
+  color: var(--text-inverse);
+}
+
+.btn-ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-ripple:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-ripple:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+/* Ghost Button - Theme adaptive outline */
+.btn-ghost {
+  background: transparent;
+  border: 2px solid var(--text-primary);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.btn-ghost:hover {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Glassmorphism Button */
+.btn-glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-soft);
+}
+
+.btn-glass:hover {
+  background: var(--bg-tertiary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+/* Holographic Button */
+.btn-holographic {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+}
+
+.btn-holographic::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--neon-cyan), var(--neon-pink), var(--neon-purple), var(--neon-blue));
+  background-size: 300% 300%;
+  animation: gradientShift 4s ease infinite;
+  border-radius: 50px;
+  z-index: -1;
+}
+
+.btn-holographic:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: var(--shadow-neon);
+}
+
+/* ==========================================================================
+   THEME-AWARE CARD STYLES WITH ADAPTIVE COLORS
+   ========================================================================== */
+
+/* Base Card - Automatically adapts to theme */
+.card-animated {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border-light);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Theme-aware gradient top border */
+.card-animated::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--primary-gradient);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.card-animated:hover::before {
+  transform: scaleX(1);
+}
+
+.card-animated:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-hard);
+  border-color: var(--border-medium);
+}
+
+/* Glass Card - Enhanced for both themes */
+.card-glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid var(--border-light);
+  border-radius: 20px;
+  padding: 30px;
+  color: var(--text-primary);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* Glass card glow effect in dark theme */
+[data-theme="dark"] .card-glass,
+.dark-theme .card-glass {
+  box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.card-glass:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-medium), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Neon Card - Theme adaptive neon borders */
+.card-neon {
+  background: var(--bg-card);
+  border: 2px solid var(--neon-pink);
+  border-radius: 15px;
+  padding: 25px;
+  color: var(--text-primary);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.card-neon::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue), var(--neon-green), var(--neon-purple));
+  border-radius: 15px;
+  z-index: -1;
+  animation: rotate360 4s linear infinite;
+  opacity: 0.8;
+}
+
+.card-neon:hover {
+  box-shadow: var(--shadow-neon);
+  transform: scale(1.02);
+}
+
+/* Gradient Card - Theme-aware gradients */
+.card-gradient {
+  background: var(--primary-gradient);
+  color: var(--text-inverse);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: var(--shadow-colored);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-gradient::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.card-gradient:hover::after {
+  left: 100%;
+}
+
+.card-gradient:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-hard);
+}
+
+/* Neumorphism Card - Adapts to light/dark themes */
+.card-neomorphism {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border-radius: 20px;
+  padding: 30px;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-light);
+}
+
+/* Light theme neumorphism */
+.card-neomorphism {
+  box-shadow: 
+    8px 8px 16px rgba(0, 0, 0, 0.1),
+    -8px -8px 16px rgba(255, 255, 255, 0.8);
+}
+
+/* Dark theme neumorphism */
+[data-theme="dark"] .card-neomorphism,
+.dark-theme .card-neomorphism {
+  box-shadow: 
+    8px 8px 16px rgba(0, 0, 0, 0.4),
+    -8px -8px 16px rgba(255, 255, 255, 0.05);
+}
+
+.card-neomorphism:hover {
+  transform: translateY(-2px);
+}
+
+/* Dark theme neumorphism media query */
+@media (prefers-color-scheme: dark) {
+  .card-neomorphism {
+    box-shadow: 
+      8px 8px 16px rgba(0, 0, 0, 0.4),
+      -8px -8px 16px rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Holographic Card - Enhanced for dark themes */
+.card-holographic {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-radius: 20px;
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.card-holographic::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, var(--neon-cyan), var(--neon-pink), var(--neon-purple), var(--neon-blue));
+  background-size: 300% 300%;
+  animation: gradientShift 6s ease infinite;
+  opacity: 0.1;
+  border-radius: 20px;
+}
+
+.card-holographic:hover::before {
+  opacity: 0.2;
+}
+
+.card-holographic:hover {
+  transform: perspective(1000px) rotateX(5deg) rotateY(5deg);
+  border-color: var(--neon-cyan);
+}
+
+/* ==========================================================================
+   LOADING ANIMATIONS
+   ========================================================================== */
+
+.loading-dots {
+  display: inline-block;
+}
+
+.loading-dots span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--neon-blue);
+  margin: 0 2px;
+  animation: loadingDots 1.4s infinite ease-in-out;
+}
+
+.loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+.loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+.loading-dots span:nth-child(3) { animation-delay: 0s; }
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 191, 255, 0.3);
+  border-top: 4px solid var(--neon-blue);
+  border-radius: 50%;
+  animation: rotate360 1s linear infinite;
+}
+
+/* ==========================================================================
+   GRADIENT BACKGROUNDS
+   ========================================================================== */
+
+.bg-gradient-animated {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+.bg-aurora {
+  background: linear-gradient(45deg, #00c6ff, #0072ff, #9400d3, #ff1493);
+  background-size: 400% 400%;
+  animation: gradientShift 8s ease infinite;
+}
+
+.bg-sunset {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 10s ease infinite;
+}
+
+/* ==========================================================================
+   THEME-AWARE TEXT ANIMATIONS WITH ADAPTIVE COLORS
+   ========================================================================== */
+
+/* Glowing Text - Adapts to theme */
+.text-glow {
+  color: var(--neon-blue);
+  text-shadow: 0 0 10px var(--neon-blue);
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+.text-glow-pink {
+  color: var(--neon-pink);
+  text-shadow: 0 0 10px var(--neon-pink);
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+.text-glow-green {
+  color: var(--neon-green);
+  text-shadow: 0 0 10px var(--neon-green);
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+/* Typewriter Effect - Theme adaptive */
+.text-typewriter {
+  font-family: 'Courier New', monospace;
+  overflow: hidden;
+  border-right: 2px solid var(--neon-green);
+  white-space: nowrap;
+  color: var(--text-primary);
+  animation: typewriter 3s steps(40) 1s 1 normal both, blink 1s steps(1) infinite;
+}
+
+/* Rainbow Text - Enhanced for dark theme */
+.text-rainbow {
+  background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+  background-size: 400%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradientShift 2s linear infinite;
+  font-weight: 600;
+}
+
+/* Neon Text Variants */
+.text-neon-blue {
+  color: var(--neon-blue);
+  text-shadow: 
+    0 0 5px var(--neon-blue),
+    0 0 10px var(--neon-blue),
+    0 0 15px var(--neon-blue);
+}
+
+.text-neon-pink {
+  color: var(--neon-pink);
+  text-shadow: 
+    0 0 5px var(--neon-pink),
+    0 0 10px var(--neon-pink),
+    0 0 15px var(--neon-pink);
+}
+
+/* Gradient Text */
+.text-gradient {
+  background: var(--primary-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-weight: 600;
+}
+
+.text-gradient-secondary {
+  background: var(--secondary-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-weight: 600;
+}
+
+/* Theme-aware text colors */
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.text-inverse {
+  color: var(--text-inverse);
+}
+
+/* ==========================================================================
+   THEME-AWARE BACKGROUND EFFECTS
+   ========================================================================== */
+
+/* Base theme-aware backgrounds */
+.bg-primary {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.bg-secondary {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.bg-card {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+}
+
+/* Enhanced Gradient Backgrounds for Dark Theme */
+.bg-gradient-animated {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  color: var(--text-inverse);
+}
+
+/* Dark theme enhanced gradient */
+[data-theme="dark"] .bg-gradient-animated,
+.dark-theme .bg-gradient-animated {
+  background: linear-gradient(-45deg, #7c3aed, #ec4899, #06b6d4, #10b981);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+.bg-aurora {
+  background: linear-gradient(45deg, #00c6ff, #0072ff, #9400d3, #ff1493);
+  background-size: 400% 400%;
+  animation: gradientShift 8s ease infinite;
+  color: var(--text-inverse);
+}
+
+/* Dark theme aurora */
+[data-theme="dark"] .bg-aurora,
+.dark-theme .bg-aurora {
+  background: linear-gradient(45deg, #0ea5e9, #3b82f6, #a855f7, #f472b6);
+  background-size: 400% 400%;
+  animation: gradientShift 8s ease infinite;
+}
+
+.bg-sunset {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 10s ease infinite;
+  color: var(--text-primary);
+}
+
+/* Dark theme sunset */
+[data-theme="dark"] .bg-sunset,
+.dark-theme .bg-sunset {
+  background: linear-gradient(135deg, #f59e0b 0%, #ef4444 50%, #ec4899 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 10s ease infinite;
+  color: var(--text-inverse);
+}
+
+/* Particle Background - Theme adaptive */
+.bg-particles {
+  position: relative;
+  background: var(--bg-primary);
+  overflow: hidden;
+}
+
+.bg-particles::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 80%, var(--neon-blue) 2px, transparent 2px),
+    radial-gradient(circle at 80% 20%, var(--neon-pink) 1px, transparent 1px),
+    radial-gradient(circle at 40% 40%, var(--neon-green) 1.5px, transparent 1.5px);
+  background-size: 100px 100px, 150px 150px, 80px 80px;
+  animation: float 20s ease-in-out infinite;
+  opacity: 0.6;
+}
+
+/* Glass Background */
+.bg-glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   THEME TOGGLE UTILITIES
+   ========================================================================== */
+
+/* Theme Toggle Button */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  background: var(--bg-card);
+  border: 2px solid var(--border-medium);
+  border-radius: 50px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--text-primary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 12px;
+}
+
+.theme-toggle:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 15px var(--neon-blue);
+  transform: scale(1.05);
+}
+
+/* Theme indicator */
+.theme-indicator {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+  background: var(--neon-blue);
+  box-shadow: 0 0 10px var(--neon-blue);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Dark theme indicator */
+[data-theme="dark"] .theme-indicator,
+.dark-theme .theme-indicator {
+  background: var(--neon-purple);
+  box-shadow: 0 0 10px var(--neon-purple);
+}
+
+/* ==========================================================================
+   HOVER EFFECTS
+   ========================================================================== */
+
+.hover-lift {
+  transition: all 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-medium);
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.hover-glow {
+  transition: all 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
+}
+
+.hover-tilt {
+  transition: transform 0.3s ease;
+}
+
+.hover-tilt:hover {
+  transform: perspective(1000px) rotateX(10deg) rotateY(10deg);
+}
+
+/* ==========================================================================
+   RESPONSIVE UTILITIES WITH THEME SUPPORT
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .animate-mobile-hidden {
+    animation: none !important;
+  }
+  
+  .card-animated {
+    padding: 20px;
+  }
+  
+  .btn-animated {
+    padding: 10px 25px;
+    font-size: 14px;
+  }
+  
+  .theme-toggle {
+    top: 10px;
+    left: 10px;
+    padding: 8px 12px;
+    font-size: 10px;
+  }
+}
+
+/* ==========================================================================
+   DARK THEME MEDIA QUERIES
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  .card-neomorphism {
+    box-shadow: 
+      8px 8px 16px rgba(0, 0, 0, 0.4),
+      -8px -8px 16px rgba(255, 255, 255, 0.05);
+  }
+  
+  .bg-gradient-animated {
+    background: linear-gradient(-45deg, #7c3aed, #ec4899, #06b6d4, #10b981);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+  }
+  
+  .bg-aurora {
+    background: linear-gradient(45deg, #0ea5e9, #3b82f6, #a855f7, #f472b6);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+  }
+  
+  .bg-sunset {
+    background: linear-gradient(135deg, #f59e0b 0%, #ef4444 50%, #ec4899 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 10s ease infinite;
+    color: var(--text-inverse);
+  }
+  
+  .theme-indicator {
+    background: var(--neon-purple);
+    box-shadow: 0 0 10px var(--neon-purple);
+  }
+}
+
+/* ==========================================================================
+   SCROLL ANIMATIONS
+   ========================================================================== */
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.6s ease;
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   CUSTOM SCROLLBAR
+   ========================================================================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-gradient);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-gradient);
+}
+
+/* ==========================================================================
+   PARTICLE EFFECTS
+   ========================================================================== */
+
+.particles-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.particle {
+  position: absolute;
+  background: var(--neon-blue);
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: float 6s ease-in-out infinite;
+}
+
+.particle:nth-child(2n) {
+  background: var(--neon-pink);
+  animation-delay: -2s;
+  animation-duration: 8s;
+}
+
+.particle:nth-child(3n) {
+  background: var(--neon-green);
+  animation-delay: -4s;
+  animation-duration: 10s;
+}
+
+/* ==========================================================================
+   🎨 DARK THEME USAGE GUIDE & DOCUMENTATION
+   ========================================================================== */
+
+/*
+  THEME IMPLEMENTATION METHODS:
+
+  1. MANUAL DARK THEME (Recommended for full control):
+     Add data-theme="dark" to <html> or <body> tag:
+     <html data-theme="dark">
+     
+  2. CSS CLASS APPROACH:
+     Add .dark-theme class to any container:
+     <div class="dark-theme">
+     
+  3. AUTOMATIC SYSTEM PREFERENCE:
+     Uses @media (prefers-color-scheme: dark) - automatic based on user's OS setting
+     
+  JAVASCRIPT THEME TOGGLE EXAMPLE:
+  
+  function toggleTheme() {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+  }
+  
+  // Load saved theme or default to system preference
+  function loadTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  }
+  
+  THEME-AWARE COMPONENT EXAMPLES:
+  
+  ✨ BUTTONS:
+  <button class="btn-animated btn-gradient">Theme Adaptive</button>
+  <button class="btn-animated btn-neon">Neon Blue</button>
+  <button class="btn-animated btn-neon-pink">Neon Pink</button>
+  <button class="btn-animated btn-glass">Glass Effect</button>
+  <button class="btn-animated btn-holographic">Holographic</button>
+  
+  💎 CARDS:
+  <div class="card-animated">Auto Theme Card</div>
+  <div class="card-glass">Glass Morphism</div>
+  <div class="card-neon">Neon Border</div>
+  <div class="card-gradient">Gradient Background</div>
+  <div class="card-neomorphism">Neumorphism Effect</div>
+  <div class="card-holographic">Holographic Effect</div>
+  
+  🌈 BACKGROUNDS:
+  <div class="bg-gradient-animated">Animated Gradient</div>
+  <div class="bg-aurora">Aurora Effect</div>
+  <div class="bg-sunset">Sunset Gradient</div>
+  <div class="bg-particles">Particle Background</div>
+  <div class="bg-glass">Glass Background</div>
+  
+  ✍️ TEXT EFFECTS:
+  <h1 class="text-glow">Glowing Text</h1>
+  <h2 class="text-rainbow">Rainbow Text</h2>
+  <p class="text-typewriter">Typewriter Effect</p>
+  <span class="text-gradient">Gradient Text</span>
+  <span class="text-neon-blue">Neon Blue Text</span>
+  
+  🎯 ANIMATIONS:
+  .animate-float        - Gentle floating motion
+  .animate-pulse-custom - Rhythmic scaling
+  .animate-glow         - Glowing effect
+  .animate-shimmer      - Loading shimmer
+  .animate-bounce-in    - Bounce entrance
+  .animate-fade-in-up   - Fade in from bottom
+  .animate-slide-in-left/right - Slide entrances
+  .animate-rotate       - Continuous rotation
+  .animate-shake        - Shake effect
+  .animate-wave         - Wave motion
+  
+  🎮 HOVER EFFECTS:
+  .hover-lift          - Lift on hover
+  .hover-scale         - Scale on hover
+  .hover-glow          - Glow on hover
+  .hover-tilt          - 3D tilt effect
+  
+  💡 COLOR VARIABLES AVAILABLE:
+  
+  Light Theme:
+  --neon-blue: #00bfff     --neon-pink: #ff1493
+  --neon-green: #39ff14    --neon-purple: #bf00ff
+  --bg-primary: #ffffff    --text-primary: #1a202c
+  
+  Dark Theme:
+  --neon-blue: #0ea5e9     --neon-pink: #f472b6
+  --neon-green: #22d3ee    --neon-purple: #a855f7
+  --bg-primary: #0f172a    --text-primary: #f1f5f9
+  
+  🚀 PERFORMANCE TIPS:
+  - Animations use GPU-accelerated transform properties
+  - CSS variables enable efficient theme switching
+  - Backdrop-filter requires modern browser support
+  - Use .animate-mobile-hidden class to disable animations on mobile
+  
+  📱 RESPONSIVE DESIGN:
+  - All components are mobile-friendly
+  - Animations can be disabled on smaller screens
+  - Theme toggle button repositions on mobile
+  - Text sizes adjust automatically
+  
+  🎨 CUSTOMIZATION:
+  Override CSS variables in your own stylesheet:
+  
+  :root {
+    --primary-gradient: linear-gradient(135deg, #your-color1, #your-color2);
+    --neon-blue: #your-custom-neon;
+  }
+  
+  [data-theme="dark"]:root {
+    --primary-gradient: linear-gradient(135deg, #dark-color1, #dark-color2);
+  }
+*/

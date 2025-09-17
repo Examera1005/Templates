@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Your App</title>
+    <link rel="stylesheet" href="../auth-styles.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">A</div>
+                <h1 class="auth-title">Create account</h1>
+                <p class="auth-subtitle">Sign up to get started</p>
+            </div>
+
+            <div id="alert-container"></div>
+
+            <form class="auth-form" id="registerForm">
+                <div class="form-group">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        class="form-input" 
+                        placeholder="Enter your full name"
+                        required
+                        autocomplete="name"
+                    >
+                    <div class="form-error" id="name-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        class="form-input" 
+                        placeholder="Enter your email"
+                        required
+                        autocomplete="email"
+                    >
+                    <div class="form-error" id="email-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="password-wrapper">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            class="form-input" 
+                            placeholder="Create a password"
+                            required
+                            autocomplete="new-password"
+                        >
+                        <button type="button" class="password-toggle" id="passwordToggle">
+                            👁️
+                        </button>
+                    </div>
+                    <div class="strength-meter">
+                        <div class="strength-bar" id="strengthBar"></div>
+                    </div>
+                    <div class="form-error" id="password-error"></div>
+                    <div class="form-success" id="password-success"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <div class="password-wrapper">
+                        <input 
+                            type="password" 
+                            id="confirmPassword" 
+                            name="confirmPassword" 
+                            class="form-input" 
+                            placeholder="Confirm your password"
+                            required
+                            autocomplete="new-password"
+                        >
+                        <button type="button" class="password-toggle" id="confirmPasswordToggle">
+                            👁️
+                        </button>
+                    </div>
+                    <div class="form-error" id="confirmPassword-error"></div>
+                </div>
+
+                <div class="form-checkbox">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">
+                        I agree to the <a href="/terms" target="_blank">Terms of Service</a> 
+                        and <a href="/privacy" target="_blank">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <div class="form-checkbox">
+                    <input type="checkbox" id="newsletter" name="newsletter">
+                    <label for="newsletter">
+                        Subscribe to our newsletter for updates
+                    </label>
+                </div>
+
+                <button type="submit" class="form-button" id="submitBtn">
+                    Create Account
+                </button>
+            </form>
+
+            <div class="auth-divider">Or sign up with</div>
+
+            <div class="social-buttons">
+                <button class="social-button google" id="googleRegister">
+                    <span>🔍</span> Google
+                </button>
+                <button class="social-button github" id="githubRegister">
+                    <span>📱</span> GitHub
+                </button>
+            </div>
+
+            <div class="auth-links">
+                Already have an account? <a href="login.html">Sign in</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class RegisterForm {
+            constructor() {
+                this.form = document.getElementById('registerForm');
+                this.submitBtn = document.getElementById('submitBtn');
+                this.alertContainer = document.getElementById('alert-container');
+                this.strengthBar = document.getElementById('strengthBar');
+                
+                this.initEventListeners();
+            }
+
+            initEventListeners() {
+                this.form.addEventListener('submit', this.handleSubmit.bind(this));
+                
+                // Password toggles
+                document.getElementById('passwordToggle').addEventListener('click', () => {
+                    this.togglePassword('password', 'passwordToggle');
+                });
+                document.getElementById('confirmPasswordToggle').addEventListener('click', () => {
+                    this.togglePassword('confirmPassword', 'confirmPasswordToggle');
+                });
+                
+                // Social registration
+                document.getElementById('googleRegister').addEventListener('click', () => {
+                    this.handleSocialRegister('google');
+                });
+                document.getElementById('githubRegister').addEventListener('click', () => {
+                    this.handleSocialRegister('github');
+                });
+
+                // Real-time validation
+                document.getElementById('name').addEventListener('blur', this.validateName.bind(this));
+                document.getElementById('email').addEventListener('blur', this.validateEmail.bind(this));
+                document.getElementById('password').addEventListener('input', this.validatePassword.bind(this));
+                document.getElementById('confirmPassword').addEventListener('blur', this.validateConfirmPassword.bind(this));
+            }
+
+            async handleSubmit(e) {
+                e.preventDefault();
+                
+                if (!this.validateForm()) {
+                    return;
+                }
+
+                this.setLoading(true);
+                this.clearErrors();
+
+                try {
+                    const formData = new FormData(this.form);
+                    const userData = {
+                        name: formData.get('name'),
+                        email: formData.get('email'),
+                        password: formData.get('password'),
+                        newsletter: formData.get('newsletter') === 'on'
+                    };
+
+                    const result = await this.register(userData);
+                    
+                    if (result.success) {
+                        this.showAlert('Account created successfully! Please check your email to verify your account.', 'success');
+                        
+                        // Redirect to login or verification page
+                        setTimeout(() => {
+                            window.location.href = result.redirectUrl || 'login.html';
+                        }, 2000);
+                    } else {
+                        this.showAlert(result.message || 'Registration failed', 'error');
+                        
+                        // Handle specific field errors
+                        if (result.errors) {
+                            Object.keys(result.errors).forEach(field => {
+                                this.showFieldError(
+                                    document.getElementById(field),
+                                    document.getElementById(`${field}-error`),
+                                    result.errors[field]
+                                );
+                            });
+                        }
+                    }
+                } catch (error) {
+                    console.error('Registration error:', error);
+                    this.showAlert('An error occurred. Please try again.', 'error');
+                } finally {
+                    this.setLoading(false);
+                }
+            }
+
+            async register(userData) {
+                // Replace with your actual API endpoint
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(userData)
+                });
+
+                return await response.json();
+            }
+
+            handleSocialRegister(provider) {
+                // Replace with your actual social registration URLs
+                const urls = {
+                    google: '/auth/google?action=register',
+                    github: '/auth/github?action=register',
+                    facebook: '/auth/facebook?action=register'
+                };
+
+                if (urls[provider]) {
+                    window.location.href = urls[provider];
+                }
+            }
+
+            togglePassword(inputId, toggleId) {
+                const passwordInput = document.getElementById(inputId);
+                const toggle = document.getElementById(toggleId);
+                const isPassword = passwordInput.type === 'password';
+                
+                passwordInput.type = isPassword ? 'text' : 'password';
+                toggle.textContent = isPassword ? '🙈' : '👁️';
+            }
+
+            validateForm() {
+                const name = this.validateName();
+                const email = this.validateEmail();
+                const password = this.validatePassword();
+                const confirmPassword = this.validateConfirmPassword();
+                const terms = this.validateTerms();
+                
+                return name && email && password && confirmPassword && terms;
+            }
+
+            validateName() {
+                const nameInput = document.getElementById('name');
+                const errorElement = document.getElementById('name-error');
+                const name = nameInput.value.trim();
+
+                if (!name) {
+                    this.showFieldError(nameInput, errorElement, 'Full name is required');
+                    return false;
+                }
+
+                if (name.length < 2) {
+                    this.showFieldError(nameInput, errorElement, 'Name must be at least 2 characters');
+                    return false;
+                }
+
+                this.clearFieldError(nameInput, errorElement);
+                return true;
+            }
+
+            validateEmail() {
+                const emailInput = document.getElementById('email');
+                const errorElement = document.getElementById('email-error');
+                const email = emailInput.value.trim();
+
+                if (!email) {
+                    this.showFieldError(emailInput, errorElement, 'Email is required');
+                    return false;
+                }
+
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    this.showFieldError(emailInput, errorElement, 'Please enter a valid email');
+                    return false;
+                }
+
+                this.clearFieldError(emailInput, errorElement);
+                return true;
+            }
+
+            validatePassword() {
+                const passwordInput = document.getElementById('password');
+                const errorElement = document.getElementById('password-error');
+                const successElement = document.getElementById('password-success');
+                const password = passwordInput.value;
+
+                if (!password) {
+                    this.showFieldError(passwordInput, errorElement, 'Password is required');
+                    this.updatePasswordStrength(0);
+                    return false;
+                }
+
+                const strength = this.calculatePasswordStrength(password);
+                this.updatePasswordStrength(strength);
+
+                if (password.length < 8) {
+                    this.showFieldError(passwordInput, errorElement, 'Password must be at least 8 characters');
+                    return false;
+                }
+
+                if (strength < 3) {
+                    this.showFieldError(passwordInput, errorElement, 'Password is too weak. Use a mix of letters, numbers, and symbols');
+                    return false;
+                }
+
+                errorElement.textContent = '';
+                successElement.textContent = this.getStrengthText(strength);
+                passwordInput.classList.remove('error');
+                passwordInput.classList.add('success');
+                return true;
+            }
+
+            validateConfirmPassword() {
+                const confirmPasswordInput = document.getElementById('confirmPassword');
+                const errorElement = document.getElementById('confirmPassword-error');
+                const password = document.getElementById('password').value;
+                const confirmPassword = confirmPasswordInput.value;
+
+                if (!confirmPassword) {
+                    this.showFieldError(confirmPasswordInput, errorElement, 'Please confirm your password');
+                    return false;
+                }
+
+                if (password !== confirmPassword) {
+                    this.showFieldError(confirmPasswordInput, errorElement, 'Passwords do not match');
+                    return false;
+                }
+
+                this.clearFieldError(confirmPasswordInput, errorElement);
+                return true;
+            }
+
+            validateTerms() {
+                const termsCheckbox = document.getElementById('terms');
+                return termsCheckbox.checked;
+            }
+
+            calculatePasswordStrength(password) {
+                let strength = 0;
+                
+                // Length check
+                if (password.length >= 8) strength++;
+                if (password.length >= 12) strength++;
+                
+                // Character variety checks
+                if (/[a-z]/.test(password)) strength++;
+                if (/[A-Z]/.test(password)) strength++;
+                if (/[0-9]/.test(password)) strength++;
+                if (/[^A-Za-z0-9]/.test(password)) strength++;
+                
+                return Math.min(strength, 4);
+            }
+
+            updatePasswordStrength(strength) {
+                const classes = ['strength-weak', 'strength-fair', 'strength-good', 'strength-strong'];
+                
+                this.strengthBar.className = 'strength-bar';
+                if (strength > 0) {
+                    this.strengthBar.classList.add(classes[strength - 1]);
+                }
+            }
+
+            getStrengthText(strength) {
+                const texts = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'];
+                return texts[strength] || '';
+            }
+
+            showFieldError(input, errorElement, message) {
+                input.classList.add('error');
+                input.classList.remove('success');
+                errorElement.textContent = message;
+            }
+
+            clearFieldError(input, errorElement) {
+                input.classList.remove('error');
+                input.classList.add('success');
+                errorElement.textContent = '';
+            }
+
+            clearErrors() {
+                document.querySelectorAll('.form-error').forEach(el => el.textContent = '');
+                document.querySelectorAll('.form-input').forEach(el => {
+                    el.classList.remove('error', 'success');
+                });
+            }
+
+            showAlert(message, type = 'info') {
+                this.alertContainer.innerHTML = `
+                    <div class="alert ${type}">
+                        ${message}
+                    </div>
+                `;
+
+                // Auto-hide success/info alerts
+                if (type === 'success' || type === 'info') {
+                    setTimeout(() => {
+                        this.alertContainer.innerHTML = '';
+                    }, 6000);
+                }
+            }
+
+            setLoading(loading) {
+                this.submitBtn.disabled = loading;
+                this.submitBtn.classList.toggle('loading', loading);
+                
+                if (loading) {
+                    this.submitBtn.textContent = '';
+                } else {
+                    this.submitBtn.textContent = 'Create Account';
+                }
+            }
+        }
+
+        // Initialize the registration form
+        document.addEventListener('DOMContentLoaded', () => {
+            new RegisterForm();
+        });
+
+        // Example usage for testing without backend
+        // Uncomment this to test the UI without a real API
+        /*
+        RegisterForm.prototype.register = async function(userData) {
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Simulate different responses
+            if (userData.email === 'existing@example.com') {
+                return {
+                    success: false,
+                    message: 'Account with this email already exists',
+                    errors: {
+                        email: 'This email is already registered'
+                    }
+                };
+            } else {
+                return {
+                    success: true,
+                    message: 'Account created successfully',
+                    redirectUrl: 'login.html'
+                };
+            }
+        };
+        */
+    </script>
+</body>
+</html>

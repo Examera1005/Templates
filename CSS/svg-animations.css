@@ -1,0 +1,220 @@
+/* ==========================================================================
+   SVG ANIMATIONS & GRAPHICS LIBRARY
+   ========================================================================== */
+
+/* ==========================================================================
+   SVG KEYFRAME ANIMATIONS
+   ========================================================================== */
+
+@keyframes svgDraw {
+  0% {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes svgMorph {
+  0%, 100% {
+    d: path("M10,10 Q50,0 90,10 Q90,50 90,90 Q50,100 10,90 Q0,50 10,10");
+  }
+  50% {
+    d: path("M10,30 Q30,0 70,20 Q100,40 80,80 Q60,100 20,90 Q0,70 10,30");
+  }
+}
+
+@keyframes svgPulseGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px currentColor);
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 20px currentColor);
+    transform: scale(1.1);
+  }
+}
+
+@keyframes svgOrbit {
+  0% {
+    transform: rotate(0deg) translateX(50px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(50px) rotate(-360deg);
+  }
+}
+
+/* ==========================================================================
+   SVG LOADING ANIMATIONS
+   ========================================================================== */
+
+.svg-loading-spinner {
+  width: 50px;
+  height: 50px;
+  animation: rotate360 2s linear infinite;
+}
+
+.svg-loading-dots circle {
+  animation: svgPulseGlow 1.5s ease-in-out infinite;
+}
+
+.svg-loading-dots circle:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.svg-loading-dots circle:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+.svg-draw-animation {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: svgDraw 3s ease-in-out forwards;
+}
+
+/* ==========================================================================
+   SVG HOVER EFFECTS
+   ========================================================================== */
+
+.svg-hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.svg-hover-scale:hover {
+  transform: scale(1.2);
+}
+
+.svg-hover-glow:hover {
+  filter: drop-shadow(0 0 15px currentColor);
+  transition: filter 0.3s ease;
+}
+
+.svg-morph {
+  animation: svgMorph 4s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   SVG ICON STYLES
+   ========================================================================== */
+
+.svg-icon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  transition: all 0.3s ease;
+}
+
+.svg-icon-large {
+  width: 48px;
+  height: 48px;
+}
+
+.svg-icon-neon {
+  fill: var(--neon-blue);
+  filter: drop-shadow(0 0 10px var(--neon-blue));
+}
+
+/* ==========================================================================
+   EMBEDDED SVG GRAPHICS
+   ========================================================================== */
+
+/* These can be used as background images or inline SVGs */
+
+/* Animated Wave Background */
+.svg-wave-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z'%3E%3CanimateTransform attributeName='transform' attributeType='XML' type='translate' values='0 0; -200 0; 0 0' dur='20s' repeatCount='indefinite'/%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 200% 100%;
+  animation: gradientShift 20s linear infinite;
+}
+
+/* Floating Particles Background */
+.svg-particles-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='20' cy='20' r='2' fill='%2300bfff' opacity='0.6'%3E%3CanimateTransform attributeName='transform' type='translate' values='0 0; 80 80; 0 0' dur='10s' repeatCount='indefinite'/%3E%3C/circle%3E%3Ccircle cx='80' cy='30' r='1.5' fill='%23ff1493' opacity='0.4'%3E%3CanimateTransform attributeName='transform' type='translate' values='0 0; -60 60; 0 0' dur='15s' repeatCount='indefinite'/%3E%3C/circle%3E%3Ccircle cx='50' cy='70' r='2.5' fill='%2339ff14' opacity='0.5'%3E%3CanimateTransform attributeName='transform' type='translate' values='0 0; 30 -50; 0 0' dur='12s' repeatCount='indefinite'/%3E%3C/circle%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 100px 100px;
+}
+
+/* ==========================================================================
+   SVG COMPONENTS (To be used in HTML)
+   ========================================================================== */
+
+/* These styles support the SVG components defined in the HTML file */
+
+.svg-component {
+  display: inline-block;
+  margin: 10px;
+}
+
+.svg-logo {
+  width: 120px;
+  height: 120px;
+}
+
+.svg-decoration {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.svg-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   INTERACTIVE SVG ELEMENTS
+   ========================================================================== */
+
+.svg-interactive {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.svg-interactive:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
+.svg-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.svg-button:hover {
+  background: rgba(0, 191, 255, 0.1);
+  transform: scale(1.1);
+}
+
+/* ==========================================================================
+   RESPONSIVE SVG
+   ========================================================================== */
+
+.svg-responsive {
+  width: 100%;
+  height: auto;
+  max-width: 500px;
+}
+
+@media (max-width: 768px) {
+  .svg-logo {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .svg-icon-large {
+    width: 32px;
+    height: 32px;
+  }
+}

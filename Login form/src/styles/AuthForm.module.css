@@ -1,0 +1,297 @@
+/* Auth Form Container */
+.authForm {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: var(--auth-space-2xl);
+  background: var(--auth-bg-primary);
+  border-radius: var(--auth-radius-xl);
+  box-shadow: var(--auth-shadow-lg);
+  border: 1px solid var(--auth-border);
+  animation: auth-fadeIn 0.3s ease-out;
+}
+
+.authForm__header {
+  text-align: center;
+  margin-bottom: var(--auth-space-xl);
+}
+
+.authForm__title {
+  font-size: var(--auth-font-size-2xl);
+  font-weight: var(--auth-font-bold);
+  color: var(--auth-text-primary);
+  margin: 0 0 var(--auth-space-sm) 0;
+}
+
+.authForm__subtitle {
+  font-size: var(--auth-font-size-sm);
+  color: var(--auth-text-secondary);
+  margin: 0;
+}
+
+/* Form Groups */
+.authForm__group {
+  margin-bottom: var(--auth-space-lg);
+}
+
+.authForm__label {
+  display: block;
+  font-size: var(--auth-font-size-sm);
+  font-weight: var(--auth-font-medium);
+  color: var(--auth-text-primary);
+  margin-bottom: var(--auth-space-sm);
+}
+
+.authForm__input {
+  width: 100%;
+  padding: var(--auth-space-md);
+  font-size: var(--auth-font-size-base);
+  border: 1px solid var(--auth-border);
+  border-radius: var(--auth-radius);
+  background: var(--auth-bg-primary);
+  color: var(--auth-text-primary);
+  transition: var(--auth-transition);
+}
+
+.authForm__input:focus {
+  outline: none;
+  border-color: var(--auth-border-focus);
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 0.1);
+}
+
+.authForm__input:disabled {
+  background: var(--auth-bg-tertiary);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.authForm__input--error {
+  border-color: var(--auth-border-error);
+}
+
+.authForm__input--error:focus {
+  border-color: var(--auth-border-error);
+  box-shadow: 0 0 0 3px rgb(239 68 68 / 0.1);
+}
+
+/* Error Messages */
+.authForm__error {
+  display: flex;
+  align-items: center;
+  gap: var(--auth-space-xs);
+  margin-top: var(--auth-space-sm);
+  font-size: var(--auth-font-size-sm);
+  color: var(--auth-error);
+  animation: auth-slideIn 0.2s ease-out;
+}
+
+.authForm__errorIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* Checkbox */
+.authForm__checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--auth-space-sm);
+}
+
+.authForm__checkboxInput {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--auth-primary);
+}
+
+.authForm__checkboxLabel {
+  font-size: var(--auth-font-size-sm);
+  color: var(--auth-text-secondary);
+  line-height: var(--auth-leading-tight);
+  margin: 0;
+}
+
+.authForm__checkboxLabel a {
+  color: var(--auth-primary);
+  text-decoration: underline;
+}
+
+.authForm__checkboxLabel a:hover {
+  color: var(--auth-primary-hover);
+}
+
+/* Buttons */
+.authForm__button {
+  width: 100%;
+  padding: var(--auth-space-md);
+  font-size: var(--auth-font-size-base);
+  font-weight: var(--auth-font-medium);
+  border: none;
+  border-radius: var(--auth-radius);
+  cursor: pointer;
+  transition: var(--auth-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--auth-space-sm);
+  position: relative;
+}
+
+.authForm__button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.authForm__button--primary {
+  background: var(--auth-primary);
+  color: white;
+}
+
+.authForm__button--primary:hover:not(:disabled) {
+  background: var(--auth-primary-hover);
+}
+
+.authForm__button--primary:focus-visible {
+  outline: 2px solid var(--auth-primary);
+  outline-offset: 2px;
+}
+
+.authForm__button--secondary {
+  background: var(--auth-bg-secondary);
+  color: var(--auth-text-primary);
+  border: 1px solid var(--auth-border);
+}
+
+.authForm__button--secondary:hover:not(:disabled) {
+  background: var(--auth-bg-tertiary);
+}
+
+.authForm__button--google {
+  background: #ffffff;
+  color: #1f2937;
+  border: 1px solid var(--auth-border);
+}
+
+.authForm__button--google:hover:not(:disabled) {
+  background: #f9fafb;
+}
+
+.authForm__button--github {
+  background: #1f2937;
+  color: white;
+}
+
+.authForm__button--github:hover:not(:disabled) {
+  background: #111827;
+}
+
+/* Loading State */
+.authForm__spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: auth-spin 1s linear infinite;
+}
+
+/* Divider */
+.authForm__divider {
+  display: flex;
+  align-items: center;
+  margin: var(--auth-space-xl) 0;
+  color: var(--auth-text-muted);
+  font-size: var(--auth-font-size-sm);
+}
+
+.authForm__divider::before,
+.authForm__divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--auth-border);
+}
+
+.authForm__divider::before {
+  margin-right: var(--auth-space-md);
+}
+
+.authForm__divider::after {
+  margin-left: var(--auth-space-md);
+}
+
+/* Footer Links */
+.authForm__footer {
+  text-align: center;
+  margin-top: var(--auth-space-xl);
+  padding-top: var(--auth-space-lg);
+  border-top: 1px solid var(--auth-border);
+}
+
+.authForm__footerText {
+  font-size: var(--auth-font-size-sm);
+  color: var(--auth-text-secondary);
+  margin: 0;
+}
+
+.authForm__footerLink {
+  color: var(--auth-primary);
+  text-decoration: none;
+  font-weight: var(--auth-font-medium);
+}
+
+.authForm__footerLink:hover {
+  color: var(--auth-primary-hover);
+  text-decoration: underline;
+}
+
+/* Success Message */
+.authForm__success {
+  display: flex;
+  align-items: center;
+  gap: var(--auth-space-sm);
+  padding: var(--auth-space-md);
+  background: var(--auth-success-light);
+  color: var(--auth-success);
+  border-radius: var(--auth-radius);
+  margin-bottom: var(--auth-space-lg);
+  animation: auth-slideIn 0.3s ease-out;
+}
+
+.authForm__successIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .authForm {
+    margin: var(--auth-space-md);
+    padding: var(--auth-space-xl);
+  }
+  
+  .authForm__title {
+    font-size: var(--auth-font-size-xl);
+  }
+}
+
+/* Focus Styles for Better Accessibility */
+.authForm__input:focus-visible,
+.authForm__button:focus-visible,
+.authForm__checkboxInput:focus-visible {
+  outline: 2px solid var(--auth-primary);
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .authForm {
+    border-width: 2px;
+  }
+  
+  .authForm__input,
+  .authForm__button {
+    border-width: 2px;
+  }
+}
