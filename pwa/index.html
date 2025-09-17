@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Template</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#007bff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="PWA Template">
+    <meta name="msapplication-TileColor" content="#007bff">
+    <meta name="msapplication-TileImage" content="/images/icons/icon-144x144.png">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="/images/icons/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/icon-192x192.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/icons/icon-16x16.png">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .status-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-indicator {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .status-online {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-offline {
+            background: #dc3545;
+            color: white;
+        }
+
+        .status-yes {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-no {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-success:hover {
+            background: #1e7e34;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        .actions {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .log-entry {
+            padding: 2px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+
+        .notification-demo {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .cache-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .cache-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .cache-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .network-status {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            z-index: 1000;
+        }
+
+        .network-status.online {
+            background: #28a745;
+            color: white;
+        }
+
+        .network-status.offline {
+            background: #dc3545;
+            color: white;
+        }
+
+        .app-offline {
+            filter: grayscale(50%);
+        }
+
+        .app-offline .header {
+            background: #6c757d;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .status-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .cache-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* PWA specific styles */
+        @media (display-mode: standalone) {
+            .header {
+                padding-top: 40px; /* Account for status bar */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="network-status online" id="network-status">Online</div>
+
+    <div class="container">
+        <div class="header">
+            <h1>PWA Template</h1>
+            <p>Progressive Web App with offline functionality</p>
+        </div>
+
+        <!-- PWA Status -->
+        <div class="status-section">
+            <h2>PWA Status</h2>
+            <div class="status-item">
+                <span>Service Worker</span>
+                <span class="status-indicator status-no" id="sw-status">Not Registered</span>
+            </div>
+            <div class="status-item">
+                <span>Network Status</span>
+                <span class="status-indicator status-online" id="network-indicator">Online</span>
+            </div>
+            <div class="status-item">
+                <span>Installation Status</span>
+                <span class="status-indicator status-no" id="install-status">Not Installed</span>
+            </div>
+            <div class="status-item">
+                <span>Push Notifications</span>
+                <span class="status-indicator status-no" id="push-status">Not Enabled</span>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="actions">
+            <button class="btn" id="install-btn" style="display: none;">Install App</button>
+            <button class="btn btn-success" id="enable-notifications">Enable Notifications</button>
+            <button class="btn btn-danger" id="disable-notifications" style="display: none;">Disable Notifications</button>
+            <button class="btn btn-secondary" id="clear-cache">Clear Cache</button>
+            <button class="btn btn-secondary" id="update-cache">Update Cache</button>
+        </div>
+
+        <!-- Cache Information -->
+        <div class="status-section">
+            <h2>Cache Information</h2>
+            <div class="cache-info">
+                <div class="cache-item">
+                    <div class="cache-value" id="cache-files">-</div>
+                    <div>Cached Files</div>
+                </div>
+                <div class="cache-item">
+                    <div class="cache-value" id="cache-size">-</div>
+                    <div>Cache Size</div>
+                </div>
+                <div class="cache-item">
+                    <div class="cache-value" id="sync-queue">0</div>
+                    <div>Sync Queue</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification Demo -->
+        <div class="notification-demo">
+            <h2>Test Notifications</h2>
+            <div class="form-group">
+                <label for="notification-title">Title:</label>
+                <input type="text" id="notification-title" value="Test Notification" placeholder="Notification title">
+            </div>
+            <div class="form-group">
+                <label for="notification-body">Message:</label>
+                <textarea id="notification-body" placeholder="Notification message">This is a test notification from your PWA!</textarea>
+            </div>
+            <div class="actions">
+                <button class="btn" id="send-local-notification">Send Local Notification</button>
+                <button class="btn" id="send-push-notification">Send Push Notification</button>
+            </div>
+        </div>
+
+        <!-- Activity Log -->
+        <div class="status-section">
+            <h2>Activity Log</h2>
+            <div class="log" id="activity-log">
+                <div class="log-entry">PWA Template loaded</div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-secondary" id="clear-log">Clear Log</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="pwa-manager.js"></script>
+    <script src="push-notifications.js"></script>
+    <script>
+        class PWADemo {
+            constructor() {
+                this.log = document.getElementById('activity-log');
+                this.pwaManager = null;
+                this.pushManager = null;
+                
+                this.init();
+            }
+
+            async init() {
+                // Initialize PWA Manager
+                this.pwaManager = new PWAManager({
+                    updateCheckInterval: 10000,
+                    enableNotifications: true,
+                    enableBackgroundSync: true,
+                    showInstallPrompt: true
+                });
+
+                // Initialize Push Notification Manager
+                this.pushManager = new PushNotificationManager({
+                    publicVapidKey: 'YOUR_VAPID_PUBLIC_KEY_HERE',
+                    apiEndpoint: '/api/notifications'
+                });
+
+                this.setupEventListeners();
+                this.updateStatus();
+                
+                // Update status periodically
+                setInterval(() => this.updateStatus(), 5000);
+                
+                this.addLog('PWA Demo initialized');
+            }
+
+            setupEventListeners() {
+                // PWA Events
+                window.addEventListener('pwa:online', () => {
+                    this.addLog('App back online');
+                    this.updateNetworkStatus(true);
+                });
+
+                window.addEventListener('pwa:offline', () => {
+                    this.addLog('App went offline');
+                    this.updateNetworkStatus(false);
+                });
+
+                window.addEventListener('pwa:installed', () => {
+                    this.addLog('App installed');
+                    this.updateStatus();
+                });
+
+                // Push Events
+                window.addEventListener('push:subscribed', () => {
+                    this.addLog('Push notifications subscribed');
+                    this.updateStatus();
+                });
+
+                window.addEventListener('push:unsubscribed', () => {
+                    this.addLog('Push notifications unsubscribed');
+                    this.updateStatus();
+                });
+
+                // Button Events
+                document.getElementById('install-btn').addEventListener('click', () => {
+                    this.pwaManager.installApp();
+                });
+
+                document.getElementById('enable-notifications').addEventListener('click', async () => {
+                    try {
+                        await this.pushManager.requestPermission();
+                        await this.pushManager.subscribe();
+                        this.addLog('Notifications enabled');
+                        this.updateStatus();
+                    } catch (error) {
+                        this.addLog(`Failed to enable notifications: ${error.message}`);
+                    }
+                });
+
+                document.getElementById('disable-notifications').addEventListener('click', async () => {
+                    try {
+                        await this.pushManager.unsubscribe();
+                        this.addLog('Notifications disabled');
+                        this.updateStatus();
+                    } catch (error) {
+                        this.addLog(`Failed to disable notifications: ${error.message}`);
+                    }
+                });
+
+                document.getElementById('clear-cache').addEventListener('click', async () => {
+                    try {
+                        await this.pwaManager.clearCache();
+                        this.addLog('Cache cleared');
+                        this.updateStatus();
+                    } catch (error) {
+                        this.addLog(`Failed to clear cache: ${error.message}`);
+                    }
+                });
+
+                document.getElementById('update-cache').addEventListener('click', () => {
+                    this.pwaManager.checkForUpdates();
+                    this.addLog('Checking for updates...');
+                });
+
+                document.getElementById('send-local-notification').addEventListener('click', () => {
+                    this.sendLocalNotification();
+                });
+
+                document.getElementById('send-push-notification').addEventListener('click', () => {
+                    this.sendPushNotification();
+                });
+
+                document.getElementById('clear-log').addEventListener('click', () => {
+                    this.log.innerHTML = '';
+                });
+            }
+
+            async updateStatus() {
+                // Service Worker status
+                const swStatus = document.getElementById('sw-status');
+                if (navigator.serviceWorker.controller) {
+                    swStatus.textContent = 'Active';
+                    swStatus.className = 'status-indicator status-yes';
+                } else {
+                    swStatus.textContent = 'Not Active';
+                    swStatus.className = 'status-indicator status-no';
+                }
+
+                // Installation status
+                const installStatus = document.getElementById('install-status');
+                const installBtn = document.getElementById('install-btn');
+                
+                if (this.pwaManager && this.pwaManager.isStandalone()) {
+                    installStatus.textContent = 'Installed';
+                    installStatus.className = 'status-indicator status-yes';
+                    installBtn.style.display = 'none';
+                } else {
+                    installStatus.textContent = 'Not Installed';
+                    installStatus.className = 'status-indicator status-no';
+                    
+                    const status = this.pwaManager?.getInstallStatus();
+                    if (status?.canInstall) {
+                        installBtn.style.display = 'inline-block';
+                    }
+                }
+
+                // Push notification status
+                const pushStatus = document.getElementById('push-status');
+                const enableBtn = document.getElementById('enable-notifications');
+                const disableBtn = document.getElementById('disable-notifications');
+                
+                if (this.pushManager && this.pushManager.isSubscribed()) {
+                    pushStatus.textContent = 'Enabled';
+                    pushStatus.className = 'status-indicator status-yes';
+                    enableBtn.style.display = 'none';
+                    disableBtn.style.display = 'inline-block';
+                } else {
+                    pushStatus.textContent = 'Disabled';
+                    pushStatus.className = 'status-indicator status-no';
+                    enableBtn.style.display = 'inline-block';
+                    disableBtn.style.display = 'none';
+                }
+
+                // Cache information
+                try {
+                    const cacheStatus = await this.pwaManager?.getCacheStatus();
+                    if (cacheStatus) {
+                        document.getElementById('cache-files').textContent = cacheStatus.files || '-';
+                        document.getElementById('cache-size').textContent = cacheStatus.sizeFormatted || '-';
+                    }
+                } catch (error) {
+                    console.error('Failed to get cache status:', error);
+                }
+
+                // Sync queue
+                const syncStatus = this.pwaManager?.getSyncQueueStatus();
+                if (syncStatus) {
+                    document.getElementById('sync-queue').textContent = syncStatus.pending;
+                }
+            }
+
+            updateNetworkStatus(isOnline) {
+                const indicator = document.getElementById('network-indicator');
+                const networkStatus = document.getElementById('network-status');
+                
+                if (isOnline) {
+                    indicator.textContent = 'Online';
+                    indicator.className = 'status-indicator status-online';
+                    networkStatus.textContent = 'Online';
+                    networkStatus.className = 'network-status online';
+                } else {
+                    indicator.textContent = 'Offline';
+                    indicator.className = 'status-indicator status-offline';
+                    networkStatus.textContent = 'Offline';
+                    networkStatus.className = 'network-status offline';
+                }
+            }
+
+            async sendLocalNotification() {
+                const title = document.getElementById('notification-title').value;
+                const body = document.getElementById('notification-body').value;
+
+                try {
+                    await this.pushManager.showLocalNotification(title, {
+                        body,
+                        icon: '/images/icons/icon-192x192.png',
+                        tag: 'demo',
+                        onClick: () => {
+                            this.addLog('Local notification clicked');
+                        }
+                    });
+                    this.addLog('Local notification sent');
+                } catch (error) {
+                    this.addLog(`Failed to send local notification: ${error.message}`);
+                }
+            }
+
+            async sendPushNotification() {
+                const title = document.getElementById('notification-title').value;
+                const body = document.getElementById('notification-body').value;
+
+                try {
+                    await this.pushManager.sendNotification({
+                        title,
+                        body,
+                        tag: 'demo',
+                        data: { url: window.location.href }
+                    });
+                    this.addLog('Push notification sent');
+                } catch (error) {
+                    this.addLog(`Failed to send push notification: ${error.message}`);
+                }
+            }
+
+            addLog(message) {
+                const entry = document.createElement('div');
+                entry.className = 'log-entry';
+                entry.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+                this.log.appendChild(entry);
+                this.log.scrollTop = this.log.scrollHeight;
+            }
+        }
+
+        // Initialize demo when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new PWADemo();
+        });
+    </script>
+</body>
+</html>
